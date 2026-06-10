@@ -797,7 +797,12 @@ class SpiderFoot:
             return False
         if netaddr.IPAddress(ip).is_multicast():
             return False
-        if netaddr.IPAddress(ip).is_ipv4_private_use():
+        addr = netaddr.IPAddress(ip)
+        if addr.is_link_local():
+            return False
+        if addr.is_ipv4_private_use():
+            return False
+        if addr.is_ipv6_unique_local():
             return False
         return True
 
@@ -1133,10 +1138,13 @@ class SpiderFoot:
         if not self.validIP(ip) and not self.validIP6(ip):
             return False
 
-        if netaddr.IPAddress(ip).is_ipv4_private_use():
+        addr = netaddr.IPAddress(ip)
+        if addr.is_ipv4_private_use():
+            return True
+        if addr.is_ipv6_unique_local():
             return True
 
-        if netaddr.IPAddress(ip).is_loopback():
+        if addr.is_loopback():
             return True
 
         return False
@@ -1174,9 +1182,12 @@ class SpiderFoot:
 
         # Never proxy RFC1918 addresses on the LAN or the local network interface
         if self.validIP(host):
-            if netaddr.IPAddress(host).is_ipv4_private_use():
+            addr = netaddr.IPAddress(host)
+            if addr.is_ipv4_private_use():
                 return False
-            if netaddr.IPAddress(host).is_loopback():
+            if addr.is_ipv6_unique_local():
+                return False
+            if addr.is_loopback():
                 return False
 
         # Never proxy local hostnames
