@@ -173,3 +173,7 @@ cover/
 # Documentation #
 #################
 docs/_build/
+
+# Project documentation
+#########################
+CLAUDE.md
