@@ -288,6 +288,8 @@ class sfp_alienvault(SpiderFootPlugin):
                 data = self.queryHostnameUrlList(eventData, page=page)
                 page += 1
 
+                if data is None:
+                    break
                 url_list = data.get('url_list')
                 if not url_list:
                     break
@@ -312,6 +314,8 @@ class sfp_alienvault(SpiderFootPlugin):
                     data = self.queryDomainUrlList(eventData, page=page)
                     page += 1
 
+                    if data is None:
+                        break
                     url_list = data.get('url_list')
                     if not url_list:
                         break

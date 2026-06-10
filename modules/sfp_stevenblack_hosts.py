@@ -128,7 +128,10 @@ class sfp_stevenblack_hosts(SpiderFootPlugin):
                 continue
             if line.startswith('#'):
                 continue
-            host = line.strip().split(" ")[1]
+            parts = line.strip().split(" ")
+            if len(parts) < 2:
+                continue
+            host = parts[1]
             # Note: Validation with sf.validHost() is too slow to use here
             # if not self.sf.validHost(host, self.opts['_internettlds']):
             #    continue

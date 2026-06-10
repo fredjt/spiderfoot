@@ -179,16 +179,17 @@ class SpiderFoot:
 
         return val
 
-    def error(self, message: str) -> None:
+    def error(self, message: str, **kwargs) -> None:
         """Print and log an error message
 
         Args:
             message (str): error message
+            **kwargs: passed through to logging.error() (e.g. exc_info=True)
         """
         if not self.opts['__logging']:
             return
 
-        self.log.error(message, extra={'scanId': self._scanId})
+        self.log.error(message, extra={'scanId': self._scanId}, **kwargs)
 
     def fatal(self, error: str) -> None:
         """Print an error message and stacktrace then exit.
@@ -213,29 +214,31 @@ class SpiderFoot:
 
         self.log.info(message, extra={'scanId': self._scanId})
 
-    def info(self, message: str) -> None:
+    def info(self, message: str, **kwargs) -> None:
         """Log and print an info message.
 
         Args:
             message (str): info message
+            **kwargs: passed through to logging.info() (e.g. exc_info=True)
         """
         if not self.opts['__logging']:
             return
 
-        self.log.info(f"{message}", extra={'scanId': self._scanId})
+        self.log.info(f"{message}", extra={'scanId': self._scanId}, **kwargs)
 
-    def debug(self, message: str) -> None:
+    def debug(self, message: str, **kwargs) -> None:
         """Log and print a debug message.
 
         Args:
             message (str): debug message
+            **kwargs: passed through to logging.debug() (e.g. exc_info=True)
         """
         if not self.opts['_debug']:
             return
         if not self.opts['__logging']:
             return
 
-        self.log.debug(f"{message}", extra={'scanId': self._scanId})
+        self.log.debug(f"{message}", extra={'scanId': self._scanId}, **kwargs)
 
     def hashstring(self, string: str) -> str:
         """Returns a SHA256 hash of the specified input.
@@ -794,7 +797,7 @@ class SpiderFoot:
             return False
         if netaddr.IPAddress(ip).is_multicast():
             return False
-        if netaddr.IPAddress(ip).is_private():
+        if netaddr.IPAddress(ip).is_ipv4_private_use():
             return False
         return True
 
@@ -1130,7 +1133,7 @@ class SpiderFoot:
         if not self.validIP(ip) and not self.validIP6(ip):
             return False
 
-        if netaddr.IPAddress(ip).is_private():
+        if netaddr.IPAddress(ip).is_ipv4_private_use():
             return True
 
         if netaddr.IPAddress(ip).is_loopback():
@@ -1171,7 +1174,7 @@ class SpiderFoot:
 
         # Never proxy RFC1918 addresses on the LAN or the local network interface
         if self.validIP(host):
-            if netaddr.IPAddress(host).is_private():
+            if netaddr.IPAddress(host).is_ipv4_private_use():
                 return False
             if netaddr.IPAddress(host).is_loopback():
                 return False
