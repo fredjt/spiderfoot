@@ -37,19 +37,19 @@ class SpiderFootDb:
     # Queries for creating the SpiderFoot database
     createSchemaQueries = [
         "PRAGMA journal_mode=WAL",
-        "CREATE TABLE tbl_event_types ( \
+        "CREATE TABLE IF NOT EXISTS tbl_event_types ( \
             event       VARCHAR NOT NULL PRIMARY KEY, \
             event_descr VARCHAR NOT NULL, \
             event_raw   INT NOT NULL DEFAULT 0, \
             event_type  VARCHAR NOT NULL \
         )",
-        "CREATE TABLE tbl_config ( \
+        "CREATE TABLE IF NOT EXISTS tbl_config ( \
             scope   VARCHAR NOT NULL, \
             opt     VARCHAR NOT NULL, \
             val     VARCHAR NOT NULL, \
             PRIMARY KEY (scope, opt) \
         )",
-        "CREATE TABLE tbl_scan_instance ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_instance ( \
             guid        VARCHAR NOT NULL PRIMARY KEY, \
             name        VARCHAR NOT NULL, \
             seed_target VARCHAR NOT NULL, \
@@ -58,20 +58,20 @@ class SpiderFootDb:
             ended       INT DEFAULT 0, \
             status      VARCHAR NOT NULL \
         )",
-        "CREATE TABLE tbl_scan_log ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_log ( \
             scan_instance_id    VARCHAR NOT NULL REFERENCES tbl_scan_instance(guid), \
             generated           INT NOT NULL, \
             component           VARCHAR, \
             type                VARCHAR NOT NULL, \
             message             VARCHAR \
         )",
-        "CREATE TABLE tbl_scan_config ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_config ( \
             scan_instance_id    VARCHAR NOT NULL REFERENCES tbl_scan_instance(guid), \
             component           VARCHAR NOT NULL, \
             opt                 VARCHAR NOT NULL, \
             val                 VARCHAR NOT NULL \
         )",
-        "CREATE TABLE tbl_scan_results ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_results ( \
             scan_instance_id    VARCHAR NOT NULL REFERENCES tbl_scan_instance(guid), \
             hash                VARCHAR NOT NULL, \
             type                VARCHAR NOT NULL REFERENCES tbl_event_types(event), \
@@ -84,7 +84,7 @@ class SpiderFootDb:
             false_positive      INT NOT NULL DEFAULT 0, \
             source_event_hash  VARCHAR DEFAULT 'ROOT' \
         )",
-        "CREATE TABLE tbl_scan_correlation_results ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_correlation_results ( \
             id                  VARCHAR NOT NULL PRIMARY KEY, \
             scan_instance_id    VARCHAR NOT NULL REFERENCES tbl_scan_instances(guid), \
             title               VARCHAR NOT NULL, \
@@ -94,7 +94,7 @@ class SpiderFootDb:
             rule_descr          VARCHAR NOT NULL, \
             rule_logic          VARCHAR NOT NULL \
         )",
-        "CREATE TABLE tbl_scan_correlation_results_events ( \
+        "CREATE TABLE IF NOT EXISTS tbl_scan_correlation_results_events ( \
             correlation_id      VARCHAR NOT NULL REFERENCES tbl_scan_correlation_results(id), \
             event_hash          VARCHAR NOT NULL REFERENCES tbl_scan_results(hash) \
         )",
