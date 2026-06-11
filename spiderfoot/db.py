@@ -11,6 +11,7 @@
 # -------------------------------------------------------------------------------
 
 from pathlib import Path
+import fcntl
 import hashlib
 import random
 import re
@@ -347,49 +348,57 @@ class SpiderFootDb:
             return ret is not None
 
         # Now we actually check to ensure the database file has the schema set
-        # up correctly.
-        with self.dbhLock:
+        # up correctly. Use a file-level lock to prevent race conditions when
+        # multiple processes (e.g. pytest-xdist workers) initialize the same
+        # database simultaneously.
+        lock_path = Path(database_path).parent / f".{Path(database_path).name}.lock"
+        with open(lock_path, 'w') as lock_file:
+            fcntl.flock(lock_file, fcntl.LOCK_EX)
             try:
-                self.dbh.execute('SELECT COUNT(*) FROM tbl_scan_config')
-                self.conn.create_function("REGEXP", 2, __dbregex__)
-            except sqlite3.Error:
-                init = True
+                # Re-check schema under lock — another process may have initialized it
                 try:
-                    self.create()
-                except Exception as e:
-                    raise IOError("Tried to set up the SpiderFoot database schema, but failed") from e
-
-            # For users with pre 4.0 databases, add the correlation
-            # tables + indexes if they don't exist.
-            try:
-                self.dbh.execute("SELECT COUNT(*) FROM tbl_scan_correlation_results")
-            except sqlite3.Error:
-                try:
-                    for query in self.createSchemaQueries:
-                        if "correlation" in query:
-                            self.dbh.execute(query)
-                        self.conn.commit()
+                    self.dbh.execute('SELECT COUNT(*) FROM tbl_scan_config')
+                    self.conn.create_function("REGEXP", 2, __dbregex__)
                 except sqlite3.Error:
-                    raise IOError("Looks like you are running a pre-4.0 database. Unfortunately "
-                                  "SpiderFoot wasn't able to migrate you, so you'll need to delete "
-                                  "your SpiderFoot database in order to proceed.") from None
-
-            if init:
-                for row in self.eventDetails:
-                    event = row[0]
-                    event_descr = row[1]
-                    event_raw = row[2]
-                    event_type = row[3]
-                    qry = "INSERT INTO tbl_event_types (event, event_descr, event_raw, event_type) VALUES (?, ?, ?, ?)"
-
+                    init = True
                     try:
-                        self.dbh.execute(qry, (
-                            event, event_descr, event_raw, event_type
-                        ))
-                        self.conn.commit()
-                    except Exception:
-                        continue
-                self.conn.commit()
+                        self.create()
+                    except Exception as e:
+                        raise IOError("Tried to set up the SpiderFoot database schema, but failed") from e
+
+                # For users with pre 4.0 databases, add the correlation
+                # tables + indexes if they don't exist.
+                try:
+                    self.dbh.execute("SELECT COUNT(*) FROM tbl_scan_correlation_results")
+                except sqlite3.Error:
+                    try:
+                        for query in self.createSchemaQueries:
+                            if "correlation" in query:
+                                self.dbh.execute(query)
+                            self.conn.commit()
+                    except sqlite3.Error:
+                        raise IOError("Looks like you are running a pre-4.0 database. Unfortunately "
+                                      "SpiderFoot wasn't able to migrate you, so you'll need to delete "
+                                      "your SpiderFoot database in order to proceed.") from None
+
+                if init:
+                    for row in self.eventDetails:
+                        event = row[0]
+                        event_descr = row[1]
+                        event_raw = row[2]
+                        event_type = row[3]
+                        qry = "INSERT INTO tbl_event_types (event, event_descr, event_raw, event_type) VALUES (?, ?, ?, ?)"
+
+                        try:
+                            self.dbh.execute(qry, (
+                                event, event_descr, event_raw, event_type
+                            ))
+                            self.conn.commit()
+                        except Exception:
+                            continue
+                    self.conn.commit()
+            finally:
+                fcntl.flock(lock_file, fcntl.LOCK_UN)
 
     #
     # Back-end database operations
