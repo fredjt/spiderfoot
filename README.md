@@ -285,6 +285,7 @@ Page Information|Obtain information about web pages (do they take passwords, do 
 [Seon](https://seon.io/)|Queries seon.io to gather intelligence about IP Addresses, email addresses, and phone numbers|Commercial API
 [SHODAN](https://www.shodan.io/)|Obtain information from SHODAN about identified IP addresses.|Tiered API
 [Tool - CMSeeK](https://github.com/Tuhinshubhra/CMSeeK)|Identify what Content Management System (CMS) might be used.|Tool
+[Tool - altdns](https://github.com/infosec-au/altdns)|Discover subdomains that conform to patterns using a local altdns installation.|Tool
 [Tool - DNSTwist](https://github.com/elceef/dnstwist)|Identify bit-squatting, typo and other similar domains to the target using a local DNSTwist installation.|Tool
 [Tool - nbtscan](http://www.unixwiz.net/tools/nbtscan.html)|Scans for open NETBIOS nameservers on your target's network.|Tool
 [Tool - Nmap](https://nmap.org/)|Identify what Operating System might be used.|Tool
