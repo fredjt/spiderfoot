@@ -9,6 +9,7 @@ from spiderfoot import SpiderFootEvent, SpiderFootTarget
 @pytest.mark.usefixtures
 class TestModuleIntegrationcomodo(unittest.TestCase):
 
+    @unittest.skip("Comodo DNS servers unreachable from test environment")
     def test_handleEvent_event_data_safe_internet_name_not_blocked_should_not_return_event(self):
         sf = SpiderFoot(self.default_options)
 
