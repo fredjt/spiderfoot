@@ -1,9 +1,9 @@
-<a href="https://www.spiderfoot.net/r.php?u=aHR0cHM6Ly93d3cuc3BpZGVyZm9vdC5uZXQv&s=os_gh"><img src="https://www.spiderfoot.net/wp-content/themes/spiderfoot/img/spiderfoot-wide.png"></a>
+<a href="https://www.spiderfoot.net/r.php?u=aHR0cHM6Ly93d3cuc3BpZGVyZm9vdC5uZXQv&s=os_gh">SpiderFoot</a>
 
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/smicallef/spiderfoot/master/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.12+-green)](https://www.python.org)
-[![Stable Release](https://img.shields.io/badge/version-4.0-blue.svg)](https://github.com/smicallef/spiderfoot/releases/tag/v4.0)
+[![Stable Release](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/smicallef/spiderfoot/releases/tag/v4.0.0)
 [![CI status](https://github.com/smicallef/spiderfoot/workflows/Tests/badge.svg)](https://github.com/smicallef/spiderfoot/actions?query=workflow%3A"Tests")
 [![Last Commit](https://img.shields.io/github/last-commit/smicallef/spiderfoot)](https://github.com/smicallef/spiderfoot/commits/master)
 [![Codecov](https://codecov.io/github/smicallef/spiderfoot/coverage.svg)](https://codecov.io/github/smicallef/spiderfoot)
@@ -13,8 +13,6 @@
 **SpiderFoot** is an open source intelligence (OSINT) automation tool. It integrates with just about every data source available and utilises a range of methods for data analysis, making that data easy to navigate. 
 
 SpiderFoot has an embedded web-server for providing a clean and intuitive web-based interface but can also be used completely via the command-line.  It's written in **Python 3** and **MIT-licensed**.
-
-<img src="https://www.spiderfoot.net/wp-content/uploads/2022/04/opensource-screenshot-v4.png" />
 
 ### FEATURES
 
@@ -286,49 +284,20 @@ Page Information|Obtain information about web pages (do they take passwords, do 
 [SecurityTrails](https://securitytrails.com/)|Obtain Passive DNS and other information from SecurityTrails|Tiered API
 [Seon](https://seon.io/)|Queries seon.io to gather intelligence about IP Addresses, email addresses, and phone numbers|Commercial API
 [SHODAN](https://www.shodan.io/)|Obtain information from SHODAN about identified IP addresses.|Tiered API
-[Tool - CMSeeK]([https://github.com/Tuhinshubhra/CMSeeK](https://github.com/Tuhinshubhra/CMSeeK))|Identify what Content Management System (CMS) might be used.|Tool
-[Tool - DNSTwist]([https://github.com/elceef/dnstwist](https://github.com/elceef/dnstwist))|Identify bit-squatting, typo and other similar domains to the target using a local DNSTwist installation.|Tool
-[Tool - nbtscan]([http://www.unixwiz.net/tools/nbtscan.html](http://www.unixwiz.net/tools/nbtscan.html))|Scans for open NETBIOS nameservers on your target's network.|Tool
-[Tool - Nmap]([https://nmap.org/](https://nmap.org/))|Identify what Operating System might be used.|Tool
-[Tool - Nuclei]([https://nuclei.projectdiscovery.io/](https://nuclei.projectdiscovery.io/))|Fast and customisable vulnerability scanner.|Tool
-[Tool - onesixtyone]([https://github.com/trailofbits/onesixtyone](https://github.com/trailofbits/onesixtyone))|Fast scanner to find publicly exposed SNMP services.|Tool
-[Tool - Python Whois]([https://github.com/richardpenman/whois](https://github.com/richardpenman/whois))|Query python-whois for domain registration details including registrar, name servers, creation/expiry dates, and contact information.|Tool
-[Tool - Retire.js]([http://retirejs.github.io/retire.js/](http://retirejs.github.io/retire.js/))|Scanner detecting the use of JavaScript libraries with known vulnerabilities|Tool
-[Tool - snallygaster]([https://github.com/hannob/snallygaster](https://github.com/hannob/snallygaster))|Finds file leaks and other security problems on HTTP servers.|Tool
-[Tool - testssl.sh]([https://testssl.sh](https://testssl.sh))|Identify various TLS/SSL weaknesses, including Heartbleed, CRIME and ROBOT.|Tool
-[Tool - TruffleHog]([https://github.com/trufflesecurity/truffleHog](https://github.com/trufflesecurity/truffleHog))|Searches through git repositories for high entropy strings and secrets, digging deep into commit history.|Tool
-[Tool - WAFW00F]([https://github.com/EnableSecurity/wafw00f](https://github.com/EnableSecurity/wafw00f))|Identify what web application firewall (WAF) is in use on the specified website.|Tool
-[Tool - Wappalyzer]([https://www.wappalyzer.com/](https://www.wappalyzer.com/))|Wappalyzer indentifies technologies on websites.|Tool
-[Tool - WhatWeb]([https://github.com/urbanadventurer/whatweb](https://github.com/urbanadventurer/whatweb))|Identify what software is in use on the specified website.|Tool
-[TOR Exit Nodes](https://metrics.torproject.org/)|Check if an IP adddress or netblock appears on the Tor Metrics exit node list.|Free API
-[TORCH](https://torchsearch.wordpress.com/)|Search Tor 'TORCH' search engine for mentions of the target domain.|Free API
-[Trashpanda](https://got-hacked.wtf)|Queries Trashpanda to gather intelligence about mentions of target in pastesites|Tiered API
-[Trumail](https://trumail.io/)|Check whether an email is disposable|Free API
-[Twilio](https://www.twilio.com/)|Obtain information from Twilio about phone numbers. Ensure you have the Caller Name add-on installed in Twilio.|Tiered API
-[Twitter](https://twitter.com/)|Gather name and location from Twitter profiles.|Free API
-[UCEPROTECT](http://www.uceprotect.net/)|Check if a netblock or IP address is in the UCEPROTECT database.|Free API
-[URLScan.io](https://urlscan.io/)|Search URLScan.io cache for domain information.|Free API
-[Venmo](https://venmo.com/)|Gather user information from Venmo API.|Free API
-[ViewDNS.info](https://viewdns.info/)|Identify co-hosted websites and perform reverse Whois lookups using ViewDNS.info.|Tiered API
-[VirusTotal](https://www.virustotal.com/)|Obtain information from VirusTotal about identified IP addresses.|Tiered API
-[VoIP Blacklist (VoIPBL)](https://voipbl.org/)|Check if an IP address or netblock is malicious according to VoIP Blacklist (VoIPBL).|Free API
-[VXVault.net](http://vxvault.net/)|Check if a domain or IP address is malicious according to VXVault.net.|Free API
-Web Analytics Extractor|Identify web analytics IDs in scraped webpages and DNS TXT records.|Internal
-Web Framework Identifier|Identify the usage of popular web frameworks like jQuery, YUI and others.|Internal
-Web Server Identifier|Obtain web server banners to identify versions of web servers being used.|Internal
-Web Spider|Spidering of web-pages to extract content for searching.|Internal
-[WhatCMS](https://whatcms.org/)|Check web technology using WhatCMS.org API.|Tiered API
-[Whoisology](https://whoisology.com/)|Reverse Whois lookups using Whoisology.com.|Commercial API
-Whois|Perform a WHOIS look-up on domain names and owned netblocks.|Internal
-[Whoxy](https://www.whoxy.com/)|Reverse Whois lookups using Whoxy.com.|Commercial API
-[WiGLE](https://wigle.net/)|Query WiGLE to identify nearby WiFi access points.|Free API
-[Wikileaks](https://wikileaks.org/)|Search Wikileaks for mentions of domain names and e-mail addresses.|Free API
-[Wikipedia Edits](https://www.wikipedia.org/)|Identify edits to Wikipedia articles made from a given IP address or username.|Free API
-[XForce Exchange](https://exchange.xforce.ibmcloud.com/)|Obtain IP reputation and passive DNS information from IBM X-Force Exchange.|Tiered API
-[Yandex DNS](https://yandex.com/)|Check if a host would be blocked by Yandex DNS.|Free API
-[Zetalytics](https://zetalytics.com/)|Query the Zetalytics database for hosts on your target domain(s).|Tiered API
-[ZoneFile.io](https://zonefiles.io)|Search ZoneFiles.io Domain query API for domain information.|Tiered API
-[Zone-H Defacement Check](https://zone-h.org/)|Check if a hostname/domain appears on the zone-h.org 'special defacements' RSS feed.|Free API
+[Tool - CMSeeK](https://github.com/Tuhinshubhra/CMSeeK)|Identify what Content Management System (CMS) might be used.|Tool
+[Tool - DNSTwist](https://github.com/elceef/dnstwist)|Identify bit-squatting, typo and other similar domains to the target using a local DNSTwist installation.|Tool
+[Tool - nbtscan](http://www.unixwiz.net/tools/nbtscan.html)|Scans for open NETBIOS nameservers on your target's network.|Tool
+[Tool - Nmap](https://nmap.org/)|Identify what Operating System might be used.|Tool
+[Tool - Nuclei](https://nuclei.projectdiscovery.io/)|Fast and customisable vulnerability scanner.|Tool
+[Tool - onesixtyone](https://github.com/trailofbits/onesixtyone)|Fast scanner to find publicly exposed SNMP services.|Tool
+[Tool - Python Whois](https://github.com/richardpenman/whois)|Query python-whois for domain registration details including registrar, name servers, creation/expiry dates, and contact information.|Tool
+[Tool - Retire.js](http://retirejs.github.io/retire.js/)|Scanner detecting the use of JavaScript libraries with known vulnerabilities|Tool
+[Tool - snallygaster](https://github.com/hannob/snallygaster)|Finds file leaks and other security problems on HTTP servers.|Tool
+[Tool - testssl.sh](https://testssl.sh)|Identify various TLS/SSL weaknesses, including Heartbleed, CRIME and ROBOT.|Tool
+[Tool - TruffleHog](https://github.com/trufflesecurity/truffleHog)|Searches through git repositories for high entropy strings and secrets, digging deep into commit history.|Tool
+[Tool - WAFW00F](https://github.com/EnableSecurity/wafw00f)|Identify what web application firewall (WAF) is in use on the specified website.|Tool
+[Tool - Wappalyzer](https://www.wappalyzer.com/)|Wappalyzer indentifies technologies on websites.|Tool
+[Tool - WhatWeb](https://github.com/urbanadventurer/whatweb)|Identify what software is in use on the specified website.|Tool
 [TOR Exit Nodes](https://metrics.torproject.org/)|Check if an IP adddress or netblock appears on the Tor Metrics exit node list.|Free API
 [TORCH](https://torchsearch.wordpress.com/)|Search Tor 'TORCH' search engine for mentions of the target domain.|Free API
 [Trashpanda](https://got-hacked.wtf)|Queries Trashpanda to gather intelligence about mentions of target in pastesites|Tiered API
