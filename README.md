@@ -289,6 +289,7 @@ Page Information|Obtain information about web pages (do they take passwords, do 
 [Tool - nbtscan](http://www.unixwiz.net/tools/nbtscan.html)|Scans for open NETBIOS nameservers on your target's network.|Tool
 [Tool - Nmap](https://nmap.org/)|Identify what Operating System might be used.|Tool
 [Tool - Nuclei](https://nuclei.projectdiscovery.io/)|Fast and customisable vulnerability scanner.|Tool
+[Tool - 0trace](https://github.com/lcamtuf/0trace)|Performs traceroute to a target IP address using ICMP time-exceeded messages.|Tool
 [Tool - onesixtyone](https://github.com/trailofbits/onesixtyone)|Fast scanner to find publicly exposed SNMP services.|Tool
 [Tool - Python Whois](https://github.com/richardpenman/whois)|Query python-whois for domain registration details including registrar, name servers, creation/expiry dates, and contact information.|Tool
 [Tool - Retire.js](http://retirejs.github.io/retire.js/)|Scanner detecting the use of JavaScript libraries with known vulnerabilities|Tool
