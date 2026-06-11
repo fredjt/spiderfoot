@@ -98,14 +98,14 @@ class SpiderFootDb:
             correlation_id      VARCHAR NOT NULL REFERENCES tbl_scan_correlation_results(id), \
             event_hash          VARCHAR NOT NULL REFERENCES tbl_scan_results(hash) \
         )",
-        "CREATE INDEX idx_scan_results_id ON tbl_scan_results (scan_instance_id)",
-        "CREATE INDEX idx_scan_results_type ON tbl_scan_results (scan_instance_id, type)",
-        "CREATE INDEX idx_scan_results_hash ON tbl_scan_results (scan_instance_id, hash)",
-        "CREATE INDEX idx_scan_results_module ON tbl_scan_results(scan_instance_id, module)",
-        "CREATE INDEX idx_scan_results_srchash ON tbl_scan_results (scan_instance_id, source_event_hash)",
-        "CREATE INDEX idx_scan_logs ON tbl_scan_log (scan_instance_id)",
-        "CREATE INDEX idx_scan_correlation ON tbl_scan_correlation_results (scan_instance_id, id)",
-        "CREATE INDEX idx_scan_correlation_events ON tbl_scan_correlation_results_events (correlation_id)"
+        "CREATE INDEX IF NOT EXISTS idx_scan_results_id ON tbl_scan_results (scan_instance_id)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_results_type ON tbl_scan_results (scan_instance_id, type)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_results_hash ON tbl_scan_results (scan_instance_id, hash)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_results_module ON tbl_scan_results(scan_instance_id, module)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_results_srchash ON tbl_scan_results (scan_instance_id, source_event_hash)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_logs ON tbl_scan_log (scan_instance_id)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_correlation ON tbl_scan_correlation_results (scan_instance_id, id)",
+        "CREATE INDEX IF NOT EXISTS idx_scan_correlation_events ON tbl_scan_correlation_results_events (correlation_id)"
     ]
 
     eventDetails = [
