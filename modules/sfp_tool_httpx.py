@@ -207,7 +207,13 @@ class sfp_tool_httpx(SpiderFootPlugin):
         self._processResult(data, event, eventData)
 
     def _processResult(self, data, event, originalEvent):
-        """Process a single httpx JSON result and emit SpiderFoot events."""
+        """Process a single httpx JSON result and emit SpiderFoot events.
+
+        Args:
+            data: Parsed JSON object from httpx output.
+            event: Original SpiderFoot event.
+            originalEvent: Original event data string.
+        """
         url = data.get("url", "")
         if not url:
             url = data.get("matched-at", "")
@@ -372,7 +378,15 @@ class sfp_tool_httpx(SpiderFootPlugin):
             self.debug(f"httpx reported error for {host}: {error}")
 
     def _hostMatches(self, san, host):
-        """Check if a hostname matches an SSL SAN entry."""
+        """Check if a hostname matches an SSL SAN entry.
+
+        Args:
+            san: SAN entry from certificate.
+            host: Hostname to check.
+
+        Returns:
+            True if hostname matches the SAN entry.
+        """
         if not san or not host:
             return False
         san_lower = san.lower().strip(".")

@@ -154,7 +154,17 @@ class sfp_tool_ffuf(SpiderFootPlugin):
                 break  # got results, don't try the other scheme
 
     def _runFfuf(self, exe, url, originalEvent, scheme):
-        """Run ffuf against a URL and return JSON output, or None."""
+        """Run ffuf against a URL and return JSON output, or None.
+
+        Args:
+            exe: Path to ffuf binary.
+            url: Base URL to fuzz (with scheme).
+            originalEvent: Original event data for logging.
+            scheme: URL scheme being tried.
+
+        Returns:
+            JSON output string, or None on failure.
+        """
         args = [
             exe,
             "-w", self.opts["ffuf_wordlist"] + ":FUZZ",
@@ -210,7 +220,13 @@ class sfp_tool_ffuf(SpiderFootPlugin):
         return content
 
     def _processResult(self, content, event, originalEvent):
-        """Process ffuf JSON output and emit SpiderFoot events."""
+        """Process ffuf JSON output and emit SpiderFoot events.
+
+        Args:
+            content: Raw JSON output from ffuf.
+            event: Original SpiderFoot event.
+            originalEvent: Original event data string.
+        """
         for line in content.split("\n"):
             line = line.strip()
             if not line or not line.startswith("{"):
