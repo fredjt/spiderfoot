@@ -23,7 +23,7 @@ class sfp_tool_dnstwist(SpiderFootPlugin):
 
     meta = {
         'name': "Tool - DNSTwist",
-        'summary': "Identify bit-squatting, typo and other similar domains to the target using a local DNSTwist installation.",
+        'summary': "Identify bit-squatting, typo and similar domains using a local DNSTwist installation.",
         'flags': ["tool"],
         'useCases': ["Footprint", "Investigate"],
         'categories': ["DNS"],

@@ -20,7 +20,8 @@ class sfp_twilio(SpiderFootPlugin):
 
     meta = {
         'name': "Twilio",
-        'summary': "Obtain information from Twilio about phone numbers. Ensure you have the Caller Name add-on installed in Twilio.",
+        'summary': "Obtain phone number info from Twilio. "
+            "Requires Caller Name add-on.",
         'flags': ["apikey"],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Search Engines"],
@@ -39,9 +40,9 @@ class sfp_twilio(SpiderFootPlugin):
             ],
             'favIcon': "https://www.datasource.com/favicon.ico",
             'logo': "https://www.datasource.com/logo.gif",
-            'description': "Twilio is a cloud communications platform as a service company based in San Francisco, California. "
-            "Twilio allows software developers to programmatically make and receive phone calls, "
-            "send and receive text messages, and perform other communication functions using its web service APIs.",
+            'description': "Twilio is a cloud communications platform for "
+            "programmatically making/receiving phone calls, "
+            "sending/receiving text messages, and other communication functions.",
         }
     }
 
@@ -75,7 +76,10 @@ class sfp_twilio(SpiderFootPlugin):
     # to do so and avoid putting it in handleEvent()
     def queryPhoneNumber(self, phoneNumber):
 
-        token = (base64.b64encode(self.opts['api_key_account_sid'].encode('utf8') + ":".encode('utf-8') + self.opts['api_key_auth_token'].encode('utf-8'))).decode('utf-8')
+        creds = (self.opts['api_key_account_sid'].encode('utf8')
+             + ":".encode('utf-8')
+             + self.opts['api_key_auth_token'].encode('utf-8'))
+        token = base64.b64encode(creds).decode('utf-8')
 
         headers = {
             'Accept': "application/json",

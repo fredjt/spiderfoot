@@ -30,10 +30,11 @@ class sfp_vxvault(SpiderFootPlugin):
             ],
             'favIcon': "",
             'logo': "http://vxvault.net/header.png",
-            'description': "VxVault is a malware management program to automatically download and classify malware samples. "
-            "VxVault downloads malware samples from links from online sources such as webpages or RSS feeds, "
-            "downloads them and attempts to identify the malware using VirusTotal. "
-            "It then sort the malware onto a local file system and into a SQLite database.",
+            'description': "VxVault is a malware management program to automatically "
+            "download and classify malware samples.\n"
+            "It downloads samples from online sources (webpages, RSS feeds), "
+            "attempts to identify malware using VirusTotal, "
+            "then stores them on a local file system and SQLite database.",
         }
     }
 

@@ -47,7 +47,7 @@ class sfp_wikileaks(SpiderFootPlugin):
     # Option descriptions
     optdescs = {
         'daysback': "How many days back to consider a leak valid for capturing. 0 = unlimited.",
-        'external': "Include external leak sources such as Associated Twitter accounts, Snowden + Hammond Documents, Cryptome Documents, ICWatch, This Day in WikiLeaks Blog and WikiLeaks Press, WL Central."
+        'external': "Include external sources: Twitter accounts, Snowden/Hammond docs, Cryptome, ICWatch, blogs."
     }
 
     results = None
@@ -95,7 +95,10 @@ class sfp_wikileaks(SpiderFootPlugin):
             maxDate = ""
 
         qdata = eventData.replace(" ", "+")
-        wlurl = "query=%22" + qdata + "%22" + "&released_date_start=" + maxDate + "&include_external_sources=" + external + "&new_search=True&order_by=most_relevant#results"
+        wlurl = ("query=%22" + qdata +
+                "%22" + "&released_date_start=" + maxDate +
+                "&include_external_sources=" + external +
+                "&new_search=True&order_by=most_relevant#results")
 
         res = self.sf.fetchUrl(
             "https://search.wikileaks.org/?" + wlurl

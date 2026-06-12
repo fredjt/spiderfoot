@@ -138,7 +138,9 @@ class sfp_trashpanda(SpiderFootPlugin):
 
         leaksiteUrls = set()
         for row in data:
-            evt = SpiderFootEvent("PASSWORD_COMPROMISED", f"{row.get('email')}:{row.get('password')} [{row.get('paste')}]", self.__name__, event)
+            pwInfo = (f"{row.get('email')}:{row.get('password')} "
+                      f"[{row.get('paste')}]")
+            evt = SpiderFootEvent("PASSWORD_COMPROMISED", pwInfo, self.__name__, event)
             self.notifyListeners(evt)
 
             leaksiteUrls.add(row.get("paste"))

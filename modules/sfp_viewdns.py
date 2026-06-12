@@ -56,7 +56,7 @@ class sfp_viewdns(SpiderFootPlugin):
     optdescs = {
         "api_key": "ViewDNS.info API key.",
         "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
-        "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+        "maxcohost": "Stop reporting co-hosted sites after this many (likely web hosting)"
     }
 
     results = None
@@ -203,7 +203,10 @@ class sfp_viewdns(SpiderFootPlugin):
 
         # Leave out registrar parking sites, and other highly used IPs
         if eventName in ["IP_ADDRESS", "IPV6_ADDRESS"] and len(rec) > self.opts['maxcohost']:
-            self.debug(f"IP address {eventData} has {len(rec)} co-hosts; larger than {self.opts['maxcohost']}, skipping")
+            self.debug(
+                f"IP {eventData} has {len(rec)} co-hosts; "
+                f"skipping (max: {self.opts['maxcohost']})"
+            )
             return
 
         myres = list()
@@ -240,7 +243,8 @@ class sfp_viewdns(SpiderFootPlugin):
                 if self.cohostcount >= self.opts['maxcohost']:
                     continue
 
-                if eventName in ["IP_ADDRESS", "IPV6_ADDRESS"] and self.opts['verify'] and not self.sf.validateIP(domain, eventData):
+                if (eventName in ["IP_ADDRESS", "IPV6_ADDRESS"]
+                    and self.opts['verify'] and not self.sf.validateIP(domain, eventData)):
                     self.debug(f"Host {domain} no longer resolves to IP address: {eventData}")
                     continue
 

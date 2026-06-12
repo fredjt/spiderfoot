@@ -117,7 +117,10 @@ class sfp_whois(SpiderFootPlugin):
 
         # This is likely to be an error about being throttled rather than real data
         if len(str(data)) < 250:
-            self.error(f"WHOIS data ({len(data)} bytes) is smaller than 250 bytes. Throttling from WHOIS server is probably happening. Ignoring response.")
+            self.error(
+                f"WHOIS data ({len(data)} bytes) too small; "
+                "likely throttling. Ignoring response."
+            )
             return
 
         rawevt = SpiderFootEvent(typ, data, self.__name__, event)

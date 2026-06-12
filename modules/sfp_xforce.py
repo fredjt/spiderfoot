@@ -44,13 +44,13 @@ class sfp_xforce(SpiderFootPlugin):
                 "Provide an API name, and click 'Generate'",
                 "The API key combination is listed under 'API Key' and 'API Password'"
             ],
-            'favIcon': "https://exchange.xforce.ibmcloud.com/images/shortcut-icons/apple-icon-57x57.png",
-            'logo': "https://exchange.xforce.ibmcloud.com/images/shortcut-icons/apple-icon-57x57.png",
-            'description': "IBM® X-Force Exchange is a cloud-based, threat intelligence sharing platform that you can use "
-            "to rapidly research the latest global security threats, aggregate actionable intelligence, "
-            "consult with experts and collaborate with peers. "
-            "IBM X-Force Exchange, supported by human- and machine-generated intelligence, "
-            "leverages the scale of IBM X-Force to help users stay ahead of emerging threats.",
+            'favIcon': "https://exchange.xforce.ibmcloud.com/favicon.ico",
+            'logo': "https://exchange.xforce.ibmcloud.com/logo.png",
+            'description': "IBM X-Force Exchange is a cloud-based threat intelligence "
+            "sharing platform for researching global security threats, "
+            "aggregating actionable intelligence, and collaborating with peers. "
+            "Supported by human- and machine-generated intelligence, "
+            "it leverages IBM X-Force to help users stay ahead of threats.",
         }
     }
 
@@ -74,13 +74,13 @@ class sfp_xforce(SpiderFootPlugin):
         "xforce_api_key": "X-Force Exchange API Key.",
         "xforce_api_key_password": "X-Force Exchange API Password.",
         "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "If looking up owned netblocks, the maximum IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of for blacklisting?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6subnet': "If looking up subnets, the maximum IPv6 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
+        'maxv6subnet': "Maximum IPv6 subnet size to look up (CIDR value, 24 = /24)",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)",
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
         'checkaffiliates': "Apply checks to affiliates?",
         'verify': "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
@@ -334,7 +334,10 @@ class sfp_xforce(SpiderFootPlugin):
                         family = result.get("family", [])
                         family_description = " ".join(family)
 
-                        entry = infield_sep.join([str(origin), family_description, str(md5), str(domain), str(uri), str(firstseen), str(lastseen)])
+                        fields = [str(origin), family_description, str(md5),
+                                  str(domain), str(uri), str(firstseen),
+                                  str(lastseen)]
+                        entry = infield_sep.join(fields)
 
                         last = rec.get("last", None)
 

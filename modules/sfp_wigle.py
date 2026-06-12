@@ -43,7 +43,7 @@ class sfp_wigle(SpiderFootPlugin):
             ],
             'favIcon': "https://wigle.net/favicon.ico?v=A0Ra9gElOR",
             'logo': "https://wigle.net/images/planet-bubble.png",
-            'description': "We consolidate location and information of wireless networks world-wide to a central database, "
+            'description': "We consolidate wireless network location and info to a central database, "
             "and have user-friendly desktop and web applications that can map, "
             "query and update the database via the web.",
         }
@@ -60,7 +60,7 @@ class sfp_wigle(SpiderFootPlugin):
     optdescs = {
         "api_key_encoded": "Wigle.net base64-encoded API name/token pair.",
         "days_limit": "Maximum age of data to be considered valid.",
-        "variance": "How tightly to bound queries against the latitude/longitude box extracted from idenified addresses. This value must be between 0.001 and 0.2."
+        "variance": "Bounding box variance for identified addresses (0.001-0.2)."
 
     }
 

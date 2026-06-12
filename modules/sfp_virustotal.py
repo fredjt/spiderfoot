@@ -44,8 +44,8 @@ class sfp_virustotal(SpiderFootPlugin):
             ],
             'favIcon': "https://www.virustotal.com/gui/images/favicon.png",
             'logo': "https://www.virustotal.com/gui/images/logo.svg",
-            'description': "Analyze suspicious files and URLs to detect types of malware, "
-            "automatically share them with the security community.",
+            'description': "Analyze suspicious files and URLs to detect malware, "
+            "and share results with the security community.",
         }
     }
 
@@ -63,13 +63,13 @@ class sfp_virustotal(SpiderFootPlugin):
 
     optdescs = {
         'api_key': 'VirusTotal API Key.',
-        'publicapi': 'Are you using a public key? If so SpiderFoot will pause for 15 seconds after each query to avoid VirusTotal dropping requests.',
+        'publicapi': 'Use a public key? SpiderFoot will pause 15s after each query.',
         'checkcohosts': 'Check co-hosted sites?',
         'checkaffiliates': 'Check affiliates?',
-        'netblocklookup': 'Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?',
-        'maxnetblock': 'If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)',
+        'netblocklookup': 'Look up IPs on netblocks owned by your target?',
+        'maxnetblock': 'Maximum netblock size to look up (CIDR value).',
         'subnetlookup': 'Look up all IPs on subnets which your target is a part of?',
-        'maxsubnet': 'If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)',
+        'maxsubnet': 'Maximum subnet size to look up (CIDR value).',
         'verify': 'Verify that any hostnames found on the target domain still resolve?'
     }
 

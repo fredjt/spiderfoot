@@ -23,7 +23,7 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
 
     meta = {
         'name': "Tool - TruffleHog",
-        'summary': "Searches through git repositories for high entropy strings and secrets, digging deep into commit history.",
+        'summary': "Searches git repos for high-entropy strings and secrets in commit history.",
         'flags': ["tool", "slow"],
         'useCases': ["Footprint", "Investigate"],
         'categories': ["Crawling and Scanning"],
@@ -45,8 +45,8 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
 
     optdescs = {
         'trufflehog_path': "Path to your trufflehog binary. Must be set.",
-        'entropy': "Enable entropy checks? If disabled, TruffleHog will solely rely on high-signal regular expressions to identify secrets.",
-        'allrepos': "Search all code repositories found. By default TruffleHog only searches those linked from the target website."
+        'entropy': "Enable entropy checks? If disabled, TruffleHog uses regexes only.",
+        'allrepos': "Search all repos found. By default only searches repos linked from the target site."
     }
 
     results = None
@@ -93,7 +93,9 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
             return
 
         if eventName == "SOCIAL_MEDIA":
-            if "github.com/" in eventData.lower() or "gitlab.com/" in eventData.lower() or "bitbucket.org/" in eventData.lower():
+            evtLower = eventData.lower()
+            if ("github.com/" in evtLower or "gitlab.com/" in evtLower
+                    or "bitbucket.org/" in evtLower):
                 try:
                     url = eventData.split(": ")[1].replace("<SFURL>", "").replace("</SFURL>", "")
                 except BaseException:
@@ -103,7 +105,9 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
                 return
 
         if eventName == "PUBLIC_CODE_REPO" and self.opts['allrepos']:
-            if "github.com/" in eventData.lower() or "gitlab.com/" in eventData.lower() or "bitbucket.org/" in eventData.lower():
+            evtLower = eventData.lower()
+            if ("github.com/" in evtLower or "gitlab.com/" in evtLower
+                    or "bitbucket.org/" in evtLower):
                 try:
                     url = eventData.split("\n")[1].replace("URL: ", "")
                 except BaseException:

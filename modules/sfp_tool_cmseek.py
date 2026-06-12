@@ -29,7 +29,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
         'categories': ["Content Analysis"],
         'toolDetails': {
             'name': "CMSeeK",
-            'description': "CMSeek is a tool that is used to extract Content Management System(CMS) details of a website.",
+            'description': "CMSeek extracts Content Management System details of a website.",
             'website': 'https://github.com/Tuhinshubhra/CMSeeK',
             'repository': 'https://github.com/Tuhinshubhra/CMSeeK'
         },

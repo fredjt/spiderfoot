@@ -27,9 +27,9 @@ class sfp_venmo(SpiderFootPlugin):
             'website': "https://venmo.com/",
             'model': "FREE_NOAUTH_UNLIMITED",
             'references': [],
-            'favIcon': "https://d1v6x81qdeozhc.cloudfront.net/static/images/logo/apple-touch-icon-1a10ee4b947b728d54265ac8c5084f78.png",
-            'logo': "https://d1v6x81qdeozhc.cloudfront.net/static/images/logo/apple-touch-icon-1a10ee4b947b728d54265ac8c5084f78.png",
-            'description': "Venmo is a digital wallet that allows you to send money and make purchases at approved merchants.",
+            'favIcon': "https://venmo.com/apple-touch-icon.png",
+            'logo': "https://venmo.com/apple-touch-icon.png",
+            'description': "Venmo is a digital wallet for sending money and making purchases.",
         }
     }
 
