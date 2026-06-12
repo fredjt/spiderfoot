@@ -4,10 +4,10 @@
 # Purpose:     SpiderFoot plug-in for using the altdns tool.
 #              Tool: https://github.com/infosec-au/altdns
 #
-# Author:      Steve Micallef <steve@binarypool.com>
+# Author:      Trent Tanchin <trent@tanchin.org>
 #
 # Created:     2026-06-11
-# Copyright:   (c) Steve Micallef 2026
+# Copyright:   (c) Trent Tanchin 2026
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 

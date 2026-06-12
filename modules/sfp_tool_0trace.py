@@ -72,7 +72,7 @@ class sfp_tool_0trace(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_0trace":
+        if srcModuleName == self.__name__:
             self.debug("Skipping event from myself.")
             return
 

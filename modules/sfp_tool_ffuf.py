@@ -4,10 +4,10 @@
 # Purpose:      SpiderFoot plug-in for using the ffuf tool.
 #               Tool: https://github.com/ffuf/ffuf
 #
-# Author:       Steve Micallef <steve@binarypool.com>
+# Author:       Trent Tanchin <trent@tanchin.org>
 #
 # Created:      2024-06-11
-# Copyright:    (c) Steve Micallef 2024
+# Copyright:    (c) Trent Tanchin 2024
 # Licence:      MIT
 # -------------------------------------------------------------------------------
 

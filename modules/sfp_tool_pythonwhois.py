@@ -3,10 +3,10 @@
 # Name:         sfp_tool_pythonwhois
 # Purpose:      SpiderFoot plug-in for querying python-whois for domain registration details.
 #
-# Author:      <your name> <your email>
+# Author:      Trent Tanchin <trent@tanchin.org>
 #
 # Created:     2026-06-10
-# Copyright:   (c) Steve Micallef
+# Copyright:   (c) Trent Tanchin 2026
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
