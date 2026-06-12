@@ -74,7 +74,10 @@ class sfp_emailformat(SpiderFootPlugin):
         self.debug(f"Received event, {eventName}, from {srcModuleName}")
 
         # Get e-mail addresses on this domain
-        res = self.sf.fetchUrl(f"https://www.email-format.com/d/{eventData}/", timeout=self.opts['_fetchtimeout'], useragent=self.opts['_useragent'])
+        url = f"https://www.email-format.com/d/{eventData}/"
+        res = self.sf.fetchUrl(
+            url, timeout=self.opts['_fetchtimeout'], useragent=self.opts['_useragent']
+        )
 
         if res['content'] is None:
             return

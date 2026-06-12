@@ -45,7 +45,7 @@ class sfp_duckduckgo(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        "affiliatedomains": "For affiliates, look up the domain name, not the hostname. This will usually return more meaningful information about the affiliate."
+        "affiliatedomains": "For affiliates, look up domain name (not hostname) for more meaningful results."
     }
 
     results = None

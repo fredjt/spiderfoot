@@ -40,11 +40,11 @@ class sfp_dnsresolve(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        'skipcommononwildcard': "If wildcard DNS is detected, only attempt to look up the first common sub-domain from the common sub-domain list.",
-        'validatereverse': "Validate that reverse-resolved hostnames still resolve back to that IP before considering them as aliases of your target.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
-        'maxnetblock': "Maximum owned IPv4 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "Maximum owned IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+        'skipcommononwildcard': "If wildcard DNS detected, only look up the first common sub-domain.",
+        'validatereverse': "Validate reverse-resolved hostnames still resolve to that IP before considering aliases.",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum IPv4 netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)"
     }
 
     events = None

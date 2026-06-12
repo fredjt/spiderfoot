@@ -34,8 +34,9 @@ class sfp_gleif(SpiderFootPlugin):
             ],
             'favIcon': "https://www.gleif.org/favicon.ico",
             'logo': "https://search.gleif.org/static/img/gleif-logo.svg",
-            'description': "The Global Legal Entity Identifier Foundation (GLEIF) Global LEI Index contains "
-            "historical and current LEI records including related reference data in one authoritative, central repository."
+            'description': "The Global Legal Entity Identifier Foundation (GLEIF) Global LEI Index "
+            "contains historical and current LEI records "
+            "with related reference data in one central repository."
         }
     }
 

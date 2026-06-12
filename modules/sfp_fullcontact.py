@@ -42,8 +42,15 @@ class sfp_fullcontact(SpiderFootPlugin):
                 "Verify your account using your contact number",
                 "The API Key will be listed under 'Your API Keys'"
             ],
-            'favIcon': "https://1a3asl4eps7u26kl661u3bi9-wpengine.netdna-ssl.com/wp-content/uploads/2019/11/cropped-full-contact-isologo-32x32.png",
-            'logo': "https://1a3asl4eps7u26kl661u3bi9-wpengine.netdna-ssl.com/wp-content/themes/fc-theme/assets/images/common/full-contact-logo.svg?1574450351",
+            'favIcon': (
+                "https://1a3asl4eps7u26kl661u3bi9-wpengine.netdna-ssl.com/"
+                "wp-content/uploads/2019/11/cropped-full-contact-isologo-32x32.png"
+            ),
+            'logo': (
+                "https://1a3asl4eps7u26kl661u3bi9-wpengine.netdna-ssl.com/"
+                "wp-content/themes/fc-theme/assets/images/common/"
+                "full-contact-logo.svg?1574450351"
+            ),
             'description': "Connecting data. Consolidating identities. Applying insights. Amplifying media reach. "
             "We provide person-centered identity resolution to improve your customer interactions with a simple, "
             "real-time API integration.\n"

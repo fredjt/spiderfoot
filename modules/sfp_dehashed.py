@@ -95,11 +95,16 @@ class sfp_dehashed(SpiderFootPlugin):
     # Query Dehashed
     def query(self, event, per_page, start):
         if event.eventType == "EMAILADDR":
-            queryString = f"https://api.dehashed.com/search?query=email:\"{event.data}\"&page={start}&size={self.opts['per_page']}"
+            queryString = (f"https://api.dehashed.com/search?query=email:"
+                           f"\"{event.data}\"&page={start}&size={self.opts['per_page']}")
         if event.eventType == "DOMAIN_NAME":
-            queryString = f"https://api.dehashed.com/search?query=email:\"@{event.data}\"&page={start}&size={self.opts['per_page']}"
+            queryString = (f"https://api.dehashed.com/search?query=email:"
+                           f"\"@{event.data}\"&page={start}&size={self.opts['per_page']}")
 
-        token = (base64.b64encode(self.opts['api_key_username'].encode('utf8') + ":".encode('utf-8') + self.opts['api_key'].encode('utf-8'))).decode('utf-8')
+        auth_string = (self.opts['api_key_username'].encode('utf-8')
+                       + b":"
+                       + self.opts['api_key'].encode('utf-8'))
+        token = base64.b64encode(auth_string).decode('utf-8')
         headers = {
             'Accept': 'application/json',
             'Authorization': f'Basic {token}'
@@ -114,9 +119,10 @@ class sfp_dehashed(SpiderFootPlugin):
         time.sleep(self.opts['pause'])
 
         if res['code'] == "400":
-            self.error("Too many requests were performed in a small amount of time. Please wait a bit before querying the API.")
+            self.error("Too many requests in a short time. Please wait before querying the API.")
             time.sleep(5)
-            res = self.sf.fetchUrl(queryString, headers=headers, timeout=15, useragent=self.opts['_useragent'], verify=True)
+            res = self.sf.fetchUrl(queryString, headers=headers, timeout=15,
+                                   useragent=self.opts['_useragent'], verify=True)
 
         if res['code'] == "401":
             self.error("Invalid API credentials")
@@ -201,11 +207,13 @@ class sfp_dehashed(SpiderFootPlugin):
                         self.notifyListeners(evt)
 
                         if password:
-                            evt = SpiderFootEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, event)
+                            evt = SpiderFootEvent('PASSWORD_COMPROMISED',
+                                               f"{email}:{password} [{leakSource}]", self.__name__, event)
                             self.notifyListeners(evt)
 
                         if passwordHash:
-                            evt = SpiderFootEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, event)
+                            evt = SpiderFootEvent('HASH_COMPROMISED',
+                                                  f"{email}:{passwordHash} [{leakSource}]", self.__name__, event)
                             self.notifyListeners(evt)
 
                         evt = SpiderFootEvent('RAW_RIR_DATA', str(row), self.__name__, event)
@@ -221,11 +229,17 @@ class sfp_dehashed(SpiderFootPlugin):
                     self.notifyListeners(evt)
 
                     if password:
-                        evt = SpiderFootEvent('PASSWORD_COMPROMISED', f"{email}:{password} [{leakSource}]", self.__name__, pevent)
+                        evt = SpiderFootEvent(
+                            'PASSWORD_COMPROMISED',
+                            f"{email}:{password} [{leakSource}]",
+                            self.__name__, pevent)
                         self.notifyListeners(evt)
 
                     if passwordHash:
-                        evt = SpiderFootEvent('HASH_COMPROMISED', f"{email}:{passwordHash} [{leakSource}]", self.__name__, pevent)
+                        evt = SpiderFootEvent(
+                            'HASH_COMPROMISED',
+                            f"{email}:{passwordHash} [{leakSource}]",
+                            self.__name__, pevent)
                         self.notifyListeners(evt)
 
                     evt = SpiderFootEvent('RAW_RIR_DATA', str(row), self.__name__, pevent)

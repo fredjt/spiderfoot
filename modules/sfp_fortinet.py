@@ -29,7 +29,7 @@ class sfp_fortinet(SpiderFootPlugin):
             ],
             'favIcon': "https://www.fortiguard.com/static/images/favicon.ico",
             'logo': "https://www.fortiguard.com/static/images/Fortinet-logo%20white.png?v=880",
-            'description': "FortiGuard Antispam provides a comprehensive and multi-layered approach to detect and filter spam processed by organizations."
+            'description': "FortiGuard Antispam detects and filters spam processed by organizations."
         }
     }
 

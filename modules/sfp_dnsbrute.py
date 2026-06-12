@@ -43,11 +43,11 @@ class sfp_dnsbrute(SpiderFootPlugin):
     # Option descriptions
     optdescs = {
         'skipcommonwildcard': "If wildcard DNS is detected, don't bother brute-forcing.",
-        'domainonly': "Only attempt to brute-force names on domain names, not hostnames (some hostnames are also sub-domains).",
+        'domainonly': "Brute-force only domain names, not hostnames (some are also sub-domains).",
         'commons': "Try a list of about 750 common hostnames/sub-domains.",
         'top10000': "Try a further 10,000 common hostnames/sub-domains. Will make the scan much slower.",
         'numbersuffix': "For any host found, try appending 1, 01, 001, -1, -01, -001, 2, 02, etc. (up to 10)",
-        'numbersuffixlimit': "Limit using the number suffixes for hosts that have already been resolved? If disabled this will significantly extend the duration of scans.",
+        'numbersuffixlimit': "Limit number suffixes for resolved hosts? Disabling extends scan duration.",
         "_maxthreads": "Maximum threads"
     }
 

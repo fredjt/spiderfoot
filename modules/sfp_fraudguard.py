@@ -70,12 +70,12 @@ class sfp_fraudguard(SpiderFootPlugin):
         "fraudguard_api_key_account": "Fraudguard.io API username.",
         "fraudguard_api_key_password": "Fraudguard.io API password.",
         "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum IPv4 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "If looking up owned netblocks, the maximum IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum IPv4 netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of for blacklisting?",
-        'maxsubnet': "If looking up subnets, the maximum IPv4 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6subnet': "If looking up subnets, the maximum IPv6 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxsubnet': "Maximum IPv4 subnet size to look up (CIDR value, 24 = /24)",
+        'maxv6subnet': "Maximum IPv6 subnet size to look up (CIDR value, 24 = /24)",
         'checkaffiliates': "Apply checks to affiliates?"
     }
 
@@ -141,7 +141,7 @@ class sfp_fraudguard(SpiderFootPlugin):
         )
 
         if res['code'] in ["400", "429", "500", "403"]:
-            self.error("Fraudguard.io API key seems to have been rejected or you have exceeded usage limits for the month.")
+            self.error("Fraudguard.io API key rejected or usage limit exceeded.")
             self.errorState = True
             return None
 

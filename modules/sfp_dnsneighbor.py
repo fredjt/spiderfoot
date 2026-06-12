@@ -34,8 +34,9 @@ class sfp_dnsneighbor(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        'validatereverse': "Validate that reverse-resolved hostnames still resolve back to that IP before considering them as aliases of your target.",
-        'lookasidebits': "If look-aside is enabled, the netmask size (in CIDR notation) to check. Default is 4 bits (16 hosts)."
+        'validatereverse': "Validate reverse-resolved hostnames still resolve to that IP before considering aliases.",
+        'lookasidebits': "Netmask size (CIDR) to check when look-aside is enabled. "
+                        "Default is 4 bits (16 hosts)."
     }
 
     events = None
@@ -80,7 +81,10 @@ class sfp_dnsneighbor(SpiderFootPlugin):
 
         try:
             address = ipaddress.ip_address(eventData)
-            netmask = address.max_prefixlen - min(address.max_prefixlen, max(1, int(self.opts.get("lookasidebits"))))
+            lookasidebits = int(self.opts.get("lookasidebits"))
+            netmask = address.max_prefixlen - min(
+                address.max_prefixlen, max(1, lookasidebits)
+            )
             network = ipaddress.ip_network(f"{eventData}/{netmask}", strict=False)
         except ValueError:
             self.error(f"Invalid IP address received: {eventData}")

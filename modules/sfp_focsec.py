@@ -37,7 +37,7 @@ class sfp_focsec(SpiderFootPlugin):
             ],
             'favIcon': "https://focsec.com/static/favicon.png",
             'logo': "https://focsec.com/static/web/images/logo.png",
-            'description': "Our API lets you know if a user's IP address is associated with a VPN, Proxy, TOR or malicious bots."
+            'description': "Our API checks if a user's IP is associated with a VPN, Proxy, TOR or malicious bots."
             "Take your applications security to the next level by detecting suspicious activity early on."
         }
     }

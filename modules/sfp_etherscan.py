@@ -82,7 +82,9 @@ class sfp_etherscan(SpiderFootPlugin):
         ]
 
     def query(self, qry):
-        queryString = f"https://api.etherscan.io/api?module=account&action=balance&address={qry}&tag=latest&apikey={self.opts['api_key']}"
+        queryString = (f"https://api.etherscan.io/api?"
+                       f"module=account&action=balance&address={qry}"
+                       f"&tag=latest&apikey={self.opts['api_key']}")
         # Wallet balance
         res = self.sf.fetchUrl(queryString,
                                timeout=self.opts['_fetchtimeout'],

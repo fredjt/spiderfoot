@@ -36,11 +36,11 @@ class sfp_googlesearch(SpiderFootPlugin):
                 "Connect a Project",
                 "The API Key will be listed under 'YOUR API KEY'"
             ],
-            'favIcon': "https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/developers/images/favicon.png",
-            'logo': "https://www.gstatic.com/devrel-devsite/prod/v2210deb8920cd4a55bd580441aa58e7853afc04b39a9d9ac4198e1cd7fbe04ef/developers/images/favicon.png",
-            'description': "Google Custom Search enables you to create a search engine for your website, your blog, or a collection of websites. "
+            'favIcon': "https://gstatic.com/devrel/favicon.png",
+            'logo': "https://gstatic.com/devrel/favicon.png",
+            'description': "Google Custom Search creates a search engine for your website, blog, or websites. "
             "You can configure your engine to search both web pages and images. "
-            "You can fine-tune the ranking, add your own promotions and customize the look and feel of the search results. "
+            "Fine-tune ranking, add promotions, and customize the look and feel. "
             "You can monetize the search by connecting your engine to your Google AdSense account.",
         }
     }

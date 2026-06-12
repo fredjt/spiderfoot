@@ -43,7 +43,7 @@ class sfp_filemeta(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        'fileexts': "File extensions of files you want to analyze the meta data of (only PDF, DOCX, XLSX and PPTX are supported.)",
+        'fileexts': "File extensions to analyze (PDF, DOCX, XLSX, PPTX only).",
         'timeout': "Download timeout for files, in seconds."
     }
 

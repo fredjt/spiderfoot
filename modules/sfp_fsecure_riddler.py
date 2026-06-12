@@ -36,13 +36,13 @@ class sfp_fsecure_riddler(SpiderFootPlugin):
             'apiKeyInstructions': [
                 "Registration is disabled for new accounts"
             ],
-            'favIcon': "https://riddler.io/static/images/favicon.png",
-            'logo': "https://riddler.io/static/images/logo.png",
-            'description': "Riddler.io allows you to search in a high quality dataset with more than 396,831,739 hostnames. "
-            "Unlike others, we do not rely on simple port scanning techniques - we crawl the web, "
-            "ensuring an in-depth quality data set you will not find anywhere else.\n"
-            "Use Riddler to enumerate possible attack vectors during your pen-test or use the very same data "
-            "to monitor potential threats before it is too late.",
+            'favIcon': "https://riddler.io/favicon.png",
+            'logo': "https://riddler.io/logo.png",
+            'description': "Riddler.io allows you to search a high quality dataset "
+            "with hundreds of millions of hostnames.\n"
+            "Unlike others, we crawl the web rather than relying on simple port scanning. "
+            "Use Riddler to enumerate attack vectors during pen-tests "
+            "or monitor potential threats.",
         }
     }
 

@@ -22,7 +22,7 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
 
     meta = {
         'name': "Digital Ocean Space Finder",
-        'summary': "Search for potential Digital Ocean Spaces associated with the target and attempt to list their contents.",
+        'summary': "Search for Digital Ocean Spaces associated with the target and list their contents.",
         'flags': [],
         'useCases': ["Footprint", "Passive"],
         'categories': ["Crawling and Scanning"],
@@ -39,7 +39,12 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
     # Default options
     opts = {
         "endpoints": "nyc3.digitaloceanspaces.com,sgp1.digitaloceanspaces.com,ams3.digitaloceanspaces.com",
-        "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+        "suffixes": (
+            "test,dev,web,beta,bucket,space,files,content,data,"
+            "prod,staging,production,stage,app,media,development,"
+            "-test,-dev,-web,-beta,-bucket,-space,-files,-content,"
+            "-data,-prod,-staging,-production,-stage,-app,-media,-development"
+        ),
         "_maxthreads": 20
     }
 
@@ -106,8 +111,10 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
 
             self.info("Spawning thread to check bucket: " + site)
             tname = str(random.SystemRandom().randint(0, 999999999))
-            t.append(threading.Thread(name='thread_sfp_digitaloceanspaces_' + tname,
-                                      target=self.checkSite, args=(site,)))
+            t.append(threading.Thread(
+                name='thread_sfp_digitaloceanspaces_' + tname,
+                target=self.checkSite, args=(site,)
+            ))
             t[i].start()
             i += 1
 
@@ -193,8 +200,11 @@ class sfp_digitaloceanspace(SpiderFootPlugin):
             evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", bucket[0] + ":" + bucket[1], self.__name__, event)
             self.notifyListeners(evt)
             if bucket[2] != "0":
-                evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET_OPEN", bucket[0] + ":" + bucket[1] + ": " + bucket[2] + " files found.",
-                                      self.__name__, evt)
+                evt = SpiderFootEvent(
+                    "CLOUD_STORAGE_BUCKET_OPEN",
+                    bucket[0] + ":" + bucket[1] + ": " + bucket[2] + " files found.",
+                    self.__name__, evt
+                )
                 self.notifyListeners(evt)
 
 

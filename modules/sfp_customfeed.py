@@ -46,7 +46,8 @@ class sfp_customfeed(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        'url': "The URL where the feed can be found. Exact matching is performed so the format must be a single line per host, ASN, domain, IP or netblock.",
+        'url': "The URL where the feed can be found. "
+              "Format: single line per host, ASN, domain, IP or netblock.",
         'checkaffiliates': "Apply checks to affiliates?",
         'checkcohosts': "Apply checks to sites found to be co-hosted on the target's IP?",
         'cacheperiod': "Maximum age of data in hours before re-downloading. 0 to always download."
@@ -150,8 +151,13 @@ class sfp_customfeed(SpiderFootPlugin):
                         rxDom = str(malchecks[check]['regex']).format(targetDom)
                         rxTgt = str(malchecks[check]['regex']).format(target)
                         for line in data['content'].split('\n'):
-                            if (targetType == "domain" and re.match(rxDom, line, re.IGNORECASE)) or \
-                                    re.match(rxTgt, line, re.IGNORECASE):
+                            match = False
+                            if targetType == "domain":
+                                if re.match(rxDom, line, re.IGNORECASE):
+                                    match = True
+                            if re.match(rxTgt, line, re.IGNORECASE):
+                                match = True
+                            if match:
                                 self.debug(target + "/" + targetDom + " found in " + check + " list.")
                                 return url
                     except Exception as e:

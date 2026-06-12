@@ -37,16 +37,14 @@ class sfp_flickr(SpiderFootPlugin):
                 "https://www.flickr.com/services/developer/api/",
                 "https://code.flickr.net/"
             ],
-            'favIcon': "https://combo.staticflickr.com/pw/favicon.ico",
-            'logo': "https://combo.staticflickr.com/pw/favicon.ico",
-            'description': "Flickr is almost certainly the best online photo management and sharing application in the world.\n "
-                           "On Flickr, members upload photos, share them securely, supplement their photos with "
-                           "metadata like license information, geo-location, people, tags, etc., "
-                           "and interact with their family, friends, contacts or anyone in the community. "
-                           "Practically all the features on Flickr's various platforms -- web, mobile and desktop -- "
-                           "are accompanied by a longstanding API program. "
-                           "Since 2005, developers have collaborated on top of Flickr's APIs to build fun, creative, "
-                           "and gorgeous experiences around photos that extend beyond Flickr.",
+            'favIcon': "https://flickr.com/favicon.ico",
+            'logo': "https://flickr.com/logo.png",
+            'description': "Flickr is an online photo management and sharing application.\n "
+                           "Members upload photos, share them securely, and add "
+                           "metadata like license information, geo-location, people, tags, etc. "
+                           "Flickr has a longstanding API program. "
+                           "Since 2005, developers have built creative experiences "
+                           "around photos that extend beyond Flickr.",
         }
     }
 
@@ -86,7 +84,10 @@ class sfp_flickr(SpiderFootPlugin):
 
     # Retrieve API key
     def retrieveApiKey(self):
-        res = self.sf.fetchUrl("https://www.flickr.com/", timeout=self.opts['_fetchtimeout'], useragent=self.opts['_useragent'])
+        res = self.sf.fetchUrl(
+            "https://www.flickr.com/", timeout=self.opts['_fetchtimeout'],
+            useragent=self.opts['_useragent']
+        )
 
         if res['content'] is None:
             return None

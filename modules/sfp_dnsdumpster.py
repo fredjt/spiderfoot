@@ -28,7 +28,7 @@ class sfp_dnsdumpster(SpiderFootPlugin):
         "dataSource": {
             "website": "https://dnsdumpster.com/",
             "model": "FREE_NOAUTH_UNLIMITED",
-            "description": "DNSdumpster.com is a FREE domain research tool that can discover hosts related to a domain.",
+            "description": "DNSdumpster.com is a FREE domain research tool that can discover related hosts.",
         }
     }
 

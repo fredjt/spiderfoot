@@ -67,7 +67,8 @@ class sfp_email(SpiderFootPlugin):
                 self.debug(f"Skipping {email} as not a valid e-mail.")
                 continue
 
-            if not self.getTarget().matches(mailDom, includeChildren=True, includeParents=True) and not self.getTarget().matches(email):
+            if (not self.getTarget().matches(mailDom, includeChildren=True, includeParents=True)
+                    and not self.getTarget().matches(email)):
                 self.debug("External domain, so possible affiliate e-mail")
                 evttype = "AFFILIATE_EMAILADDR"
 
