@@ -38,9 +38,8 @@ class sfp_ipqualityscore(SpiderFootPlugin):
             ],
             "favIcon": "https://www.ipqualityscore.com/templates/img/icons/fav/favicon-32x32.png",
             "logo": "https://www.ipqualityscore.com/templates/img/logo.png",
-            "description": "IPQualityScore's suite of fraud prevention tools automate quality control "
-            "to prevent bots, fake accounts, fraudsters, suspicious transactions, "
-            "& malicious users without interrupting the user experience.",
+            "description": "IPQualityScore provides fraud prevention tools to prevent "
+            "bots, fake accounts, fraudsters, and malicious users.",
         },
     }
 
@@ -104,11 +103,23 @@ class sfp_ipqualityscore(SpiderFootPlugin):
     def query(self, qry, eventName):
         queryString = ""
         if eventName == "PHONE_NUMBER":
-            queryString = f"https://ipqualityscore.com/api/json/phone/{self.opts['api_key']}/{qry}?strictness={self.opts['strictness']}"
+            queryString = (
+                f"https://ipqualityscore.com/api/json/phone/"
+                f"{self.opts['api_key']}/{qry}"
+                f"?strictness={self.opts['strictness']}"
+            )
         elif eventName == "EMAILADDR":
-            queryString = f"https://ipqualityscore.com/api/json/email/{self.opts['api_key']}/{qry}?strictness={self.opts['strictness']}"
+            queryString = (
+                f"https://ipqualityscore.com/api/json/email/"
+                f"{self.opts['api_key']}/{qry}"
+                f"?strictness={self.opts['strictness']}"
+            )
         elif eventName in ['IP_ADDRESS', 'DOMAIN_NAME']:
-            queryString = f"https://ipqualityscore.com/api/json/ip/{self.opts['api_key']}/{qry}?strictness={self.opts['strictness']}"
+            queryString = (
+                f"https://ipqualityscore.com/api/json/ip/"
+                f"{self.opts['api_key']}/{qry}"
+                f"?strictness={self.opts['strictness']}"
+            )
 
         res = self.sf.fetchUrl(
             queryString,
@@ -192,7 +203,12 @@ class sfp_ipqualityscore(SpiderFootPlugin):
 
         if eventName == "PHONE_NUMBER":
             if malicious:
-                maliciousDesc += f" - FRAUD SCORE: {fraudScore}\n - ACTIVE: {data.get('active')}\n - RISKY: {data.get('risky')}\n - RECENT ABUSE: {recentAbuse}"
+                maliciousDesc += (
+                    f" - FRAUD SCORE: {fraudScore}"
+                    f"\n - ACTIVE: {data.get('active')}"
+                    f"\n - RISKY: {data.get('risky')}"
+                    f"\n - RECENT ABUSE: {recentAbuse}"
+                )
                 evt = SpiderFootEvent("MALICIOUS_PHONE_NUMBER", maliciousDesc, self.__name__, event)
                 self.notifyListeners(evt)
 
@@ -208,7 +224,12 @@ class sfp_ipqualityscore(SpiderFootPlugin):
 
         elif eventName == "EMAILADDR":
             if malicious:
-                maliciousDesc += f" - FRAUD SCORE: {fraudScore}\n - HONEYPOT: {data.get('honeypot')}\n - SPAM TRAP SCORE: {data.get('spam_trap_score')}\n - RECENT ABUSE: {recentAbuse}"
+                maliciousDesc += (
+                    f" - FRAUD SCORE: {fraudScore}"
+                    f"\n - HONEYPOT: {data.get('honeypot')}"
+                    f"\n - SPAM TRAP SCORE: {data.get('spam_trap_score')}"
+                    f"\n - RECENT ABUSE: {recentAbuse}"
+                )
                 evt = SpiderFootEvent("MALICIOUS_EMAILADDR", maliciousDesc, self.__name__, event)
                 self.notifyListeners(evt)
 
@@ -222,7 +243,16 @@ class sfp_ipqualityscore(SpiderFootPlugin):
 
         elif eventName in ['IP_ADDRESS', 'DOMAIN_NAME']:
             if malicious:
-                maliciousDesc += f" - FRAUD SCORE: {fraudScore}\n - BOT STATUS: {botStatus}\n - RECENT ABUSE: {recentAbuse}\n - ABUSE VELOCITY: {data.get('abuse_velocity')}\n - VPN: {data.get('vpn')}\n - ACTIVE VPN: {data.get('active_vpn')}\n - TOR: {data.get('tor')}\n - ACTIVE TOR: {data.get('active_tor')}"
+                maliciousDesc += (
+                    f" - FRAUD SCORE: {fraudScore}"
+                    f"\n - BOT STATUS: {botStatus}"
+                    f"\n - RECENT ABUSE: {recentAbuse}"
+                    f"\n - ABUSE VELOCITY: {data.get('abuse_velocity')}"
+                    f"\n - VPN: {data.get('vpn')}"
+                    f"\n - ACTIVE VPN: {data.get('active_vpn')}"
+                    f"\n - TOR: {data.get('tor')}"
+                    f"\n - ACTIVE TOR: {data.get('active_tor')}"
+                )
 
                 if eventName == "IP_ADDRESS":
                     evt = SpiderFootEvent("MALICIOUS_IPADDR", maliciousDesc, self.__name__, event)

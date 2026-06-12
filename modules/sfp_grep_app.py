@@ -187,7 +187,8 @@ class sfp_grep_app(SpiderFootPlugin):
 
                         hosts.append(host)
 
-                        if not self.getTarget().matches(self.sf.urlFQDN(link), includeChildren=True, includeParents=True):
+                        fqdn = self.sf.urlFQDN(link)
+                        if not self.getTarget().matches(fqdn, includeChildren=True, includeParents=True):
                             self.debug("Skipped unrelated link: " + link)
                             continue
 

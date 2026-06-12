@@ -36,8 +36,8 @@ class sfp_metadefender(SpiderFootPlugin):
                 "Navigate to https://metadefender.opswat.com/account",
                 "The API key is listed under 'API key'"
             ],
-            'favIcon': "https://mcl-cdn.opswat.com/1.40.3-729f31db/city/icons/icon-48x48.png?v=61be50566cce944a710aaa90ba6bbb8d",
-            'logo': "https://mcl-cdn.opswat.com/1.40.3-729f31db/city/icons/icon-48x48.png?v=61be50566cce944a710aaa90ba6bbb8d",
+            'favIcon': "https://opswat.com/icon-48x48.png",
+            'logo': "https://opswat.com/icon-48x48.png",
             'description': "File Analysis - Analyzing binaries with 30+ anti-malware engines.\n"
             "Heuristic analysis to detect more unknown and targeted attacks.\n"
             "Binary vulnerability data assessment, IP/Domain reputation, Threat Intelligence Feeds",
@@ -177,7 +177,10 @@ class sfp_metadefender(SpiderFootPlugin):
             geo_info = data.get('geo_info')
 
             if geo_info:
-                location = ', '.join([_f for _f in [geo_info.get('city').get('name'), geo_info.get('country').get('name')] if _f])
+                city = geo_info.get('city', {}).get('name')
+                country = geo_info.get('country', {}).get('name')
+                loc_parts = [f for f in [city, country] if f]
+                location = ', '.join(loc_parts)
                 evt = SpiderFootEvent('GEOINFO', location, self.__name__, event)
                 self.notifyListeners(evt)
 
@@ -229,9 +232,14 @@ class sfp_metadefender(SpiderFootPlugin):
                 if m['assessment'] == "trustworthy":
                     continue
                 provider = m.get('provider')
-                evt = SpiderFootEvent('MALICIOUS_INTERNET_NAME', provider + ' [' + eventData + ']', self.__name__, event)
+                detail = provider + ' [' + eventData + ']'
+                evt = SpiderFootEvent(
+                    'MALICIOUS_INTERNET_NAME', detail, self.__name__, event
+                )
                 self.notifyListeners(evt)
-                evt = SpiderFootEvent('BLACKLISTED_INTERNET_NAME', provider + ' [' + eventData + ']', self.__name__, event)
+                evt = SpiderFootEvent(
+                    'BLACKLISTED_INTERNET_NAME', detail, self.__name__, event
+                )
                 self.notifyListeners(evt)
 
 # End of sfp_metadefender class

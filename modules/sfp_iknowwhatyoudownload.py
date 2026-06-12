@@ -40,8 +40,8 @@ class sfp_iknowwhatyoudownload(SpiderFootPlugin):
             ],
             'favIcon': "https://iknowwhatyoudownload.com/assets/img/utorrent2.png",
             'logo': "https://iknowwhatyoudownload.com/assets/img/logo.png",
-            'description': "Our system collects torrent files in two ways: parsing torrent sites, and listening DHT network. "
-            "The system contains more than 7 million torrents (as of Oct 2021) which were classified and which are using now "
+            'description': "Our system collects torrent files by parsing torrent sites and listening DHT. "
+            "The system contains over 7 million classified torrents. "
             "for collecting peer sharing facts (up to 200.000.000 daily).",
         }
     }
@@ -111,7 +111,11 @@ class sfp_iknowwhatyoudownload(SpiderFootPlugin):
         error = data.get('error')
         if error and error == "INVALID_DAYS":
             self.errorState = True
-            self.error(f"The number of days you have configured ({self.opts['daysback']}) was not accepted. If you have the demo key, try 30 days or less.")
+            self.error(
+                f"The number of days you have configured "
+                f"({self.opts['daysback']}) was not accepted. "
+                "If you have the demo key, try 30 days or less."
+            )
             return None
 
         contents = data.get('contents')

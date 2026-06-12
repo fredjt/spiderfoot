@@ -22,7 +22,7 @@ class sfp_intelx(SpiderFootPlugin):
 
     meta = {
         'name': "IntelligenceX",
-        'summary': "Obtain information from IntelligenceX about identified IP addresses, domains, e-mail addresses and phone numbers.",
+        'summary': "Obtain information from IntelligenceX about IPs, domains, emails and phone numbers.",
         'flags': ["apikey"],
         'useCases': ["Investigate", "Passive"],
         'categories': ["Search Engines"],
@@ -42,13 +42,19 @@ class sfp_intelx(SpiderFootPlugin):
             ],
             'favIcon': "https://intelx.io/favicon/favicon-32x32.png",
             'logo': "https://intelx.io/assets/img/IntelligenceX.svg",
-            'description': "Intelligence X is an independent European technology company founded in 2018 by Peter Kleissner. "
-            "Its mission is to develop and maintain the search engine and data archive.\n"
-            "The search works with selectors, i.e. specific search terms such as "
-            "email addresses, domains, URLs, IPs, CIDRs, Bitcoin addresses, IPFS hashes, etc.\n"
-            "It searches in places such as the darknet, document sharing platforms, whois data, public data leaks and others.\n"
-            "It keeps a historical data archive of results, "
-            "similar to how the Wayback Machine from archive.org stores historical copies of websites.",
+            'description': (
+                "Intelligence X is an independent European technology company "
+                "founded in 2018. Its mission is to develop and maintain the "
+                "search engine and data archive.\n"
+                "The search works with selectors, i.e. specific search terms "
+                "such as email addresses, domains, URLs, IPs, CIDRs, Bitcoin "
+                "addresses, IPFS hashes, etc.\n"
+                "It searches in places such as the darknet, document sharing "
+                "platforms, whois data, public data leaks and others.\n"
+                "It keeps a historical data archive of results, "
+                "similar to how the Wayback Machine from archive.org stores "
+                "historical copies of websites."
+            ),
         }
     }
 
@@ -71,10 +77,10 @@ class sfp_intelx(SpiderFootPlugin):
         "base_url": "API URL, as provided in your IntelligenceX account settings.",
         "checkcohosts": "Check co-hosted sites?",
         "checkaffiliates": "Check affiliates?",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
         'maxage': "Maximum age (in days) of results to be considered valid. 0 = unlimited."
     }
 
@@ -223,7 +229,9 @@ class sfp_intelx(SpiderFootPlugin):
         for info in data:
             for rec in info.get("records", dict()):
                 try:
-                    last_seen = int(datetime.datetime.strptime(rec['added'].split(".")[0], '%Y-%m-%dT%H:%M:%S').strftime('%s')) * 1000
+                    dt_str = rec['added'].split(".")[0]
+                    dt = datetime.datetime.strptime(dt_str, '%Y-%m-%dT%H:%M:%S')
+                    last_seen = int(dt.strftime('%s')) * 1000
                     if self.opts['maxage'] > 0 and last_seen < agelimit:
                         self.debug("Record found but too old, skipping.")
                         continue

@@ -237,7 +237,8 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
                     self.debug(f"Ignoring {link} as no data returned")
                     continue
 
-                if re.search(r"[^a-zA-Z\-\_0-9]" + re.escape(eventData) + r"[^a-zA-Z\-\_0-9]", res['content'], re.IGNORECASE) is None:
+                pattern = r"[^a-zA-Z\-\_0-9]" + re.escape(eventData) + r"[^a-zA-Z\-\_0-9]"
+                if re.search(pattern, res['content'], re.IGNORECASE) is None:
                     continue
 
                 evt1 = SpiderFootEvent("LEAKSITE_URL", link, self.__name__, event)

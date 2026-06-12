@@ -39,10 +39,14 @@ class sfp_ipapicom(SpiderFootPlugin):
             ],
             'favIcon': "https://ipapi.com/site_images/ipapi_shortcut_icon.ico",
             'logo': "https://ipapi.com/site_images/ipapi_icon.png",
-            'description': "ipapi provides an easy-to-use API interface allowing customers "
-            "to look various pieces of information IPv4 and IPv6 addresses are associated with. "
-            "For each IP address processed, the API returns more than 45 unique data points, "
-            "such as location data, connection data, ISP information, time zone, currency and security assessment data.",
+            'description': (
+                "ipapi provides an easy-to-use API interface allowing customers "
+                "to look various pieces of information IPv4 and IPv6 addresses "
+                "are associated with. For each IP address processed, the API "
+                "returns more than 45 unique data points, such as location data, "
+                "connection data, ISP information, time zone, currency and "
+                "security assessment data."
+            ),
         }
     }
 
@@ -129,12 +133,22 @@ class sfp_ipapicom(SpiderFootPlugin):
             return
 
         if data.get('country_name'):
-            location = ', '.join(filter(None, [data.get('city'), data.get('region_name'), data.get('region_code'), data.get('country_name'), data.get('country_code')]))
+            loc_parts = filter(None, [
+                data.get('city'), data.get('region_name'),
+                data.get('region_code'), data.get('country_name'),
+                data.get('country_code')
+            ])
+            location = ', '.join(loc_parts)
             evt = SpiderFootEvent('GEOINFO', location, self.__name__, event)
             self.notifyListeners(evt)
 
             if data.get('latitude') and data.get('longitude'):
-                evt = SpiderFootEvent("PHYSICAL_COORDINATES", f"{data.get('latitude')}, {data.get('longitude')}", self.__name__, event)
+                lat = data.get('latitude')
+                lon = data.get('longitude')
+                evt = SpiderFootEvent(
+                    "PHYSICAL_COORDINATES", f"{lat}, {lon}",
+                    self.__name__, event
+                )
                 self.notifyListeners(evt)
 
             evt = SpiderFootEvent('RAW_RIR_DATA', str(data), self.__name__, event)

@@ -169,7 +169,8 @@ class sfp_grayhatwarfare(SpiderFootPlugin):
                     evt = SpiderFootEvent('CLOUD_STORAGE_BUCKET', bucketName, self.__name__, event)
                     self.notifyListeners(evt)
 
-                    evt = SpiderFootEvent('CLOUD_STORAGE_BUCKET_OPEN', f"{bucketName}: {row.get('fileCount')} files found.", self.__name__, event)
+                    bucketInfo = f"{bucketName}: {row.get('fileCount')} files found."
+                    evt = SpiderFootEvent('CLOUD_STORAGE_BUCKET_OPEN', bucketInfo, self.__name__, event)
                     self.notifyListeners(evt)
 
                     evt = SpiderFootEvent('RAW_RIR_DATA', str(row), self.__name__, event)

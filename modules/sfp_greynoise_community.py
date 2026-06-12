@@ -30,7 +30,10 @@ class sfp_greynoise_community(SpiderFootPlugin):
         "dataSource": {
             "website": "https://greynoise.io/",
             "model": "FREE_AUTH_LIMITED",
-            "references": ["https://docs.greynoise.io/reference/get_v3-community-ip", "https://viz.greynoise.io/signup"],
+            "references": [
+                "https://docs.greynoise.io/reference/get_v3-community-ip",
+                "https://viz.greynoise.io/signup"
+            ],
             "apiKeyInstructions": [
                 "Visit https://viz.greynoise.io/signup",
                 "Sign up for a free account",

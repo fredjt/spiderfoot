@@ -20,7 +20,7 @@ class sfp_hosting(SpiderFootPlugin):
 
     meta = {
         'name': "Hosting Provider Identifier",
-        'summary': "Find out if any IP addresses identified fall within known 3rd party hosting ranges, e.g. Amazon, Azure, etc.",
+        'summary': "Find IPs within known 3rd party hosting ranges (Amazon, Azure, etc.).",
         'flags': [],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Content Analysis"]

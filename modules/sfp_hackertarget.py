@@ -60,9 +60,9 @@ class sfp_hackertarget(SpiderFootPlugin):
     optdescs = {
         'cohostsamedomain': "Treat co-hosted sites on the same target domain as co-hosting?",
         'verify': "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)",
         'http_headers': "Retrieve IP HTTP headers using HackerTarget.com",
     }
 

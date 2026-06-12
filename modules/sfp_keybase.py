@@ -20,6 +20,13 @@ import urllib.request
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
 
+# Regex to extract PGP public key blocks from text
+_PGP_KEY_REGEX = (
+    r"-----BEGIN\s*PGP\s*(?:PUBLIC?)\s*KEY\s*BLOCK-----"
+    r"(.*?)"
+    r"-----END\s*PGP\s*(?:PUBLIC?)\s*KEY\s*BLOCK-----"
+)
+
 
 class sfp_keybase(SpiderFootPlugin):
 
@@ -205,7 +212,8 @@ class sfp_keybase(SpiderFootPlugin):
                 # Get and report full name of user
                 fullName = profile.get('full_name')
                 if fullName:
-                    evt = SpiderFootEvent("RAW_RIR_DATA", f"Possible full name: {fullName}", self.__name__, source_event)
+                    detail = f"Possible full name: {fullName}"
+                    evt = SpiderFootEvent("RAW_RIR_DATA", detail, self.__name__, source_event)
                     self.notifyListeners(evt)
 
                 # Get and report location of user
@@ -248,13 +256,15 @@ class sfp_keybase(SpiderFootPlugin):
                         self.notifyListeners(evt)
 
             # Extract PGP Keys
-            pgpRegex = r"-----BEGIN\s*PGP\s*(?:PUBLIC?)\s*KEY\s*BLOCK-----(.*?)-----END\s*PGP\s*(?:PUBLIC?)\s*KEY\s*BLOCK-----"
-
-            pgpKeys = re.findall(pgpRegex, str(user))
+            pgpKeys = re.findall(_PGP_KEY_REGEX, str(user))
 
             for pgpKey in pgpKeys:
                 if len(pgpKey) < 300:
-                    self.debug(f"PGP key size ({len(pgpKey)} bytes) is likely invalid (smaller than 300 bytes), skipping.")
+                    key_size = len(pgpKey)
+                    self.debug(
+                        f"PGP key size ({key_size} bytes) is likely invalid "
+                        "(smaller than 300 bytes), skipping."
+                    )
                     continue
 
                 # Remove unescaped \n literals

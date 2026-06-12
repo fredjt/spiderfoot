@@ -41,10 +41,14 @@ class sfp_jsonwhoiscom(SpiderFootPlugin):
             ],
             'favIcon': "https://jsonwhois.com/assets/fav.ico",
             'logo': "https://jsonwhois.com/assets/fav.ico",
-            'description': "Get access to accurate Whois records for generic and country TLDs. "
-            "Around 1000 gTLDs include .com, .org, .net, .us, .biz, .info, .mobi, .pro, .asia and many other new ones.\n"
-            "Raw and parsed Whois data are both accessible for downloads in the form of "
-            "MYSQL or MYSQL database dumps and Comma Separated Values (.CSV) files.",
+            'description': (
+                "Get access to accurate Whois records for generic and country TLDs. "
+                "Around 1000 gTLDs include .com, .org, .net, .us, .biz, .info, "
+                ".mobi, .pro, .asia and many other new ones.\n"
+                "Raw and parsed Whois data are both accessible for downloads "
+                "in the form of MYSQL or MYSQL database dumps and Comma Separated "
+                "Values (.CSV) files."
+            ),
         }
     }
 
@@ -228,7 +232,9 @@ class sfp_jsonwhoiscom(SpiderFootPlugin):
                 phones.append(phone)
 
             country = SpiderFootHelpers.countryNameFromCountryCode(contact.get('country_code'))
-            location = ', '.join([_f for _f in [contact.get('address'), contact.get('city'), contact.get('state'), contact.get('zip'), country] if _f])
+            loc_parts = [contact.get('address'), contact.get('city'),
+                         contact.get('state'), contact.get('zip'), country]
+            location = ', '.join([f for f in loc_parts if f])
             if location:
                 locations.append(location)
 

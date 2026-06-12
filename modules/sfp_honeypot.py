@@ -66,10 +66,10 @@ class sfp_honeypot(SpiderFootPlugin):
         'searchengine': "Include entries considered search engines?",
         'threatscore': "Threat score minimum, 0 being everything and 255 being only the most serious.",
         'timelimit': "Maximum days old an entry can be. 255 is the maximum, 0 means you'll get nothing.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)"
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)"
     }
 
     results = None
@@ -177,11 +177,12 @@ class sfp_honeypot(SpiderFootPlugin):
             return
 
         url = f"https://www.projecthoneypot.org/ip_{qaddr}"
+        detail = f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>"
 
-        evt = SpiderFootEvent(malicious_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
+        evt = SpiderFootEvent(malicious_type, detail, self.__name__, parentEvent)
         self.notifyListeners(evt)
 
-        evt = SpiderFootEvent(blacklist_type, f"ProjectHoneyPot ({qaddr}): {text}\n<SFURL>{url}</SFURL>", self.__name__, parentEvent)
+        evt = SpiderFootEvent(blacklist_type, detail, self.__name__, parentEvent)
         self.notifyListeners(evt)
 
     def handleEvent(self, event):

@@ -39,9 +39,9 @@ class sfp_leakix(SpiderFootPlugin):
             ],
             'favIcon': "https://leakix.net/public/img/favicon.png",
             'logo': "https://leakix.net/public/img/logoleakix-v1.png",
-            'description': "LeakIX provides insights into devices and servers that are compromised "
-            "and compromised database schemas online.\n"
-            "In this scope we inspect found services for weak credentials.",
+            'description': "LeakIX provides insights into compromised devices, "
+            "servers, and database schemas online.\n"
+            "Inspects found services for weak credentials.",
         }
     }
 
@@ -176,8 +176,15 @@ class sfp_leakix(SpiderFootPlugin):
                     src = event
                     ipevt = None
                     hostname = service.get('host')
-                    if hostname and eventName == "DOMAIN_NAME" and self.getTarget().matches(hostname) and hostname not in hosts:
-                        if self.opts["verify"] and not self.sf.resolveHost(hostname) and not self.sf.resolveHost6(hostname):
+                    target_matches = (
+                        hostname and eventName == "DOMAIN_NAME"
+                        and self.getTarget().matches(hostname)
+                        and hostname not in hosts
+                    )
+                    if target_matches:
+                        if (self.opts["verify"]
+                                and not self.sf.resolveHost(hostname)
+                                and not self.sf.resolveHost6(hostname)):
                             self.debug(f"Host {hostname} could not be resolved")
                             evt = SpiderFootEvent("INTERNET_NAME_UNRESOLVED", hostname, self.__name__, event)
                         else:
@@ -208,7 +215,8 @@ class sfp_leakix(SpiderFootPlugin):
 
                     geoip = service.get('geoip')
                     if geoip:
-                        location = ', '.join([_f for _f in [geoip.get('city_name'), geoip.get('region_name'), geoip.get('country_name')] if _f])
+                        geo_fields = [geoip.get('city_name'), geoip.get('region_name'), geoip.get('country_name')]
+                        location = ', '.join([_f for _f in geo_fields if _f])
                         if location:
                             if ip and self.sf.validIP(ip) and ipevt:
                                 # GEOINFO should be linked to an IP_ADDRESS
@@ -218,7 +226,8 @@ class sfp_leakix(SpiderFootPlugin):
 
                     software = service.get('software')
                     if software:
-                        software_version = ' '.join([_f for _f in [software.get('name'), software.get('version')] if _f])
+                        sw_fields = [software.get('name'), software.get('version')]
+                        software_version = ' '.join([_f for _f in sw_fields if _f])
                         if software_version and software_version not in softwares:
                             evt = SpiderFootEvent("SOFTWARE_USED", software_version, self.__name__, src)
                             self.notifyListeners(evt)
@@ -238,7 +247,10 @@ class sfp_leakix(SpiderFootPlugin):
                     hostname = leak.get('host')
                     # If protocol is web, our hostname not empty and is not an IP ,
                     # and doesn't belong to our target, discard ( happens when sharing Hosting/CDN IPs )
-                    if leak_protocol == "web" and hostname and not self.sf.validIP(hostname) and not self.getTarget().matches(hostname):
+                    if (leak_protocol == "web"
+                            and hostname
+                            and not self.sf.validIP(hostname)
+                            and not self.getTarget().matches(hostname)):
                         continue
                     leak_data = leak.get('data')
                     if leak_data:
