@@ -36,9 +36,9 @@ class sfp_quad9(SpiderFootPlugin):
             'description': "Quad9 brings together cyber threat intelligence about malicious domains "
             "from a variety of public and private sources and blocks access "
             "to those malicious domains when your system attempts to contact them.\n"
-            "When you use Quad9, attackers and malware cannot leverage the known malicious domains to control your systems, "
+            "Quad9 prevents attackers from leveraging malicious domains to control your systems, "
             "and their ability to steal your data or cause harm will be hindered. "
-            "Quad9 is an effective and easy way to add an additional layer of security to your infrastructure for free.",
+            "Quad9 adds an extra layer of security to your infrastructure for free.",
         }
     }
 

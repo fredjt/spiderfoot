@@ -42,9 +42,8 @@ class sfp_opencorporates(SpiderFootPlugin):
             'favIcon': "https://opencorporates.com/assets/favicons/favicon.png",
             'logo': "https://opencorporates.com/contents/ui/theme/img/oc-logo.svg",
             'description': "The largest open database of companies in the world.\n"
-            "As the largest, open database of companies in the world, "
-            "our business is making high-quality, official company data openly available. "
-            "Data that can be trusted, accessed, analysed and interrogated when and how it’s needed.",
+            "Making high-quality, official company data openly available. "
+            "Data that can be trusted, accessed, and analysed.",
         }
     }
 
@@ -209,7 +208,10 @@ class sfp_opencorporates(SpiderFootPlugin):
         self.debug(f"Received event, {eventName}, from {srcModuleName}")
 
         if self.opts['api_key'] == '':
-            self.error(f"Warning: You enabled {self.__class__.__name__} but did not set an API key! Queries will be limited to 50 per day and 200 per month.")
+            self.error(
+                f"Warning: {self.__class__.__name__} API key not set. "
+                "Queries limited to 50/day, 200/month."
+            )
 
         res = self.searchCompany(f"{eventData}*")
 

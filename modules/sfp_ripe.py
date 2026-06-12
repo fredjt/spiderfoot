@@ -32,7 +32,7 @@ class sfp_ripe(SpiderFootPlugin):
                 "https://www.ripe.net/publications/ipv6-info-centre/training-and-materials",
                 "https://www.ripe.net/publications/ipv6-info-centre/ipv6-documents",
                 "https://www.ripe.net/manage-ips-and-asns/db/support/documentation/ripe-database-documentation",
-                "https://www.ripe.net/manage-ips-and-asns/db/support/documentation/ripe-database-documentation/updating-objects-in-the-ripe-database/6-1-restful-api"
+                "https://www.ripe.net/manage-ips-and-asns/db/support/"
             ],
             'favIcon': "https://www.ripe.net/favicon.ico",
             'logo': "https://www.ripe.net/++resource++ripe.plonetheme.images/RIPE_NCC_logo.png",

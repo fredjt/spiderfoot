@@ -43,10 +43,11 @@ class sfp_numverify(SpiderFootPlugin):
             'favIcon': "https://numverify.com/images/icons/numverify_shortcut_icon.ico",
             'logo': "https://numverify.com/images/logos/numverify_header.png",
             'description': "Global Phone Number Validation & Lookup JSON API.\n"
-            "NumVerify offers a full-featured yet simple RESTful JSON API for "
-            "national and international phone number validation and information lookup for a total of 232 countries around the world.\n"
-            "Requested numbers are processed in real-time, cross-checked with the latest international numbering plan databases "
-            "and returned in handy JSON format enriched with useful carrier, geographical location and line type data.",
+            "NumVerify offers a RESTful JSON API for "
+            "phone number validation and lookup across 232 countries.\n"
+            "Numbers are processed in real-time, cross-checked with "
+            "international databases and returned in JSON format "
+            "with carrier, location, and line type data.",
         }
     }
 

@@ -22,7 +22,7 @@ class sfp_s3bucket(SpiderFootPlugin):
 
     meta = {
         'name': "Amazon S3 Bucket Finder",
-        'summary': "Search for potential Amazon S3 buckets associated with the target and attempt to list their contents.",
+        'summary': "Search for S3 buckets associated with the target and list their contents.",
         'flags': [],
         'useCases': ["Footprint", "Passive"],
         'categories': ["Crawling and Scanning"],
@@ -31,21 +31,34 @@ class sfp_s3bucket(SpiderFootPlugin):
             'model': "FREE_NOAUTH_UNLIMITED",
             'favIcon': 'https://a0.awsstatic.com/libra-css/images/site/fav/favicon.ico',
             'logo': 'https://a0.awsstatic.com/libra-css/images/site/touch-icon-ipad-144-smile.png',
-            'description': "Amazon S3 is cloud object storage with industry-leading scalability, data availability, security, and performance. "
-            "S3 is ideal for data lakes, mobile applications, backup and restore, archival, IoT devices, ML, AI, and analytics."
+            'description': "Amazon S3 is cloud object storage with industry-leading scalability and security. "
+            "S3 is ideal for data lakes, mobile apps, backup, IoT devices, and analytics."
         }
     }
 
     # Default options
     opts = {
-        "endpoints": "s3.amazonaws.com,s3-external-1.amazonaws.com,s3-us-west-1.amazonaws.com,s3-us-west-2.amazonaws.com,s3.ap-south-1.amazonaws.com,s3-ap-south-1.amazonaws.com,s3.ap-northeast-2.amazonaws.com,s3-ap-northeast-2.amazonaws.com,s3-ap-southeast-1.amazonaws.com,s3-ap-southeast-2.amazonaws.com,s3-ap-northeast-1.amazonaws.com,s3.eu-central-1.amazonaws.com,s3-eu-central-1.amazonaws.com,s3-eu-west-1.amazonaws.com,s3-sa-east-1.amazonaws.com",
-        "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+        "endpoints": (
+            "s3.amazonaws.com,s3-external-1.amazonaws.com,"
+            "s3-us-west-1.amazonaws.com,s3-us-west-2.amazonaws.com,"
+            "s3.ap-south-1.amazonaws.com,s3-ap-south-1.amazonaws.com,"
+            "s3.ap-northeast-2.amazonaws.com,s3-ap-northeast-2.amazonaws.com,"
+            "s3-ap-southeast-1.amazonaws.com,s3-ap-southeast-2.amazonaws.com,"
+            "s3-ap-northeast-1.amazonaws.com,s3.eu-central-1.amazonaws.com,"
+            "s3-eu-central-1.amazonaws.com,s3-eu-west-1.amazonaws.com,"
+            "s3-sa-east-1.amazonaws.com"
+        ),
+        "suffixes": (
+            "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,"
+            "app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,"
+            "-data,-prod,-staging,-production,-stage,-app,-media,-development"
+        ),
         "_maxthreads": 20
     }
 
     # Option descriptions
     optdescs = {
-        "endpoints": "Different S3 endpoints to check where buckets may exist, as per http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region",
+        "endpoints": "S3 endpoints to check for bucket existence.",
         "suffixes": "List of suffixes to append to domains tried as bucket names",
         "_maxthreads": "Maximum threads"
     }

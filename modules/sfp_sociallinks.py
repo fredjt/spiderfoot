@@ -36,8 +36,8 @@ class sfp_sociallinks(SpiderFootPlugin):
             ],
             'favIcon': "https://static.tildacdn.com/tild6563-6633-4533-b362-663333656461/favicon.ico",
             'logo': "https://static.tildacdn.com/tild3935-6136-4330-b561-643034663032/LogoSL.svg",
-            'description': "Social Links provides instruments for OSINT methods "
-            "that are used by the world's leading investigation and law enforcement agencies",
+            'description': "Social Links provides OSINT tools for investigation "
+            "and law enforcement agencies",
         }
     }
 
@@ -167,7 +167,10 @@ class sfp_sociallinks(SpiderFootPlugin):
             resultSet = data.get('result')
             if resultSet:
                 if resultSet.get('first_name') and resultSet.get('last_name'):
-                    evt = SpiderFootEvent("HUMAN_NAME", f"{resultSet.get('first_name')} {resultSet.get('last_name')}", self.__name__, event)
+                    name = f"{resultSet.get('first_name')} {resultSet.get('last_name')}"
+                    evt = SpiderFootEvent(
+                        "HUMAN_NAME", name, self.__name__, event
+                    )
                     self.notifyListeners(evt)
                 if resultSet.get('username'):
                     evt = SpiderFootEvent("USERNAME", resultSet.get('username'), self.__name__, event)
@@ -184,7 +187,10 @@ class sfp_sociallinks(SpiderFootPlugin):
             resultSet = data.get('result')
             if resultSet:
                 if resultSet.get('first_name') and resultSet.get('last_name'):
-                    evt = SpiderFootEvent("HUMAN_NAME", f"{resultSet.get('first_name')} {resultSet.get('last_name')}", self.__name__, event)
+                    name = f"{resultSet.get('first_name')} {resultSet.get('last_name')}"
+                    evt = SpiderFootEvent(
+                        "HUMAN_NAME", name, self.__name__, event
+                    )
                     self.notifyListeners(evt)
                 if resultSet.get('phone_number'):
                     evt = SpiderFootEvent("PHONE_NUMBER", resultSet.get('phone_number'), self.__name__, event)
@@ -208,7 +214,12 @@ class sfp_sociallinks(SpiderFootPlugin):
                     if resultSet.get('location').get('_content'):
                         geoInfos.add(resultSet.get('location').get('_content'))
                     if resultSet.get('profileurl').get('_content'):
-                        evt = SpiderFootEvent("SOCIAL_MEDIA", f"Flickr: <SFURL>{resultSet.get('profileurl').get('_content')}</SFURL>", self.__name__, event)
+                        profileUrl = resultSet.get('profileurl').get('_content')
+                        evt = SpiderFootEvent(
+                            "SOCIAL_MEDIA",
+                            f"Flickr: <SFURL>{profileUrl}</SFURL>",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
 
                     evt = SpiderFootEvent('RAW_RIR_DATA', str(resultSet), self.__name__, event)
@@ -224,7 +235,12 @@ class sfp_sociallinks(SpiderFootPlugin):
                     if resultSet.get('name'):
                         humanNames.add(resultSet.get('name'))
                     if resultSet.get('skypeId'):
-                        evt = SpiderFootEvent("ACCOUNT_EXTERNAL_OWNED", f"Skype [{resultSet.get('skypeId')}]", self.__name__, event)
+                        skypeId = resultSet.get('skypeId')
+                        evt = SpiderFootEvent(
+                            "ACCOUNT_EXTERNAL_OWNED",
+                            f"Skype [{skypeId}]",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
                         evt = SpiderFootEvent("USERNAME", resultSet.get('skypeId'), self.__name__, event)
                         self.notifyListeners(evt)
@@ -252,7 +268,12 @@ class sfp_sociallinks(SpiderFootPlugin):
                         evt = SpiderFootEvent("JOB_TITLE", resultSet.get('headline'), self.__name__, event)
                         self.notifyListeners(evt)
 
-                    evt = SpiderFootEvent("SOCIAL_MEDIA", f"LinkedIn: <SFURL>{resultSet.get('linkedInUrl')}</SFURL>", self.__name__, event)
+                    linkedInUrl = resultSet.get('linkedInUrl')
+                    evt = SpiderFootEvent(
+                        "SOCIAL_MEDIA",
+                        f"LinkedIn: <SFURL>{linkedInUrl}</SFURL>",
+                        self.__name__, event
+                    )
                     self.notifyListeners(evt)
 
                     evt = SpiderFootEvent('RAW_RIR_DATA', str(resultSet), self.__name__, event)

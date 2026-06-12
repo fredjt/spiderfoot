@@ -36,7 +36,7 @@ class sfp_phishstats(SpiderFootPlugin):
                 "https://phishstats.info/#apidoc"
             ],
             'favIcon': "https://phishstats.info/phish.ico",
-            'description': "PhishStats is a real time Phishing database that gathers phishing URLs from several sources.",
+            'description': "PhishStats is a real-time Phishing database gathering URLs from several sources.",
         }
     }
 
@@ -50,10 +50,10 @@ class sfp_phishstats(SpiderFootPlugin):
 
     optdescs = {
         'checkaffiliates': "Apply checks to affiliates?",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of for blacklisting?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
     }
 
     results = None

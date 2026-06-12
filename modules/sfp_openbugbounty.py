@@ -18,7 +18,7 @@ class sfp_openbugbounty(SpiderFootPlugin):
 
     meta = {
         'name': "Open Bug Bounty",
-        'summary': "Check external vulnerability scanning/reporting service openbugbounty.org to see if the target is listed.",
+        'summary': "Check openbugbounty.org to see if the target is listed.",
         'flags': [],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Leaks, Dumps and Breaches"],
@@ -30,7 +30,7 @@ class sfp_openbugbounty(SpiderFootPlugin):
             ],
             'favIcon': "https://www.openbugbounty.org/favicon.ico",
             'logo': "https://www.openbugbounty.org/images/design/logo-obbnew.svg",
-            'description': "Open Bug Bounty is an open, disintermediated, cost-free, and community-driven bug bounty platform "
+            'description': "Open Bug Bounty is an open, cost-free, community-driven bug bounty platform "
             "for coordinated, responsible and ISO 29147 compatible vulnerability disclosure.\n"
             "The role of Open Bug Bounty is limited to independent verification of the "
             "submitted vulnerabilities and proper notification of website owners by all available means. "

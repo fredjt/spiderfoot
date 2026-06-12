@@ -59,7 +59,7 @@ class sfp_securitytrails(SpiderFootPlugin):
         "api_key": "SecurityTrails API key.",
         "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)"
     }
 
     # Be sure to completely clear any class variables in setup()
@@ -113,7 +113,7 @@ class sfp_securitytrails(SpiderFootPlugin):
                                postData=request)
 
         if res['code'] in ["400", "429", "500", "403"]:
-            self.error("SecurityTrails API key seems to have been rejected or you have exceeded usage limits for the month.")
+            self.error("SecurityTrails API key rejected or limit exceeded.")
             self.errorState = True
             return None
 

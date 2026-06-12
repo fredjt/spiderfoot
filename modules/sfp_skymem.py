@@ -77,7 +77,11 @@ class sfp_skymem(SpiderFootPlugin):
         self.debug(f"Received event, {eventName}, from {srcModuleName}")
 
         # Get e-mail addresses on this domain
-        res = self.sf.fetchUrl("http://www.skymem.info/srch?q=" + eventData, timeout=self.opts['_fetchtimeout'], useragent=self.opts['_useragent'])
+        url = "http://www.skymem.info/srch?q=" + eventData
+        res = self.sf.fetchUrl(
+            url, timeout=self.opts['_fetchtimeout'],
+            useragent=self.opts['_useragent']
+        )
 
         if res['content'] is None:
             return

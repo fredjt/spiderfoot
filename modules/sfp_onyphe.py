@@ -37,16 +37,12 @@ class sfp_onyphe(SpiderFootPlugin):
                 "Go to your account settings https://www.onyphe.io/auth/account",
                 "The API key is listed under 'API Key'",
             ],
-            "favIcon": "https://www.onyphe.io/favicon.ico",
-            "logo": "https://www.onyphe.io/img/logo-solo.png",
+            "favIcon": "https://www.onyphe.io/favicon.png",
+            "logo": "https://www.onyphe.io/logo.png",
             "description": "ONYPHE is a search engine for open-source "
-            "and cyber threat intelligence data collected by crawling "
-            "various sources available on the Internet or by listening "
-            "to Internet background noise. They make this data available "
-            "through API that we use. We check their data to see following "
-            "information about the IP: geo-location, does it have some "
-            "vulnerabilities, is it on some pastries (PasteBin) and "
-            "is it on their threat list",
+            "and cyber threat intelligence data. We check IPs for "
+            "geo-location, vulnerabilities, PasteBin leaks, "
+            "and threat list presence.",
         },
     }
 
@@ -62,10 +58,10 @@ class sfp_onyphe(SpiderFootPlugin):
     optdescs = {
         "api_key": "Onyphe access token.",
         "paid_plan": "Are you using paid plan? Paid plan has pagination enabled",
-        "max_page": "Maximum number of pages to iterate through. Onyphe has a maximum of 1000 pages (10,000 results). Only matters for paid plans",
+        "max_page": "Maximum pages (Onyphe caps at 1000 pages / 10,000 results). Paid plans only.",
         "verify": "Verify identified domains still resolve to the associated specified IP address.",
         "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
-        "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        "maxcohost": "Stop reporting co-hosted sites after this many (likely web hosting)",
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
     }
 
@@ -129,7 +125,7 @@ class sfp_onyphe(SpiderFootPlugin):
             info = json.loads(res["content"])
             if "status" in info and info["status"] == "nok":
                 self.error(
-                    f"Unexpected error happened while requesting data from Onyphe. Error message: {info.get('text', '')}"
+                    f"Unexpected Onyphe error: {info.get('text', '')}"
                 )
                 self.errorState = True
                 return None
@@ -166,7 +162,7 @@ class sfp_onyphe(SpiderFootPlugin):
 
         except ValueError:
             self.error(
-                f"Unexpected value for page in response from Onyphe, url: https://www.onyphe.io/api/v2/simple/{endpoint}/{ip}?page={page}"
+                f"Unexpected page value for {endpoint}/{ip} (page={page})"
             )
             self.errorState = True
             return None

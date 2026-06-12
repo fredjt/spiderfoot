@@ -28,7 +28,9 @@ class sfp_nameapi(SpiderFootPlugin):
             'website': "https://www.nameapi.org/",
             'model': "FREE_AUTH_LIMITED",
             'references': [
-                "https://www.nameapi.org/en/developer/manuals/rest-web-services/53/web-services/disposable-email-address-detector/"
+                "https://www.nameapi.org/en/developer/manuals/"
+                "rest-web-services/53/web-services/"
+                "disposable-email-address-detector/"
             ],
             'apiKeyInstructions': [
                 "Visit https://nameapi.org",
@@ -76,7 +78,9 @@ class sfp_nameapi(SpiderFootPlugin):
 
     def queryEmailAddr(self, qry):
         res = self.sf.fetchUrl(
-            f"http://api.nameapi.org/rest/v5.3/email/disposableemailaddressdetector?apiKey={self.opts['api_key']}&emailAddress={qry}",
+            f"http://api.nameapi.org/rest/v5.3/email/"
+            f"disposableemailaddressdetector"
+            f"?apiKey={self.opts['api_key']}&emailAddress={qry}",
             timeout=self.opts['_fetchtimeout'],
             useragent="SpiderFoot"
         )

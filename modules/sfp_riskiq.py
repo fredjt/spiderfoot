@@ -63,7 +63,7 @@ class sfp_riskiq(SpiderFootPlugin):
         "api_key_password": "RiskIQ API Key.",
         "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)"
     }
 
     # Be sure to completely clear any class variables in setup()

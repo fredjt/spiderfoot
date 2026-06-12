@@ -27,8 +27,9 @@ class sfp_reversewhois(SpiderFootPlugin):
         "dataSource": {
             "website": "https://www.reversewhois.io/",
             "model": "FREE_NOAUTH_UNLIMITED",
-            "favIcon": "https://www.reversewhois.io/dist/img/favicon-32x32.png",
-            "description": "ReverseWhois is a free search engine to find domain names owned by an individual or company.\n"
+            "favIcon": "https://www.reversewhois.io/favicon.png",
+            "description": "ReverseWhois is a free search engine to "
+            "find domain names owned by an individual or company.\n"
             "Search based on names or email addresses.",
         }
     }

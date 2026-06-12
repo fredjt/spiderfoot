@@ -20,7 +20,7 @@ class sfp_seon(SpiderFootPlugin):
 
     meta = {
         'name': "Seon",
-        'summary': "Queries seon.io to gather intelligence about IP Addresses, email addresses, and phone numbers",
+        'summary': "Query seon.io for intelligence on IPs, emails, and phone numbers",
         'flags': ["apikey"],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Real World"],
@@ -38,8 +38,8 @@ class sfp_seon(SpiderFootPlugin):
             ],
             'favIcon': "https://seon.io/assets/favicons/favicon-16x16.png",
             'logo': "https://seon.io/assets/favicons/apple-touch-icon-152.png",
-            'description': "SEON Fraud Prevention tools help organisations reduce "
-            "the costs and resources lost to fraud. Spot fake accounts, slash manual reviews and cut chargebacks now.",
+            'description': "SEON Fraud Prevention reduces fraud costs and resources. "
+            "Spot fake accounts, slash manual reviews and cut chargebacks.",
         }
     }
 
@@ -169,45 +169,74 @@ class sfp_seon(SpiderFootPlugin):
                     dataFound = True
 
                     if resultSet.get('tor'):
-                        evt = SpiderFootEvent("WEBSERVER_TECHNOLOGY", f"Server is TOR node: {resultSet.get('tor')}", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            "WEBSERVER_TECHNOLOGY",
+                            f"Server is TOR node: {resultSet.get('tor')}",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
 
                         evt = SpiderFootEvent("TOR_EXIT_NODE", eventData, self.__name__, event)
                         self.notifyListeners(evt)
 
                     if resultSet.get('vpn'):
-                        evt = SpiderFootEvent("WEBSERVER_TECHNOLOGY", f"Server is VPN: {resultSet.get('vpn')}", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            "WEBSERVER_TECHNOLOGY",
+                            f"Server is VPN: {resultSet.get('vpn')}",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
 
                         evt = SpiderFootEvent("VPN_HOST", eventData, self.__name__, event)
                         self.notifyListeners(evt)
 
                     if resultSet.get('web_proxy'):
-                        evt = SpiderFootEvent("WEBSERVER_TECHNOLOGY", f"Server is Web Proxy: {resultSet.get('web_proxy')}", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            "WEBSERVER_TECHNOLOGY",
+                            f"Server is Web Proxy: {resultSet.get('web_proxy')}",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
 
                         evt = SpiderFootEvent("PROXY_HOST", eventData, self.__name__, event)
                         self.notifyListeners(evt)
 
                     if resultSet.get('public_proxy'):
-                        evt = SpiderFootEvent("WEBSERVER_TECHNOLOGY", f"Server is Public Proxy: {resultSet.get('public_proxy')}", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            "WEBSERVER_TECHNOLOGY",
+                            f"Server is Public Proxy: {resultSet.get('public_proxy')}",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
 
                         evt = SpiderFootEvent("PROXY_HOST", eventData, self.__name__, event)
                         self.notifyListeners(evt)
 
                 if resultSet.get('country'):
-                    location = ', '.join(filter(None, [resultSet.get('city'), resultSet.get('state_prov'), resultSet.get('country')]))
+                    parts = filter(None, [
+                        resultSet.get('city'),
+                        resultSet.get('state_prov'),
+                        resultSet.get('country'),
+                    ])
+                    location = ', '.join(parts)
                     evt = SpiderFootEvent('GEOINFO', location, self.__name__, event)
                     self.notifyListeners(evt)
 
-                    evt = SpiderFootEvent('PHYSICAL_COORDINATES', f"{resultSet.get('latitude')}, {resultSet.get('longitude')}", self.__name__, event)
+                    evt = SpiderFootEvent(
+                        'PHYSICAL_COORDINATES',
+                        f"{resultSet.get('latitude')}, {resultSet.get('longitude')}",
+                        self.__name__, event
+                    )
                     self.notifyListeners(evt)
                     dataFound = True
 
                 if resultSet.get('open_ports'):
                     for port in resultSet.get('open_ports'):
-                        evt = SpiderFootEvent('TCP_PORT_OPEN', f"{eventData}:{port}", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            'TCP_PORT_OPEN',
+                            f"{eventData}:{port}",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
                         dataFound = True
 
@@ -248,7 +277,12 @@ class sfp_seon(SpiderFootPlugin):
                     for site in socialMediaList:
                         if resultSet.get('account_details').get(site):
                             if resultSet.get('account_details').get(site).get('url'):
-                                evt = SpiderFootEvent("SOCIAL_MEDIA", f"{site}: <SFURL>{resultSet.get('account_details').get(site).get('url')}</SFURL>", self.__name__, event)
+                                socialUrl = resultSet.get('account_details').get(site).get('url')
+                                evt = SpiderFootEvent(
+                                    "SOCIAL_MEDIA",
+                                    f"{site}: <SFURL>{socialUrl}</SFURL>",
+                                    self.__name__, event
+                                )
                                 self.notifyListeners(evt)
                             elif resultSet.get('account_details').get(site).get('registered'):
                                 evt = SpiderFootEvent("SOCIAL_MEDIA", f"Registered on {site}", self.__name__, event)
@@ -257,19 +291,25 @@ class sfp_seon(SpiderFootPlugin):
 
                             if site == 'linkedin':
                                 if resultSet.get('account_details').get(site).get('company'):
-                                    evt = SpiderFootEvent("COMPANY_NAME", resultSet.get('account_details').get(site).get('company'), self.__name__, event)
+                                    company = resultSet.get('account_details').get(site).get('company')
+                                    evt = SpiderFootEvent("COMPANY_NAME", company, self.__name__, event)
                                     self.notifyListeners(evt)
                                     dataFound = True
 
                                 if resultSet.get('account_details').get(site).get('name'):
-                                    evt = SpiderFootEvent("HUMAN_NAME", resultSet.get('account_details').get(site).get('name'), self.__name__, event)
+                                    name = resultSet.get('account_details').get(site).get('name')
+                                    evt = SpiderFootEvent("HUMAN_NAME", name, self.__name__, event)
                                     self.notifyListeners(evt)
                                     dataFound = True
 
                 if resultSet.get('breach_details').get('breaches'):
                     breachList = resultSet.get('breach_details').get('breaches')
                     for breachSet in breachList:
-                        evt = SpiderFootEvent("EMAILADDR_COMPROMISED", f"{eventData} [{breachSet.get('name', 'Unknown')}]", self.__name__, event)
+                        evt = SpiderFootEvent(
+                            "EMAILADDR_COMPROMISED",
+                            f"{eventData} [{breachSet.get('name', 'Unknown')}]",
+                            self.__name__, event
+                        )
                         self.notifyListeners(evt)
                         dataFound = True
 

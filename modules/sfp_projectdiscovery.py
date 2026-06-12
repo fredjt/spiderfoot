@@ -138,8 +138,10 @@ class sfp_projectdiscovery(SpiderFootPlugin):
             if subdomain in resultsSet:
                 continue
             completeSubdomain = f"{subdomain}.{eventData}"
-            if self.opts["verify"] and not self.sf.resolveHost(completeSubdomain) and not self.sf.resolveHost6(completeSubdomain):
-                self.debug(f"Host {completeSubdomain} could not be resolved")
+            if self.opts["verify"]:
+                if (not self.sf.resolveHost(completeSubdomain)
+                        and not self.sf.resolveHost6(completeSubdomain)):
+                    self.debug(f"Host {completeSubdomain} could not be resolved")
                 evt = SpiderFootEvent(
                     "INTERNET_NAME_UNRESOLVED", completeSubdomain, self.__name__, event
                 )

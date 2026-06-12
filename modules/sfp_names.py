@@ -34,9 +34,9 @@ class sfp_names(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        'algolimit': "A value between 0-100 to tune the sensitivity of the name finder. Less than 40 will give you a lot of junk, over 50 and you'll probably miss things but will have less false positives.",
+        'algolimit': "Sensitivity 0-100. Below 40 gives junk, above 50 misses names but reduces false positives.",
         'emailtoname': "Convert e-mail addresses in the form of firstname.surname@target to names?",
-        'filterjscss': "Filter out names that originated from CSS/JS content. Enabling this avoids detection of popular Javascript and web framework author names."
+        'filterjscss': "Filter names from CSS/JS content to avoid false positives for framework authors."
     }
 
     results = None
@@ -131,7 +131,10 @@ class sfp_names(SpiderFootPlugin):
 
             # If both words are not in the dictionary, add 75 points.
             if first not in self.d and second not in self.d:
-                self.debug(f"Both first and second names are not in the dictionary, so high chance of name: ({first}:{second}).")
+                self.debug(
+                    f"Both names not in dictionary, high chance of name: "
+                    f"({first}:{second})."
+                )
                 p += 75
                 notindict = True
             else:

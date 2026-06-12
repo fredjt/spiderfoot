@@ -100,7 +100,10 @@ class sfp_multiproxy(SpiderFootPlugin):
             netblock = IPNetwork(target)
             for ip in proxy_list:
                 if IPAddress(ip) in netblock:
-                    self.debug(f"IP address {ip} found within netblock/subnet {target} in multiproxy.org open proxy list.")
+                    self.debug(
+                        f"IP address {ip} found within netblock/subnet "
+                        f"{target} in multiproxy.org open proxy list."
+                    )
                     return True
 
         return False

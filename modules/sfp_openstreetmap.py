@@ -38,7 +38,7 @@ class sfp_openstreetmap(SpiderFootPlugin):
             ],
             'favIcon': "https://www.openstreetmap.org/assets/osm_logo-b7061f13a03615f787a7e0e56a0db5252eb2a217ab063183e78526a8cc10989b.svg",
             'logo': "https://www.openstreetmap.org/assets/osm_logo-b7061f13a03615f787a7e0e56a0db5252eb2a217ab063183e78526a8cc10989b.svg",
-            'description': "OpenStreetMap powers map data on thousands of web sites, mobile apps, and hardware devices.",
+            'description': "OpenStreetMap powers map data on thousands of websites, apps, and devices.",
         }
     }
 

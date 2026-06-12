@@ -36,18 +36,22 @@ class sfp_pgp(SpiderFootPlugin):
 
     opts = {
         'retrieve_keys': True,
-        'keyserver_search1': "https://keyserver.ubuntu.com/pks/lookup?fingerprint=on&op=vindex&search=",
-        'keyserver_fetch1': "https://keyserver.ubuntu.com/pks/lookup?op=get&search=",
-        'keyserver_search2': "http://the.earth.li:11371/pks/lookup?fingerprint=on&op=vindex&search=",
-        'keyserver_fetch2': "http://the.earth.li:11371/pks/lookup?op=get&search="
+        'keyserver_search1': "https://keyserver.ubuntu.com/pks/lookup"
+              "?fingerprint=on&op=vindex&search=",
+        'keyserver_fetch1': "https://keyserver.ubuntu.com/pks/lookup"
+             "?op=get&search=",
+        'keyserver_search2': "http://the.earth.li:11371/pks/lookup"
+              "?fingerprint=on&op=vindex&search=",
+        'keyserver_fetch2': "http://the.earth.li:11371/pks/lookup"
+             "?op=get&search="
     }
 
     optdescs = {
         'retrieve_keys': "Retrieve PGP keys.",
-        'keyserver_search1': "PGP public key server URL to find e-mail addresses on a domain. Domain will get appended.",
-        'keyserver_fetch1': "PGP public key server URL to find the public key for an e-mail address. Email address will get appended.",
-        'keyserver_search2': "Backup PGP public key server URL to find e-mail addresses on a domain. Domain will get appended.",
-        'keyserver_fetch2': "Backup PGP public key server URL to find the public key for an e-mail address. Email address will get appended."
+        'keyserver_search1': "PGP key server URL to find e-mail addresses on a domain.",
+        'keyserver_fetch1': "URL to fetch PGP key for an email address.",
+        'keyserver_search2': "Backup: PGP key server URL to find e-mail addresses.",
+        'keyserver_fetch2': "Backup: URL to fetch PGP key for an email address."
     }
 
     def setup(self, sfc, userOpts=dict()):
