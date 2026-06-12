@@ -22,7 +22,7 @@ class sfp_spyonweb(SpiderFootPlugin):
 
     meta = {
         'name': "SpyOnWeb",
-        'summary': "Search SpyOnWeb for hosts sharing the same IP address, Google Analytics code, or Google Adsense code.",
+        'summary': "Search SpyOnWeb for hosts sharing the same IP, Google Analytics, or Adsense code.",
         'flags': ["apikey"],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Passive DNS"],
@@ -41,7 +41,7 @@ class sfp_spyonweb(SpiderFootPlugin):
             ],
             'favIcon': "http://spyonweb.com/favicon.ico",
             'logo': "http://spyonweb.com/favicon.ico",
-            'description': "We take the information from public sources, then structure it for your quick and convenient search "
+            'description': "We structure public source information for quick and convenient search "
             "for the websites that probably belong to the same owner.",
         }
     }
@@ -65,7 +65,7 @@ class sfp_spyonweb(SpiderFootPlugin):
         'maxage': "The maximum age of the data returned, in days, in order to be considered valid.",
         'verify': "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
         'cohostsamedomain': "Treat co-hosted sites on the same target domain as co-hosting?",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)",
     }
 
     cohostcount = 0

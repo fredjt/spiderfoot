@@ -31,8 +31,8 @@ class sfp_talosintel(SpiderFootPlugin):
                 "https://talosintelligence.com/vulnerability_info",
                 "https://talosintelligence.com/reputation"
             ],
-            'favIcon': "https://talosintelligence.com/assets/favicons/favicon-49c9b25776778ff43873cf5ebde2e1ffcd0747ad1042ac5a5306cdde3ffca8cd.ico",
-            'logo': "https://talosintelligence.com/assets/favicons/favicon-49c9b25776778ff43873cf5ebde2e1ffcd0747ad1042ac5a5306cdde3ffca8cd.ico",
+            'favIcon': "https://talosintelligence.com/favicon.ico",
+            'logo': "https://talosintelligence.com/favicon.ico",
             'description': "Cisco Talos Incident Response provides a full suite of proactive and reactive services "
             "to help you prepare, respond and recover from a breach. "
             "With Talos IR, you have direct access to the same threat intelligence available "
@@ -104,7 +104,7 @@ class sfp_talosintel(SpiderFootPlugin):
             netblock = IPNetwork(target)
             for ip in blacklist:
                 if IPAddress(ip) in netblock:
-                    self.debug(f"IP address {ip} found within netblock/subnet {target} in Talos Intelligence blacklist.")
+                    self.debug(f"IP {ip} found in Talos blacklist netblock {target}.")
                     return True
 
         return False

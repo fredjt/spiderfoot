@@ -120,7 +120,10 @@ class sfp_subdomain_takeover(SpiderFootPlugin):
                         for fingerprint in fingerprints:
                             if fingerprint in res['content']:
                                 self.info(f"{eventData} appears to be vulnerable to takeover on {service}")
-                                evt = SpiderFootEvent("AFFILIATE_INTERNET_NAME_HIJACKABLE", eventData, self.__name__, event)
+                                evt = SpiderFootEvent(
+                                    "AFFILIATE_INTERNET_NAME_HIJACKABLE",
+                                    eventData, self.__name__, event
+                                )
                                 self.notifyListeners(evt)
                                 break
 

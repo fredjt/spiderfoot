@@ -53,7 +53,7 @@ class sfp_spider(SpiderFootPlugin):
         'pausesec': "Number of seconds to pause between page fetches.",
         'start': "Prepend targets with these until you get a hit, to start spidering.",
         'maxpages': "Maximum number of pages to fetch per starting point identified.",
-        'maxlevels': "Maximum levels to traverse per starting point (e.g. hostname or link identified by another module) identified.",
+        'maxlevels': "Maximum traversal levels per starting point (hostname or link).",
         'filterfiles': "File extensions to ignore (don't fetch them.)",
         'filtermime': "MIME types to ignore.",
         'filterusers': "Skip spidering of /~user directories?",
@@ -226,7 +226,12 @@ class sfp_spider(SpiderFootPlugin):
 
             # If we are respecting robots.txt, filter those out too
             if linkBase in self.robotsRules and self.opts['robotsonly']:
-                if list(filter(lambda blocked: type(blocked).lower(blocked) in link.lower() or blocked == '*', self.robotsRules[linkBase])):
+                rules = self.robotsRules[linkBase]
+                linkLower = link.lower()
+                if any(
+                    b == '*' or type(b).lower(b) in linkLower
+                    for b in rules
+                ):
                     # self.debug("Ignoring page found in robots.txt: " + link)
                     continue
 

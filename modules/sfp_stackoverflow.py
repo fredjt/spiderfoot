@@ -86,7 +86,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
         ]
 
     def query(self, qry, qryType):
-        # The StackOverflow excerpts endpoint will search the site for mentions of a keyword and returns a snippet of relevant results
+        # StackOverflow excerpts: search for keyword mentions, return snippets
         if qryType == "excerpts":
             try:
                 res = self.sf.fetchUrl(
@@ -165,7 +165,26 @@ class sfp_stackoverflow(SpiderFootPlugin):
     def extractIP6s(self, text):
         ips = list()
 
-        matches = re.findall(r'(?:^|(?<=\s))(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))(?=\s|$)', text)
+        # IPv6 regex pattern split for readability
+        ip6pat = (r'(?:^|(?<=\s))'
+                  r'(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}'
+                  r'|([0-9a-fA-F]{1,4}:){1,7}:'
+                  r'|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}'
+                  r'|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}'
+                  r'|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}'
+                  r'|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}'
+                  r'|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}'
+                  r'|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})'
+                  r'|:((:[0-9a-fA-F]{1,4}){1,7}|:)'
+                  r'|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}'
+                  r'|::(ffff(:0{1,4}){0,1}:'
+                  r'{0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}'
+                  r'(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])'
+                  r'|([0-9a-fA-F]{1,4}:){1,4}'
+                  r':((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}'
+                  r'(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))'
+                  r'(?=\s|$)')
+        matches = re.findall(ip6pat, text)
 
         if not matches:
             return ips
