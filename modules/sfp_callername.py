@@ -35,7 +35,7 @@ class sfp_callername(SpiderFootPlugin):
             'logo': "http://static.callername.com/img/logo.min.png",
             'description': "CallerName is a free, reverse phone lookup service for both cell and landline numbers. "
             "It relies on a database of white pages and business pages taken from public sources. "
-            "The easy-to-use and streamlined interface allow users to look up the caller ID information of any number quickly. "
+            "The streamlined interface allows quick caller ID lookups. "
             "Just type the unknown number into the search bar to start. "
             "You need not pay nor register to use this 100% free service.",
         }
@@ -110,7 +110,10 @@ class sfp_callername(SpiderFootPlugin):
             self.debug('No phone information found for ' + eventData)
             return
 
-        location_match = re.findall(r'<div class="callerid"><h4>.*?</h4><p>(.+?)</p></div>', str(res['content']), re.MULTILINE | re.DOTALL)
+        location_match = re.findall(
+            r'<div class="callerid"><h4>.*?</h4><p>(.+?)</p></div>',
+            str(res['content']), re.MULTILINE | re.DOTALL,
+        )
 
         if location_match:
             location = location_match[0]

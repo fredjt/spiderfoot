@@ -29,8 +29,16 @@ class sfp_azureblobstorage(SpiderFootPlugin):
         'dataSource': {
             'website': "https://azure.microsoft.com/en-in/services/storage/blobs/",
             'model': "FREE_NOAUTH_UNLIMITED",
-            'favIcon': 'https://azurecomcdn.azureedge.net/cvt-4fd6fa9ffb60246fd6387e4b34f89dc454cdf3df85d2b5d3215846066fceb0b6/images/icon/favicon.ico',
-            'logo': 'https://azurecomcdn.azureedge.net/cvt-4fd6fa9ffb60246fd6387e4b34f89dc454cdf3df85d2b5d3215846066fceb0b6/images/icon/favicon.ico',
+            'favIcon': (
+                'https://azurecomcdn.azureedge.net/cvt-'
+                '4fd6fa9ffb60246fd6387e4b34f89dc454cdf3df85d2b5d3215846066fceb0b6/'
+                'images/icon/favicon.ico'
+            ),
+            'logo': (
+                'https://azurecomcdn.azureedge.net/cvt-'
+                '4fd6fa9ffb60246fd6387e4b34f89dc454cdf3df85d2b5d3215846066fceb0b6/'
+                'images/icon/favicon.ico'
+            ),
             'description': "Massively scalable and secure object storage for cloud-native workloads,"
             "archives, data lakes, high-performance computing and machine learning."
         }
@@ -38,7 +46,14 @@ class sfp_azureblobstorage(SpiderFootPlugin):
 
     # Default options
     opts = {
-        "suffixes": "test,dev,web,beta,bucket,space,files,content,data,prod,staging,production,stage,app,media,development,-test,-dev,-web,-beta,-bucket,-space,-files,-content,-data,-prod,-staging,-production,-stage,-app,-media,-development",
+        "suffixes": (
+            "test,dev,web,beta,bucket,space,files,content,"
+            "data,prod,staging,production,stage,app,media,"
+            "development,"
+            "-test,-dev,-web,-beta,-bucket,-space,-files,"
+            "-content,-data,-prod,-staging,-production,"
+            "-stage,-app,-media,-development"
+        ),
         "_maxthreads": 20
     }
 

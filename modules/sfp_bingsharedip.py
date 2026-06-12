@@ -56,7 +56,7 @@ class sfp_bingsharedip(SpiderFootPlugin):
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
         "pages": "Number of max bing results to request from API.",
         "verify": "Verify co-hosts are valid by checking if they still resolve to the shared IP.",
-        "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        "maxcohost": "Stop reporting co-hosted sites after this many (likely web hosting)",
         "api_key": "Bing API Key for shared IP search."
     }
 

@@ -22,7 +22,7 @@ class sfp_binaryedge(SpiderFootPlugin):
 
     meta = {
         'name': "BinaryEdge",
-        'summary': "Obtain information from BinaryEdge.io Internet scanning systems, including breaches, vulnerabilities, torrents and passive DNS.",
+        'summary': "Obtain breach, vulnerability, torrent and DNS data from BinaryEdge.io scanning systems.",
         'flags': ["apikey"],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Search Engines"],
@@ -42,11 +42,11 @@ class sfp_binaryedge(SpiderFootPlugin):
             ],
             'favIcon': "https://www.binaryedge.io/img/favicon/favicon-32x32.png",
             'logo': "https://www.binaryedge.io/img/logo.png",
-            'description': "We scan the entire public internet, create real-time threat intelligence streams, "
-            "and reports that show the exposure of what is connected to the Internet.\n"
-            "We have built a distributed platform of scanners and honeypots, to acquire, classify and correlate different types of data.\n"
-            "We use all of these datapoints to match those digital assets to an organization, "
-            "allowing us to provide a global, up-to-date, view of organizations known and unknown assets.",
+            'description': "We scan the public internet, create real-time threat intelligence streams, "
+            "and reports showing Internet exposure.\n"
+            "A distributed platform of scanners and honeypots acquires, classifies and correlates data.\n"
+            "We match digital assets to organizations, "
+            "providing a global view of known and unknown assets.",
         }
     }
 
@@ -70,12 +70,12 @@ class sfp_binaryedge(SpiderFootPlugin):
         'cve_age_limit_days': "Ignore any vulnerability records older than this many days. 0 = unlimited.",
         'port_age_limit_days': "Ignore any discovered open ports/banners older than this many days. 0 = unlimited.",
         'verify': 'Verify that any hostnames found on the target domain still resolve?',
-        'maxpages': "Maximum number of pages to iterate through, to avoid exceeding BinaryEdge API usage limits. APIv2 has a maximum of 500 pages (10,000 results).",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxpages': "Max pages to iterate (avoid API limits). APIv2 caps at 500 pages (10,000 results).",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting."
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)"
     }
 
     results = None
@@ -156,7 +156,7 @@ class sfp_binaryedge(SpiderFootPlugin):
         )
 
         if res['code'] in ["429", "500"]:
-            self.error("BinaryEdge.io API key seems to have been rejected or you have exceeded usage limits for the month.")
+            self.error("BinaryEdge.io API key rejected or usage limits exceeded for the month.")
             self.errorState = True
             return None
 
@@ -348,7 +348,8 @@ class sfp_binaryedge(SpiderFootPlugin):
                         self.debug("Record found but too old, skipping.")
                         continue
 
-                    dat = "Torrent: " + rec.get("torrent", "???").get("name") + " @ " + rec.get('torrent').get("source", "???")
+                    torrent = rec.get("torrent", "???")
+                    dat = f"Torrent: {torrent.get('name', '???')} @ {torrent.get('source', '???')}"
                     e = SpiderFootEvent('MALICIOUS_IPADDR', dat, self.__name__, event)
                     self.notifyListeners(e)
 

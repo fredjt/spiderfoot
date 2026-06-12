@@ -223,16 +223,22 @@ class sfp_certspotter(SpiderFootPlugin):
                     hosts.append(san.replace("*.", ""))
 
                 if cert.get('expired'):
-                    evt = SpiderFootEvent("SSL_CERTIFICATE_EXPIRED", cert.get('expirystr', 'Unknown'), self.__name__, event)
+                    evt = SpiderFootEvent(
+                        "SSL_CERTIFICATE_EXPIRED",
+                        cert.get('expirystr', 'Unknown'),
+                        self.__name__, event,
+                    )
                     self.notifyListeners(evt)
                     continue
 
                 if cert.get('expiring'):
-                    evt = SpiderFootEvent("SSL_CERTIFICATE_EXPIRING", cert.get('expirystr', 'Unknown'), self.__name__, event)
+                    expiry = cert.get('expirystr', 'Unknown')
+                    evt = SpiderFootEvent("SSL_CERTIFICATE_EXPIRING", expiry, self.__name__, event)
                     self.notifyListeners(evt)
                     continue
 
-            # "To retrieve additional issuances, take the id field of the last issuance and pass it to the issuances endpoint in the after parameter"
+            # To retrieve additional issuances, use the last 'id' field
+            # as the 'after' parameter for the issuances endpoint
             last_id = data[-1].get('id')
 
             if last_id is None:

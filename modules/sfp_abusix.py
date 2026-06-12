@@ -64,12 +64,12 @@ class sfp_abusix(SpiderFootPlugin):
         'api_key': "Abusix Mail Intelligence API key.",
         'checkaffiliates': "Apply checks to affiliates?",
         'checkcohosts': "Apply checks to sites found to be co-hosted on the target's IP?",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "If looking up owned netblocks, the maximum IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of for blacklisting?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6subnet': "If looking up subnets, the maximum IPv6 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
+        'maxv6subnet': "Maximum IPv6 subnet size to look up (CIDR value, 24 = /24)",
     }
 
     results = None
@@ -275,10 +275,16 @@ class sfp_abusix(SpiderFootPlugin):
                 if k not in self.checks:
                     if 'mail.abusix.zone' not in result:
                         # This is an error. The "checks" dict may need to be updated.
-                        self.error(f"Abusix Mail Intelligence resolved address {addr} to unknown IP address {result} not found in Abusix Mail Intelligence list.")
+                        self.error(
+                            f"Abusix resolved {addr} to unknown IP {result} "
+                            "not found in Abusix list."
+                        )
                     continue
 
-                text = f"Abusix Mail Intelligence - {self.checks[k]} [{addr}]\n<SFURL>https://lookup.abusix.com/search?q={addr}</SFURL>"
+                text = (
+                    f"Abusix Mail Intelligence - {self.checks[k]} [{addr}]\n"
+                    f"<SFURL>https://lookup.abusix.com/search?q={addr}</SFURL>"
+                )
 
                 evt = SpiderFootEvent(blacklist_type, text, self.__name__, event)
                 self.notifyListeners(evt)

@@ -35,10 +35,11 @@ class sfp_commoncrawl(SpiderFootPlugin):
             ],
             'favIcon': "https://commoncrawl.org/wp-content/themes/commoncrawl/img/favicon.png",
             'logo': "https://commoncrawl.org/wp-content/themes/commoncrawl/img/favicon.png",
-            'description': "We build and maintain an open repository of web crawl data that can be accessed and analyzed by anyone.\n"
-            "Everyone should have the opportunity to indulge their curiosities, analyze the world and pursue brilliant ideas. "
-            "Small startups or even individuals can now access high quality crawl data that was previously "
-            "only available to large search engine corporations.",
+            'description': "We build and maintain an open repository of web crawl data "
+            "that can be accessed and analyzed by anyone.\n"
+            "Everyone should have the opportunity to analyze the world and pursue ideas. "
+            "Small startups and individuals can now access high quality crawl data "
+            "that was previously only available to large search engine corporations.",
         }
     }
 

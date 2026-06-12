@@ -25,7 +25,7 @@ class sfp_accounts(SpiderFootPlugin):
 
     meta = {
         'name': "Account Finder",
-        'summary': "Look for possible associated accounts on over 500 social and other websites such as Instagram, Reddit, etc.",
+        'summary': "Look for associated accounts on over 500 social websites such as Instagram, Reddit.",
         'useCases': ["Footprint", "Passive"],
         'categories': ["Social Media"]
     }
@@ -43,12 +43,12 @@ class sfp_accounts(SpiderFootPlugin):
 
     # Option descriptions
     optdescs = {
-        "ignorenamedict": "Don't bother looking up names that are just stand-alone first names (too many false positives).",
+        "ignorenamedict": "Skip stand-alone first names (too many false positives).",
         "ignoreworddict": "Don't bother looking up names that appear in the dictionary.",
-        "musthavename": "The username must be mentioned on the social media page to consider it valid (helps avoid false positives).",
-        "userfromemail": "Extract usernames from e-mail addresses at all? If disabled this can reduce false positives for common usernames but for highly unique usernames it would result in missed accounts.",
-        "permutate": "Look for the existence of account name permutations. Useful to identify fraudulent social media accounts or account squatting.",
-        "usernamesize": "The minimum length of a username to query across social media sites. Helps avoid false positives for very common short usernames.",
+        "musthavename": "Username must be on the social media page to be valid.",
+        "userfromemail": "Extract usernames from emails? Disabling reduces false positives but may miss unique ones.",
+        "permutate": "Look for account name permutations to identify fraudulent accounts or squatting.",
+        "usernamesize": "Minimum username length to query. Helps avoid false positives for common short usernames.",
         "_maxthreads": "Maximum threads"
     }
 
@@ -138,7 +138,8 @@ class sfp_accounts(SpiderFootPlugin):
                     self.siteResults[retname] = False
                 return
 
-        if site.get('e_string') not in res['content'] or (site.get('m_string') and site.get('m_string') in res['content']):
+        if (site.get('e_string') not in res['content']
+                or (site.get('m_string') and site.get('m_string') in res['content'])):
             with self.lock:
                 self.siteResults[retname] = False
             return
@@ -202,7 +203,10 @@ class sfp_accounts(SpiderFootPlugin):
 
         duration = time.monotonic() - startTime
         scanRate = len(sites) / duration
-        self.debug(f'Scan statistics: name={username}, count={len(self.siteResults)}, duration={duration:.2f}, rate={scanRate:.0f}')
+        self.debug(
+            f'Scan stats: name={username}, count={len(self.siteResults)}, '
+            f'duration={duration:.2f}, rate={scanRate:.0f}'
+        )
 
         return [site for site, found in self.siteResults.items() if found]
 

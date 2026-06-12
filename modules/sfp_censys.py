@@ -69,9 +69,9 @@ class sfp_censys(SpiderFootPlugin):
         "censys_api_key_uid": "Censys.io API UID.",
         "censys_api_key_secret": "Censys.io API Secret.",
         'delay': 'Delay between requests, in seconds.',
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "If looking up owned netblocks, the maximum IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)",
         "age_limit_days": "Ignore any records older than this many days. 0 = unlimited.",
     }
 
@@ -272,7 +272,10 @@ class sfp_censys(SpiderFootPlugin):
 
             try:
                 # Date format: 2021-09-22T16:46:47.623Z
-                created_dt = datetime.strptime(rec.get('last_updated_at', "1970-01-01T00:00:00.000Z"), '%Y-%m-%dT%H:%M:%S.%fZ')
+                created_dt = datetime.strptime(
+                    rec.get('last_updated_at', "1970-01-01T00:00:00.000Z"),
+                    '%Y-%m-%dT%H:%M:%S.%fZ',
+                )
                 created_ts = int(time.mktime(created_dt.timetuple()))
                 age_limit_ts = int(time.time()) - (86400 * self.opts['age_limit_days'])
 

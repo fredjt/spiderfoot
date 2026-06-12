@@ -101,7 +101,10 @@ class sfp_alienvaultiprep(SpiderFootPlugin):
             netblock = IPNetwork(target)
             for ip in blacklist:
                 if IPAddress(ip) in netblock:
-                    self.debug(f"IP address {ip} found within netblock/subnet {target} in AlienVault IP Reputation Database blacklist.")
+                    self.debug(
+                        f"IP address {ip} found within netblock/subnet {target} "
+                        f"in AlienVault IP Reputation Database blacklist."
+                    )
                     return True
 
         return False

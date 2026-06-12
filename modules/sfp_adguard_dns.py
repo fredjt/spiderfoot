@@ -32,9 +32,8 @@ class sfp_adguard_dns(SpiderFootPlugin):
             ],
             'favIcon': "https://adguard.com/img/favicons/favicon.ico",
             'logo': "https://adguard.com/img/favicons/apple-touch-icon.png",
-            'description': "AdGuard DNS is a foolproof way to block Internet ads that does not require installing any applications. "
-            "It is easy to use, absolutely free, easily set up on any device, and provides you with minimal necessary functions "
-            "to block ads, counters, malicious websites, and adult content."
+            'description': "AdGuard DNS blocks Internet ads without installing applications. "
+            "Free, easy to set up on any device, and blocks ads, counters, malware, and adult content."
         }
     }
 

@@ -30,8 +30,7 @@ class sfp_comodo(SpiderFootPlugin):
             'references': [
                 "https://cdome.comodo.com/pdf/Datasheet-Dome-Shield.pdf",
                 "http://securedns.dnsbycomodo.com/",
-                "https://www.comodo.com/secure-dns/secure-dns-assets/dowloads/ccs-dome-shield-whitepaper-threat-intelligence.pdf",
-                "https://www.comodo.com/secure-dns/secure-dns-assets/dowloads/domeshield-all-use-cases.pdf",
+                "https://www.comodo.com/secure-dns/"
             ],
             'favIcon': "https://www.comodo.com/favicon.ico",
             'logo': "https://www.comodo.com/new-assets/images/logo.png",

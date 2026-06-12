@@ -32,9 +32,8 @@ class sfp_crxcavator(SpiderFootPlugin):
             'model': "FREE_NOAUTH_UNLIMITED",
             'favIcon': "https://crxcavator.io/favicon-32x32.png",
             'logo': "https://crxcavator.io/apple-touch-icon.png",
-            'description': "CRXcavator automatically scans the entire Chrome Web "
-                "Store every 3 hours and produces a quantified risk score for "
-                "each Chrome Extension based on several factors.",
+            'description': "CRXcavator scans the Chrome Web Store every 3 hours "
+                "and produces risk scores for each extension.",
         }
     }
 
@@ -215,10 +214,22 @@ class sfp_crxcavator(SpiderFootPlugin):
                     continue
 
                 if (
-                    not self.getTarget().matches(self.sf.urlFQDN(privacy_policy), includeChildren=True, includeParents=True)
-                    and not self.getTarget().matches(self.sf.urlFQDN(website), includeChildren=True, includeParents=True)
-                    and not self.getTarget().matches(self.sf.urlFQDN(offered_by), includeChildren=True, includeParents=True)
-                    and not self.getTarget().matches(self.sf.urlFQDN(support_site), includeChildren=True, includeParents=True)
+                    not self.getTarget().matches(
+                        self.sf.urlFQDN(privacy_policy),
+                        includeChildren=True, includeParents=True
+                    )
+                    and not self.getTarget().matches(
+                        self.sf.urlFQDN(website),
+                        includeChildren=True, includeParents=True
+                    )
+                    and not self.getTarget().matches(
+                        self.sf.urlFQDN(offered_by),
+                        includeChildren=True, includeParents=True
+                    )
+                    and not self.getTarget().matches(
+                        self.sf.urlFQDN(support_site),
+                        includeChildren=True, includeParents=True
+                    )
                 ):
                     self.debug(f"Extension {app_full_name} does not match {eventData}, skipping")
                     continue

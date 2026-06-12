@@ -41,7 +41,7 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
             "DNS-based content filtering service. Parents can protect their kids from adult content, "
             "schools can be CIPA compliant and businesses can block malicious domains and "
             "gain visibility into their network.\n"
-            "CleanBrowsing is a DNS-based content filtering service that offers a safe way to browse the web without surprises. "
+            "CleanBrowsing is a DNS-based content filtering service for safe web browsing. "
             "It intercepts domain requests and filter sites that should be blocked, based on your requirements. "
             "Our free family filter, for example, blocks adult content, while still allowing Google, "
             "Youtube, Bing, DuckDuckGo and the rest of the web to load safely.",

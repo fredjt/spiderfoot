@@ -88,14 +88,14 @@ class sfp_alienvault(SpiderFootPlugin):
         "reputation_age_limit_days": "Ignore any reputation records older than this many days. 0 = unlimited.",
         "cohost_age_limit_days": "Ignore any co-hosts older than this many days. 0 = unlimited.",
         "threat_score_min": "Minimum AlienVault threat score.",
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum IPv4 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6netblock': "If looking up owned netblocks, the maximum IPv6 netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum IPv4 netblock size to look up (CIDR value, 24 = /24)",
+        'maxv6netblock': "Maximum IPv6 netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of for blacklisting?",
-        'maxsubnet': "If looking up subnets, the maximum IPv4 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxv6subnet': "If looking up subnets, the maximum IPv6 subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'maxsubnet': "Maximum IPv4 subnet size to look up (CIDR value, 24 = /24)",
+        'maxv6subnet': "Maximum IPv6 subnet size to look up (CIDR value, 24 = /24)",
         'max_pages': "Maximum number of pages of URL results to fetch.",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)",
         'checkaffiliates': "Apply checks to affiliates?"
     }
 
@@ -157,7 +157,7 @@ class sfp_alienvault(SpiderFootPlugin):
             return None
 
         if res['code'] == "403":
-            self.error("AlienVault OTX API key seems to have been rejected or you have exceeded usage limits for the month.")
+            self.error("AlienVault OTX API key rejected or usage limits exceeded for the month.")
             self.errorState = True
             return None
 
@@ -410,10 +410,12 @@ class sfp_alienvault(SpiderFootPlugin):
                                 last_ts = int(time.mktime(last_dt.timetuple()))
                                 age_limit_ts = int(time.time()) - (86400 * self.opts['cohost_age_limit_days'])
                                 if last_ts < age_limit_ts:
-                                    self.debug(f"Passive DNS record {host} found for {eventData} is too old ({last_dt}), skipping.")
+                                    self.debug(
+                                        f"Passive DNS {host} for {eventData} too old ({last_dt}), skipping."
+                                    )
                                     continue
                             except Exception:
-                                self.info("Could not parse date from AlienVault data, so ignoring cohost_age_limit_days")
+                                self.info("Could not parse AlienVault date; ignoring cohost_age_limit_days")
 
                         if self.opts["verify"] and not self.sf.validateIP(host, eventData):
                             self.debug(f"Co-host {host} no longer resolves to {eventData}, skipping")
@@ -424,7 +426,9 @@ class sfp_alienvault(SpiderFootPlugin):
                             self.notifyListeners(e)
                             self.cohostcount += 1
                         else:
-                            self.info(f"Maximum co-host threshold exceeded ({self.opts['maxcohost']}), ignoring co-host {host}")
+                            self.info(
+                                f"Max co-host threshold ({self.opts['maxcohost']}), ignoring {host}"
+                            )
 
         if eventName in ['IP_ADDRESS', 'IPV6_ADDRESS', 'NETBLOCK_OWNER', 'NETBLOCKV6_OWNER']:
             evtType = 'MALICIOUS_IPADDR'
@@ -477,7 +481,7 @@ class sfp_alienvault(SpiderFootPlugin):
                                 self.debug(f"Reputation record found for {addr} is too old ({created_dt}), skipping.")
                                 continue
                         except Exception:
-                            self.info("Could not parse date from AlienVault data, so ignoring reputation_age_limit_days")
+                            self.info("Could not parse AlienVault date; ignoring reputation_age_limit_days")
 
                 # For netblocks, we need to create the IP address event so that
                 # the threat intel event is more meaningful.

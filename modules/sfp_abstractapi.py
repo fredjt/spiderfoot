@@ -40,7 +40,7 @@ class sfp_abstractapi(SpiderFootPlugin):
             ],
             'favIcon': "https://app.abstractapi.com/favicon.ico",
             'logo': "https://app.abstractapi.com/logo192.png",
-            'description': "Abstract provides powerful APIs to help you enrich any user experience or automate any workflow."
+            'description': "Abstract provides APIs to enrich user experiences or automate workflows."
         }
     }
 
@@ -225,7 +225,9 @@ class sfp_abstractapi(SpiderFootPlugin):
 
         self.results[eventData] = True
 
-        if self.opts["companyenrichment_api_key"] == "" and self.opts["phonevalidation_api_key"] == "" and self.opts["ipgeolocation_api_key"] == "":
+        if (self.opts["companyenrichment_api_key"] == ""
+                and self.opts["phonevalidation_api_key"] == ""
+                and self.opts["ipgeolocation_api_key"] == ""):
             self.error(
                 f"You enabled {self.__class__.__name__} but did not set any API keys!"
             )
@@ -264,7 +266,11 @@ class sfp_abstractapi(SpiderFootPlugin):
             if linkedin_url:
                 if linkedin_url.startswith('linkedin.com'):
                     linkedin_url = f"https://{linkedin_url}"
-                e = SpiderFootEvent("SOCIAL_MEDIA", f"LinkedIn (Company): <SFURL>{linkedin_url}</SFURL>", self.__name__, event)
+                e = SpiderFootEvent(
+                    "SOCIAL_MEDIA",
+                    f"LinkedIn (Company): <SFURL>{linkedin_url}</SFURL>",
+                    self.__name__, event,
+                )
                 self.notifyListeners(e)
 
             locality = data.get('locality')

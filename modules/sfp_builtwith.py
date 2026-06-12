@@ -19,7 +19,7 @@ class sfp_builtwith(SpiderFootPlugin):
 
     meta = {
         'name': "BuiltWith",
-        'summary': "Query BuiltWith.com's Domain API for information about your target's web technology stack, e-mail addresses and more.",
+        'summary': "Query BuiltWith.com's API for target's web tech stack, emails and more.",
         'flags': ["apikey"],
         'useCases': ["Footprint", "Investigate", "Passive"],
         'categories': ["Search Engines"],
@@ -40,8 +40,8 @@ class sfp_builtwith(SpiderFootPlugin):
             ],
             'favIcon': "https://d28rh9vvmrd65v.cloudfront.net/favicon.ico",
             'logo': "https://d28rh9vvmrd65v.cloudfront.net/favicon.ico",
-            'description': "Build lists of websites from our database of 38,701+ web technologies and over a quarter of a billion websites showing "
-            "which sites use shopping carts, analytics, hosting and many more. "
+            'description': "Build lists of websites from our database of 38,701+ web technologies and 250M+ websites. "
+            "Shows which sites use shopping carts, analytics, hosting and more. "
             "Filter by location, traffic, vertical and more.\n"
             "Know your prospects platform before you talk to them. "
             "Improve your conversions with validated market adoption.\n"

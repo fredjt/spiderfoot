@@ -52,7 +52,7 @@ class sfp_c99(SpiderFootPlugin):
     optdescs = {
         "api_key": "C99 API Key.",
         "verify": "Verify identified domains still resolve to the associated specified IP address.",
-        "maxcohost": "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        "maxcohost": "Stop reporting co-hosted sites after this many (likely web hosting)",
         "cohostsamedomain": "Treat co-hosted sites on the same target domain as co-hosting?",
     }
 

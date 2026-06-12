@@ -31,7 +31,7 @@ class sfp_company(SpiderFootPlugin):
     }
 
     optdescs = {
-        'filterjscss': "Filter out company names that originated from CSS/JS content. Enabling this avoids detection of popular Javascript and web framework author company names."
+        'filterjscss': "Filter company names from CSS/JS content to avoid false positives for framework author names."
     }
 
     def setup(self, sfc, userOpts=dict()):
@@ -59,7 +59,12 @@ class sfp_company(SpiderFootPlugin):
         # Various ways to identify companies in text
         # Support up to three word company names with each starting with
         # a capital letter, allowing for hyphens brackets and numbers within.
-        pattern_prefix = r"(?=[,;:\'\">\(= ]|^)\s?([A-Z0-9\(\)][A-Za-z0-9\-&,\.][^ \"\';:><]*)?\s?([A-Z0-9\(\)][A-Za-z0-9\-&,\.]?[^ \"\';:><]*|[Aa]nd)?\s?([A-Z0-9\(\)][A-Za-z0-9\-&,\.]?[^ \"\';:><]*)?\s+"
+        pattern_prefix = (
+            r"(?=[,;:\'\">\(= ]|^)\s?"
+            r"([A-Z0-9\(\)][A-Za-z0-9\-&,\.][^ \"\';:><]*)?"
+            r"\s?([A-Z0-9\(\)][A-Za-z0-9\-&,\.]?[^ \"\';:><]*|[Aa]nd)?"
+            r"\s?([A-Z0-9\(\)][A-Za-z0-9\-&,\.]?[^ \"\';:><]*)?\s+"
+        )
         pattern_match_re = [
             'LLC', r'L\.L\.C\.?', 'AG', r'A\.G\.?', 'GmbH', r'Pty\.?\s+Ltd\.?',
             r'Ltd\.?', r'Pte\.?', r'Inc\.?', r'INC\.?', 'Incorporated', 'Foundation',
@@ -119,7 +124,11 @@ class sfp_company(SpiderFootPlugin):
         myres = list()
         for chunk in chunks:
             for pat in pattern_match_re:
-                matches = re.findall(pattern_prefix + "(" + pat + ")" + pattern_suffix, chunk, re.MULTILINE | re.DOTALL)
+                matches = re.findall(
+                    pattern_prefix + "(" + pat + ")" + pattern_suffix,
+                    chunk,
+                    re.MULTILINE | re.DOTALL
+                )
                 for match in matches:
                     matched = 0
                     for m in match:

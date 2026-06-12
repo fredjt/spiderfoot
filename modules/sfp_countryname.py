@@ -148,7 +148,11 @@ class sfp_countryname(SpiderFootPlugin):
             # Look for country name in source data
             # Spaces are not included since "New Jersey" and others
             # will get interpreted as "Jersey", etc.
-            matchCountries = re.findall(r"[,'\"\:\=\[\(\[\n\t\r\.] ?" + countryName + r"[,'\"\:\=\[\(\[\n\t\r\.]", srcData, re.IGNORECASE)
+            matchCountries = re.findall(
+                r"[,'\"\:\=\[\(\[\n\t\r\.] ?" + countryName + r"[,'\"\:\=\[\(\[\n\t\r\.]",
+                srcData,
+                re.IGNORECASE
+            )
 
             if matchCountries:
                 countries.append(countryName)
