@@ -93,7 +93,7 @@ class sfp_tool_nuclei(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_nuclei":
+        if srcModuleName == self.__name__:
             return
 
         if not self.opts['nuclei_path'] or not self.opts['template_path']:

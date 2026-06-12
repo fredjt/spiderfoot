@@ -80,7 +80,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
         srcModuleName = event.module
         eventData = event.data
 
-        if srcModuleName == "sfp_tool_nmap":
+        if srcModuleName == self.__name__:
             self.debug("Skipping event from myself.")
             return
 

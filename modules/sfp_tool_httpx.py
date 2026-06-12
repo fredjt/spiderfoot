@@ -96,7 +96,7 @@ class sfp_tool_httpx(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_httpx":
+        if srcModuleName == self.__name__:
             return
 
         if not self.opts['httpx_path']:

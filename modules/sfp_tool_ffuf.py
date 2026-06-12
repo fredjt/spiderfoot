@@ -104,7 +104,7 @@ class sfp_tool_ffuf(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_ffuf":
+        if srcModuleName == self.__name__:
             return
 
         if not self.opts['ffuf_path']:

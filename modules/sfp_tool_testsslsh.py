@@ -89,7 +89,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_testsslsh":
+        if srcModuleName == self.__name__:
             self.debug("Skipping event from myself.")
             return
 

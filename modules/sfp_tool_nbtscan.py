@@ -80,7 +80,7 @@ class sfp_tool_nbtscan(SpiderFootPlugin):
         if self.errorState:
             return
 
-        if srcModuleName == "sfp_tool_nbtscan":
+        if srcModuleName == self.__name__:
             self.debug("Skipping event from myself.")
             return
 
