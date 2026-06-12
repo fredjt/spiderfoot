@@ -36,7 +36,7 @@ class sfp_threatminer(SpiderFootPlugin):
             ],
             'favIcon': "https://www.threatminer.org/images/favicon.gif",
             'logo': "https://www.threatminer.org/images/logo.png",
-            'description': "ThreatMiner is a threat intelligence portal designed to enable analysts to research under a single interface. "
+            'description': "ThreatMiner is a threat intelligence portal for research under a single interface. "
             "It is used in the SANS FOR578 Cyber Threat Intelligence course.\n"
             "Threat intelligence and intrusion analysts who regularly perform research "
             "into malware and network infrastructure often find the need to rely on "
@@ -57,11 +57,11 @@ class sfp_threatminer(SpiderFootPlugin):
     # Option descriptions
     optdescs = {
         'verify': 'Verify that any hostnames found on the target domain still resolve?',
-        'netblocklookup': "Look up all IPs on netblocks deemed to be owned by your target for possible blacklisted hosts on the same target subdomain/domain?",
-        'maxnetblock': "If looking up owned netblocks, the maximum netblock size to look up all IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
+        'netblocklookup': "Look up IPs on owned netblocks for possible hosts on the same target?",
+        'maxnetblock': "Maximum netblock size to look up (CIDR value, 24 = /24)",
         'subnetlookup': "Look up all IPs on subnets which your target is a part of?",
-        'maxsubnet': "If looking up subnets, the maximum subnet size to look up all the IPs within (CIDR value, 24 = /24, 16 = /16, etc.)",
-        'maxcohost': "Stop reporting co-hosted sites after this many are found, as it would likely indicate web hosting.",
+        'maxsubnet': "Maximum subnet size to look up (CIDR value, 24 = /24)",
+        'maxcohost': "Stop reporting co-hosted sites after this many (likely web hosting)",
         "age_limit_days": "Ignore records older than this many days. 0 = Unlimited."
     }
 

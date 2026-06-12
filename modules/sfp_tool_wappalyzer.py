@@ -29,7 +29,8 @@ class sfp_tool_wappalyzer(SpiderFootPlugin):
         "categories": ["Content Analysis"],
         "toolDetails": {
             "name": "Wappalyzer",
-            "description": "Wappalyzer identifies technologies on websites, including content management systems, ecommerce platforms, JavaScript frameworks, analytics tools and much more.",
+            "description": "Wappalyzer identifies website technologies, "
+            "including CMS, ecommerce, JS frameworks, and analytics.",
             "website": "https://www.wappalyzer.com/",
             "repository": "https://github.com/AliasIO/Wappalyzer"
         }

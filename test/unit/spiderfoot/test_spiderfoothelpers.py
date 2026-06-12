@@ -116,7 +116,10 @@ class TestSpiderFootHelpers(unittest.TestCase):
     def test_buildGraphData_should_return_a_set(self):
         graph_data = SpiderFootHelpers.buildGraphData(
             [
-                ["test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"]
+                [
+                    "test", "test", "test", "test", "test", "test", "test", "test",
+                    "test", "test", "test", "test", "test", "test", "test"
+                ]
             ]
         )
         self.assertIsInstance(graph_data, set)
@@ -124,13 +127,31 @@ class TestSpiderFootHelpers(unittest.TestCase):
         self.assertEqual('TBD', 'TBD')
 
     def test_buildGraphGexf_should_return_bytes(self):
-        gexf = SpiderFootHelpers.buildGraphGexf('test root', 'test title', [["test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "ENTITY", "test", "test", "test"]])
+        gexf = SpiderFootHelpers.buildGraphGexf(
+            'test root', 'test title',
+            [
+                [
+                    "test", "test", "test", "test", "test", "test", "test",
+                    "test", "test", "test", "test", "ENTITY", "test", "test",
+                    "test"
+                ]
+            ]
+        )
         self.assertIsInstance(gexf, bytes)
 
         self.assertEqual('TBD', 'TBD')
 
     def test_buildGraphJson_should_return_a_string(self):
-        json = SpiderFootHelpers.buildGraphJson('test root', [["test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "ENTITY", "test", "test", "test"]])
+        json = SpiderFootHelpers.buildGraphJson(
+            'test root',
+            [
+                [
+                    "test", "test", "test", "test", "test", "test", "test",
+                    "test", "test", "test", "test", "ENTITY", "test", "test",
+                    "test"
+                ]
+            ]
+        )
         self.assertIsInstance(json, str)
 
         self.assertEqual('TBD', 'TBD')
@@ -163,7 +184,12 @@ class TestSpiderFootHelpers(unittest.TestCase):
         url = 'http://spiderfoot.net/'
         parse_links = SpiderFootHelpers.extractLinksFromHtml(
             url,
-            '<!DOCTYPE html><html lang="en-US"><meta charset="UTF-8" /><link rel="pingback" href="http://spiderfoot.net/xmlrpc.php">example html content<unclosed tag><a href="http://spiderfoot.net/path"></a><a href="/relative-path"></a></html>',
+            '<!DOCTYPE html><html lang="en-US">'
+            '<meta charset="UTF-8" />'
+            '<link rel="pingback" href="http://spiderfoot.net/xmlrpc.php">'
+            'example html content<unclosed tag>'
+            '<a href="http://spiderfoot.net/path"></a>'
+            '<a href="/relative-path"></a></html>',
             'domains'
         )
         self.assertIsInstance(parse_links, dict)
@@ -209,9 +235,18 @@ class TestSpiderFootHelpers(unittest.TestCase):
         md5_hash = "e17cff4eb3e8fbe6ca3b83fb47532dba"
         sha1_hash = "f81efbe70f8116fcf3dc4e9b37725dcb949719f5"
         sha256_hash = "7cd444af3d8de9e195b1f1cb55e7b7d9409dcd4648247c853a2f64b7578dc9b7"
-        sha512_hash = "a55a2fe120d7d7d6e2ba930e6c56faa30b9d24a3178a0aff1d89312a89d61d8a9d5b7743e3af6b1a318d99974a1145ed76f85aa8c6574074dfb347613ccd3249"
+        sha512_hash = (
+            "a55a2fe120d7d7d6e2ba930e6c56faa30b9d24a3178a0aff1d89312a89d61d8a"
+            "9d5b7743e3af6b1a318d99974a1145ed76f85aa8c6574074dfb347613ccd3249"
+        )
 
-        hashes = SpiderFootHelpers.extractHashesFromText(f"spiderfoot{md5_hash}spiderfoot{sha1_hash}spiderfoot{sha256_hash}spiderfoot{sha512_hash}spiderfoot")
+        hashes = SpiderFootHelpers.extractHashesFromText(
+            f"spiderfoot{md5_hash}"
+            f"spiderfoot{sha1_hash}"
+            f"spiderfoot{sha256_hash}"
+            f"spiderfoot{sha512_hash}"
+            f"spiderfoot"
+        )
 
         self.assertIsInstance(hashes, list)
         self.assertIn(("MD5", md5_hash), hashes)
@@ -301,7 +336,10 @@ class TestSpiderFootHelpers(unittest.TestCase):
                 self.assertEqual(country_name, "United States")
 
     def test_extractEmailsFromText_should_return_list_of_emails_from_string(self):
-        emails = SpiderFootHelpers.extractEmailsFromText("<html><body><p>From:noreply@spiderfoot.net</p><p>Subject:Hello user@spiderfoot.net, here's some text</p></body></html>")
+        emails = SpiderFootHelpers.extractEmailsFromText(
+            "<html><body><p>From:noreply@spiderfoot.net</p>"
+            "<p>Subject:Hello user@spiderfoot.net, here's some text</p></body></html>"
+        )
         self.assertIsInstance(emails, list)
         self.assertIn('noreply@spiderfoot.net', emails)
         self.assertIn('user@spiderfoot.net', emails)

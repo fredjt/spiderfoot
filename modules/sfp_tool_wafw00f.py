@@ -27,7 +27,7 @@ class sfp_tool_wafw00f(SpiderFootPlugin):
         'categories': ["Crawling and Scanning"],
         'toolDetails': {
             'name': "WAFW00F",
-            'description': "WAFW00F allows one to identify and fingerprint Web Application Firewall (WAF) products protecting a website.",
+            'description': "WAFW00F identifies Web Application Firewalls protecting a website.",
             'website': 'https://github.com/EnableSecurity/wafw00f',
             'repository': 'https://github.com/EnableSecurity/wafw00f'
         },
@@ -39,7 +39,7 @@ class sfp_tool_wafw00f(SpiderFootPlugin):
     }
 
     optdescs = {
-        'python_path': "Path to Python 3 interpreter to use for wafw00f. If just 'python3' then it must be in your $PATH.",
+        'python_path': "Path to Python 3 for wafw00f. Use 'python3' if in $PATH.",
         'wafw00f_path': "Path to the wafw00f executable file. Must be set."
     }
 

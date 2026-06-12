@@ -173,7 +173,12 @@ class TestSpiderFootModuleLoading(unittest.TestCase):
 
             # check len(options) == len(option descriptions)
             if m.get('opts'):
-                self.assertEqual(f"{module} opts: {len(m.get('opts').keys())}", f"{module} opts: {len(m.get('optdescs').keys())}")
+                opts_count = len(m.get('opts').keys())
+                descs_count = len(m.get('optdescs').keys())
+                self.assertEqual(
+                    f"{module} opts: {opts_count}",
+                    f"{module} opts: {descs_count}"
+                )
 
     def test_required_module_properties_are_present_and_valid(self):
         sf = SpiderFoot(self.default_options)

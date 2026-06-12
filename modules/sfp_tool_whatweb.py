@@ -28,11 +28,11 @@ class sfp_tool_whatweb(SpiderFootPlugin):
         'categories': ["Content Analysis"],
         'toolDetails': {
             'name': "WhatWeb",
-            'description': "WhatWeb identifies websites. Its goal is to answer the question, \"What is that Website?\". "
-            "WhatWeb recognises web technologies including content management systems (CMS), "
-            "blogging platforms, statistic/analytics packages, JavaScript libraries, web servers, and embedded devices. "
-            "WhatWeb has over 1800 plugins, each to recognise something different. "
-            "WhatWeb also identifies version numbers, email addresses, account IDs, web framework modules, SQL errors, and more.",
+            'description': "WhatWeb identifies websites and their technologies. "
+            "It recognises CMS, blogging platforms, analytics, "
+            "JavaScript libraries, web servers, and embedded devices. "
+            "With 1800+ plugins it also detects version numbers, "
+            "email addresses, and SQL errors.\n",
             'website': 'https://github.com/urbanadventurer/whatweb',
             'repository': 'https://github.com/urbanadventurer/whatweb'
         },

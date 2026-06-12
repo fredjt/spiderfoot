@@ -16,12 +16,16 @@ class TestSpiderFootWebUiRoutes(helper.CPWebCase):
             '_debug': False,  # Debug
             '__logging': True,  # Logging in general
             '__outputfilter': None,  # Event types to filter from modules' output
-            '_useragent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',  # User-Agent to use for HTTP requests
+            '_useragent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) '
+                          'Gecko/20100101 Firefox/62.0',
             '_dnsserver': '',  # Override the default resolver
             '_fetchtimeout': 5,  # number of seconds before giving up on a fetch
             '_internettlds': 'https://publicsuffix.org/list/effective_tld_names.dat',
             '_internettlds_cache': 72,
-            '_genericusers': ",".join(SpiderFootHelpers.usernamesFromWordlists(['generic-usernames'])),
+            '_genericusers': (
+                ",".join(SpiderFootHelpers.usernamesFromWordlists(
+                    ['generic-usernames']))
+            ),
             '__database': f"{SpiderFootHelpers.dataPath()}/spiderfoot.test.db",  # note: test database file
             '__modules__': None,  # List of modules. Will be set after start-up.
             '__correlationrules__': None,  # List of correlation rules. Will be set after start-up.
@@ -52,7 +56,11 @@ class TestSpiderFootWebUiRoutes(helper.CPWebCase):
             }
         }
 
-        cherrypy.tree.mount(SpiderFootWebUi(default_web_config, default_config), script_name=default_web_config.get('root'), config=conf)
+        cherrypy.tree.mount(
+            SpiderFootWebUi(default_web_config, default_config),
+            script_name=default_web_config.get('root'),
+            config=conf
+        )
 
     def test_invalid_page_returns_404(self):
         self.getPage("/doesnotexist")
@@ -188,7 +196,12 @@ class TestSpiderFootWebUiRoutes(helper.CPWebCase):
         self.assertInBody('Invalid request: scan target was not specified.')
 
     def test_startscan_unrecognized_scan_target_returns_error(self):
-        self.getPage("/startscan?scanname=example-scan&scantarget=invalid-target&modulelist=doesnotexist&typelist=doesnotexist&usecase=doesnotexist")
+        self.getPage(
+            "/startscan?scanname=example-scan"
+            "&scantarget=invalid-target"
+            "&modulelist=doesnotexist"
+            "&typelist=doesnotexist&usecase=doesnotexist"
+        )
         self.assertStatus('200 OK')
         self.assertInBody('Invalid target type. Could not recognize it as a target SpiderFoot supports.')
 
@@ -198,12 +211,21 @@ class TestSpiderFootWebUiRoutes(helper.CPWebCase):
         self.assertInBody('Invalid request: no modules specified for scan.')
 
     def test_startscan_invalid_typelist_returns_error(self):
-        self.getPage("/startscan?scanname=example-scan&scantarget=spiderfoot.net&modulelist=&typelist=doesnotexist&usecase=")
+        self.getPage(
+            "/startscan?scanname=example-scan"
+            "&scantarget=spiderfoot.net"
+            "&modulelist=&typelist=doesnotexist&usecase="
+        )
         self.assertStatus('200 OK')
         self.assertInBody('Invalid request: no modules specified for scan.')
 
     def test_startscan_should_start_a_scan(self):
-        self.getPage("/startscan?scanname=spiderfoot.net&scantarget=spiderfoot.net&modulelist=doesnotexist&typelist=doesnotexist&usecase=doesnotexist")
+        self.getPage(
+            "/startscan?scanname=spiderfoot.net"
+            "&scantarget=spiderfoot.net"
+            "&modulelist=doesnotexist"
+            "&typelist=doesnotexist&usecase=doesnotexist"
+        )
         self.assertStatus('303 See Other')
 
     def test_stopscan_invalid_scan_id_returns_404(self):
