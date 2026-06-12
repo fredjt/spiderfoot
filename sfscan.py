@@ -20,7 +20,10 @@ from collections import OrderedDict
 import dns.resolver
 
 from sflib import SpiderFoot
-from spiderfoot import SpiderFootDb, SpiderFootEvent, SpiderFootPlugin, SpiderFootTarget, SpiderFootHelpers, SpiderFootThreadPool, SpiderFootCorrelator, logger
+from spiderfoot import (
+    SpiderFootDb, SpiderFootEvent, SpiderFootPlugin, SpiderFootTarget,
+    SpiderFootHelpers, SpiderFootThreadPool, SpiderFootCorrelator, logger
+)
 
 
 def startSpiderFootScanner(loggingQueue, *args, **kwargs):
@@ -49,7 +52,9 @@ class SpiderFootScanner():
     __modconfig = dict()
     __scanName = None
 
-    def __init__(self, scanName: str, scanId: str, targetValue: str, targetType: str, moduleList: list, globalOpts: dict, start: bool = True) -> None:
+    def __init__(self, scanName: str, scanId: str, targetValue: str,
+                 targetType: str, moduleList: list, globalOpts: dict,
+                 start: bool = True) -> None:
         """Initialize SpiderFootScanner object.
 
         Args:
@@ -156,7 +161,10 @@ class SpiderFootScanner():
             proxy_host = self.__config.get('_socks2addr', '')
 
             if not proxy_host:
-                self.__sf.status(f"Scan [{self.__scanId}] failed: Proxy type is set ({proxy_type}) but proxy address value is blank")
+                self.__sf.status(
+                    f"Scan [{self.__scanId}] failed: Proxy type is set ({proxy_type}) "
+                    "but proxy address value is blank"
+                )
                 self.__setStatus("ERROR-FAILED", None, time.time() * 1000)
                 raise ValueError(f"Proxy type is set ({proxy_type}) but proxy address value is blank")
 
@@ -210,7 +218,10 @@ class SpiderFootScanner():
 
         self.__setStatus("INITIALIZING", time.time() * 1000, None)
 
-        self.__sharedThreadPool = SpiderFootThreadPool(threads=self.__config.get("_maxthreads", 3), name='sharedThreadPool')
+        self.__sharedThreadPool = SpiderFootThreadPool(
+            threads=self.__config.get("_maxthreads", 3),
+            name='sharedThreadPool'
+        )
 
         # Used when module threading is enabled
         self.eventQueue = None
@@ -388,7 +399,8 @@ class SpiderFootScanner():
             psMod.notifyListeners(firstEvent)
 
             # Special case.. check if an INTERNET_NAME is also a domain
-            if self.__targetType == 'INTERNET_NAME' and self.__sf.isDomain(self.__targetValue, self.__config['_internettlds']):
+            if (self.__targetType == 'INTERNET_NAME'
+              and self.__sf.isDomain(self.__targetValue, self.__config['_internettlds'])):
                 firstEvent = SpiderFootEvent('DOMAIN_NAME', self.__targetValue, "SpiderFoot UI", rootEvent)
                 psMod.notifyListeners(firstEvent)
 
@@ -428,7 +440,10 @@ class SpiderFootScanner():
     def runCorrelations(self) -> None:
         """Run correlation rules."""
 
-        self.__sf.status(f"Running {len(self.__config['__correlationrules__'])} correlation rules on scan {self.__scanId}.")
+        self.__sf.status(
+            f"Running {len(self.__config['__correlationrules__'])} correlation rules "
+            f"on scan {self.__scanId}."
+        )
         ruleset = dict()
         for rule in self.__config['__correlationrules__']:
             ruleset[rule['id']] = rule['rawYaml']

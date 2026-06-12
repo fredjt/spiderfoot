@@ -987,7 +987,8 @@ class SpiderFoot:
         Args:
             rawcert (str): PEM-format SSL certificate
             fqdn (str): expected FQDN for certificate
-            expiringdays (int): The certificate will be considered as "expiring" if within this number of days of expiry.
+            expiringdays (int): Considered "expiring" if within this
+                number of days of expiry.
 
         Returns:
             dict: certificate details
@@ -1037,7 +1038,10 @@ class SpiderFoot:
             ext = cert.extensions.get_extension_for_class(cryptography.x509.SubjectAlternativeName)
             for x in ext.value:
                 if isinstance(x, cryptography.x509.DNSName):
-                    ret['altnames'].append(x.value.lower().encode('raw_unicode_escape').decode("ascii", errors='replace'))
+                    name = x.value.lower().encode('raw_unicode_escape').decode(
+                        "ascii", errors='replace'
+                    )
+                    ret['altnames'].append(name)
         except BaseException as e:
             self.debug(f"Problem processing certificate: {e}")
 
@@ -1127,7 +1131,8 @@ class SpiderFoot:
         return ret
 
     def isValidLocalOrLoopbackIp(self, ip: str) -> bool:
-        """Check if the specified IPv4 or IPv6 address is a loopback or local network IP address (IPv4 RFC1918 / IPv6 RFC4192 ULA).
+        """Check if the specified IPv4 or IPv6 address is a loopback or
+        local network IP address (IPv4 RFC1918 / IPv6 RFC4192 ULA).
 
         Args:
             ip (str): IPv4 or IPv6 address
@@ -1344,9 +1349,17 @@ class SpiderFoot:
 
                 except Exception as e:
                     if noLog:
-                        self.debug(f"Unexpected exception ({e}) occurred fetching (HEAD only) URL: {result['realurl']}", exc_info=True)
+                        self.debug(
+                            f"Unexpected exception ({e}) occurred fetching "
+                            f"(HEAD only) URL: {result['realurl']}",
+                            exc_info=True
+                        )
                     else:
-                        self.error(f"Unexpected exception ({e}) occurred fetching (HEAD only) URL: {result['realurl']}", exc_info=True)
+                        self.error(
+                            f"Unexpected exception ({e}) occurred fetching "
+                            f"(HEAD only) URL: {result['realurl']}",
+                            exc_info=True
+                        )
 
                     return result
 
@@ -1667,7 +1680,9 @@ class SpiderFoot:
             self.error("The key 'content' in the bing API response doesn't contain valid JSON.")
             return None
 
-        if ("webPages" in response_json and "value" in response_json["webPages"] and "webSearchUrl" in response_json["webPages"]):
+        if ("webPages" in response_json
+                and "value" in response_json["webPages"]
+                and "webSearchUrl" in response_json["webPages"]):
             return {
                 "urls": [result["url"] for result in response_json["webPages"]["value"]],
                 "webSearchUrl": response_json["webPages"]["webSearchUrl"],

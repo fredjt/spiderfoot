@@ -35,6 +35,11 @@ from spiderfoot import SpiderFootCorrelator
 from spiderfoot.logger import logListenerSetup, logWorkerSetup
 from spiderfoot import __version__
 
+DEFAULT_USER_AGENT = (
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) '
+    'Gecko/20100101 Firefox/62.0'
+)
+
 scanId = None
 dbh = None
 
@@ -56,7 +61,7 @@ def main() -> None:
         '_maxthreads': 3,  # Number of modules to run concurrently
         '__logging': True,  # Logging in general
         '__outputfilter': None,  # Event types to filter from modules' output
-        '_useragent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',  # User-Agent to use for HTTP requests
+        '_useragent': DEFAULT_USER_AGENT,  # User-Agent to use for HTTP requests
         '_dnsserver': '',  # Override the default resolver
         '_fetchtimeout': 5,  # number of seconds before giving up on a fetch
         '_internettlds': 'https://publicsuffix.org/list/effective_tld_names.dat',
@@ -75,18 +80,32 @@ def main() -> None:
     sfOptdescs = {
         '_debug': "Enable debugging?",
         '_maxthreads': "Max number of modules to run concurrently",
-        '_useragent': "User-Agent string to use for HTTP requests. Prefix with an '@' to randomly select the User Agent from a file containing user agent strings for each request, e.g. @C:\\useragents.txt or @/home/bob/useragents.txt. Or supply a URL to load the list from there.",
-        '_dnsserver': "Override the default resolver with another DNS server. For example, 8.8.8.8 is Google's open DNS server.",
+        '_useragent': (
+            "User-Agent for HTTP requests. Prefix with '@' to randomly "
+            "select from a file (e.g. @/path/useragents.txt) or URL."
+        ),
+        '_dnsserver': (
+            "DNS server to use as resolver. Example: 8.8.8.8 for Google DNS."
+        ),
         '_fetchtimeout': "Number of seconds before giving up on a HTTP request.",
         '_internettlds': "List of Internet TLDs.",
-        '_internettlds_cache': "Hours to cache the Internet TLD list. This can safely be quite a long time given that the list doesn't change too often.",
-        '_genericusers': "List of usernames that if found as usernames or as part of e-mail addresses, should be treated differently to non-generics.",
+        '_internettlds_cache': (
+            "Hours to cache the Internet TLD list. Safe to set long as the "
+            "list changes infrequently."
+        ),
+        '_genericusers': (
+            "Usernames to treat specially when found in usernames or "
+            "email addresses, rather than as specific individuals."
+        ),
         '_socks1type': "SOCKS Server Type. Can be '4', '5', 'HTTP' or 'TOR'",
         '_socks2addr': 'SOCKS Server IP Address.',
         '_socks3port': 'SOCKS Server TCP Port. Usually 1080 for 4/5, 8080 for HTTP and 9050 for TOR.',
         '_socks4user': 'SOCKS Username. Valid only for SOCKS4 and SOCKS5 servers.',
         '_socks5pwd': "SOCKS Password. Valid only for SOCKS5 servers.",
-        '_modulesenabled': "Modules enabled for the scan."  # This is a hack to get a description for an option not actually available.
+        '_modulesenabled': (
+            "Modules enabled for the scan. "
+            "Hack for describing an option not actually available."
+        ),
     }
 
     # Legacy way to run the server
@@ -98,18 +117,23 @@ def main() -> None:
     p.add_argument("-M", "--modules", action='store_true', help="List available modules.")
     p.add_argument("-C", "--correlate", metavar="scanID", help="Run correlation rules against a scan ID.")
     p.add_argument("-s", metavar="TARGET", help="Target for the scan.")
-    p.add_argument("-t", metavar="type1,type2,...", type=str, help="Event types to collect (modules selected automatically).")
-    p.add_argument("-u", choices=["all", "footprint", "investigate", "passive"], type=str, help="Select modules automatically by use case")
+    p.add_argument("-t", metavar="type1,type2,...", type=str,
+                   help="Event types to collect (modules selected automatically).")
+    p.add_argument("-u", choices=["all", "footprint", "investigate", "passive"],
+                  type=str, help="Select modules automatically by use case")
     p.add_argument("-T", "--types", action='store_true', help="List available event types.")
     p.add_argument("-o", choices=["tab", "csv", "json"], type=str, help="Output format. Tab is default.")
     p.add_argument("-H", action='store_true', help="Don't print field headers, just data.")
     p.add_argument("-n", action='store_true', help="Strip newlines from data.")
     p.add_argument("-r", action='store_true', help="Include the source data field in tab/csv output.")
-    p.add_argument("-S", metavar="LENGTH", type=int, help="Maximum data length to display. By default, all data is shown.")
+    p.add_argument("-S", metavar="LENGTH", type=int,
+                  help="Max data length. By default, all data is shown.")
     p.add_argument("-D", metavar='DELIMITER', type=str, help="Delimiter to use for CSV output. Default is ,.")
     p.add_argument("-f", action='store_true', help="Filter out other event types that weren't requested with -t.")
     p.add_argument("-F", metavar="type1,type2,...", type=str, help="Show only a set of event types, comma-separated.")
-    p.add_argument("-x", action='store_true', help="STRICT MODE. Will only enable modules that can directly consume your target, and if -t was specified only those events will be consumed by modules. This overrides -t and -m options.")
+    p.add_argument("-x", action='store_true',
+                  help="STRICT MODE: only enable modules matching target/event "
+                       "types. Overrides -t and -m.")
     p.add_argument("-q", action='store_true', help="Disable logging. This will also hide errors!")
     p.add_argument("-V", "--version", action='store_true', help="Display the version of SpiderFoot and exit.")
     p.add_argument("-max-threads", type=int, help="Max number of modules to run concurrently.")
@@ -428,7 +452,10 @@ def start_scan(sfConfig: dict, sfModules: dict, args, loggingQueue) -> None:
     scanName = target
     scanId = SpiderFootHelpers.genScanInstanceId()
     try:
-        p = mp.Process(target=startSpiderFootScanner, args=(loggingQueue, scanName, scanId, target, targetType, modlist, cfg))
+        p = mp.Process(
+            target=startSpiderFootScanner,
+            args=(loggingQueue, scanName, scanId, target, targetType, modlist, cfg)
+        )
         p.daemon = True
         p.start()
     except BaseException as e:

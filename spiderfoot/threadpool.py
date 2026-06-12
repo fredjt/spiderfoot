@@ -129,7 +129,10 @@ class SpiderFootThreadPool:
         while self.countQueuedTasks(taskName) >= maxThreads:
             sleep(.01)
             continue
-        self.log.debug(f"Submitting function \"{callback.__name__}\" from module \"{taskName}\" to thread pool \"{self.name}\"")
+        self.log.debug(
+            f"Submitting \"{callback.__name__}\" from "
+            f"module \"{taskName}\" to pool \"{self.name}\""
+        )
         self.inputQueue(taskName).put((callback, args, kwargs))
 
     def countQueuedTasks(self, taskName: str) -> int:

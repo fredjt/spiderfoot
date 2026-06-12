@@ -568,7 +568,11 @@ class SpiderFootCli(cmd.Cmd):
             self.dprint(f"Something odd happened: {d}")
 
         if s[1] != self.version:
-            self.edprint(f"Server and CLI version are not the same ({s[1]} / {self.version}). This could lead to unpredictable results!")
+            self.edprint(
+                f"Server and CLI version are not the same "
+                f"({s[1]} / {self.version}). "
+                f"This could lead to unpredictable results!"
+            )
 
     # List all SpiderFoot modules.
     def do_modules(self, line, cacheonly=False):
@@ -1350,12 +1354,25 @@ class SpiderFootCli(cmd.Cmd):
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description='SpiderFoot: Open Source Intelligence Automation.')
     p.add_argument("-d", "--debug", help="Enable debug output.", action='store_true')
-    p.add_argument("-s", metavar="URL", type=str, help="Connect to SpiderFoot server on URL. By default, a connection to http://127.0.0.1:5001 will be attempted.")
+    p.add_argument("-s", metavar="URL", type=str,
+                   help="Connect to SpiderFoot server on URL. "
+                        "By default, a connection to http://127.0.0.1:5001 "
+                        "will be attempted.")
     p.add_argument("-u", metavar="USER", type=str, help="Username to authenticate to SpiderFoot server.")
-    p.add_argument("-p", metavar="PASS", type=str, help="Password to authenticate to SpiderFoot server. Consider using -P PASSFILE instead so that your password isn't visible in your shell history or in process lists!")
-    p.add_argument("-P", metavar="PASSFILE", type=str, help="File containing password to authenticate to SpiderFoot server. Ensure permissions on the file are set appropriately!")
+    p.add_argument("-p", metavar="PASS", type=str,
+                   help="Password to authenticate to SpiderFoot server. "
+                        "Consider using -P PASSFILE instead so that "
+                        "your password isn't visible in your shell "
+                        "history or in process lists!")
+    p.add_argument("-P", metavar="PASSFILE", type=str,
+                   help="File containing password to authenticate to "
+                        "SpiderFoot server. Ensure permissions on the "
+                        "file are set appropriately!")
     p.add_argument("-e", metavar="FILE", type=str, help="Execute commands from FILE.")
-    p.add_argument("-l", metavar="FILE", type=str, help="Log command history to FILE. By default, history is stored to ~/.spiderfoot_history unless disabled with -n.")
+    p.add_argument("-l", metavar="FILE", type=str,
+                   help="Log command history to FILE. By default, "
+                        "history is stored to ~/.spiderfoot_history "
+                        "unless disabled with -n.")
     p.add_argument("-n", action='store_true', help="Disable history logging.")
     p.add_argument("-o", metavar="FILE", type=str, help="Spool commands and output to FILE.")
     p.add_argument("-i", help="Allow insecure server connections when using SSL", action='store_true')

@@ -37,7 +37,10 @@ class SpiderFootCorrelator:
         # TODO: Make the rule checking per analysis method
         "analysis": {
             "strict": ["method"],
-            "optional": ["field", "maximum_percent", "noisy_percent", "minimum", "maximum", "must_be_unique", "match_method"]
+            "optional": [
+                "field", "maximum_percent", "noisy_percent",
+                "minimum", "maximum", "must_be_unique", "match_method"
+            ]
         },
         "headline": {},
         "id": {},
@@ -116,7 +119,10 @@ class SpiderFootCorrelator:
             raise ValueError(f"Invalid scan ID. Scan {self.scanId} does not exist.")
 
         if scan_instance[5] in ["RUNNING", "STARTING", "STARTED"]:
-            raise ValueError(f"Scan {self.scanId} is {scan_instance[5]}. You cannot run correlations on running scans.")
+            raise ValueError(
+                f"Scan {self.scanId} is {scan_instance[5]}. "
+                "You cannot run correlations on running scans."
+            )
 
         for rule in self.rules:
             self.log.debug(f"Processing rule: {rule['id']}")
@@ -125,7 +131,9 @@ class SpiderFootCorrelator:
                 self.log.debug(f"No results for rule {rule['id']}.")
                 continue
 
-            self.log.info(f"Rule {rule['id']} returned {len(results.keys())} results.")
+            self.log.info(
+                f"Rule {rule['id']} returned {len(results.keys())} results."
+            )
 
             for result in results:
                 self.create_correlation(rule, results[result])
@@ -307,7 +315,8 @@ class SpiderFootCorrelator:
             new_missing = dict()
             self.log.debug(f"Getting sources for {len(entity_missing.keys())} items")
             if len(entity_missing.keys()) > 5000:
-                chunks = [list(entity_missing.keys())[x:x + 5000] for x in range(0, len(list(entity_missing.keys())), 5000)]
+                keys = list(entity_missing.keys())
+                chunks = [keys[x:x + 5000] for x in range(0, len(keys), 5000)]
                 entity_data = list()
                 self.log.debug("Fetching data in chunks")
                 for chunk in chunks:
@@ -485,7 +494,11 @@ class SpiderFootCorrelator:
                 self.log.debug(f"removing {event} because of {field}")
                 events.remove(event)
 
-    def collect_events(self, collection: dict, fetchChildren: bool, fetchSources: bool, fetchEntities: bool, collectIndex: int) -> list:
+    def collect_events(
+            self, collection: dict, fetchChildren: bool,
+            fetchSources: bool, fetchEntities: bool,
+            collectIndex: int
+        ) -> list:
         """Collect data for aggregation and analysis.
 
         Args:
@@ -1013,7 +1026,10 @@ class SpiderFootCorrelator:
 
         validfields = set(self.components.keys())
         if len(fields.union(validfields)) > len(validfields):
-            self.log.error(f"Unexpected field(s) in correlation rule {rule['id']}: {[f for f in fields if f not in validfields]}")
+            unexpected = [f for f in fields if f not in validfields]
+            self.log.error(
+                f"Unexpected field(s) in rule {rule['id']}: {unexpected}"
+            )
             ok = False
 
         for collection in rule.get('collections', list()):
@@ -1067,7 +1083,10 @@ class SpiderFootCorrelator:
 
                 # Check if any of the options aren't valid
                 if opt not in alloptions:
-                    self.log.error(f"Unexpected option, {opt}, found in {field} for {rule['id']}. Must be one of {alloptions}.")
+                    self.log.error(
+                        f"Unexpected option, {opt}, in {field} for rule "
+                        f"{rule['id']}. Must be one of {alloptions}."
+                    )
                     ok = False
 
         if ok:

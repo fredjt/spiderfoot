@@ -51,8 +51,14 @@ class SpiderFootWebUi:
     config = dict()
     token = None
     docroot = ''
+    _XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
-    def __init__(self: 'SpiderFootWebUi', web_config: dict, config: dict, loggingQueue: 'logging.handlers.QueueListener' = None) -> None:
+    def __init__(
+        self: 'SpiderFootWebUi',
+        web_config: dict,
+        config: dict,
+        loggingQueue: 'logging.handlers.QueueListener' = None,
+    ) -> None:
         """Initialize web server.
 
         Args:
@@ -408,7 +414,7 @@ class SpiderFootWebUi:
                 fname = "SpiderFoot-correlations.xlxs"
 
             cherrypy.response.headers['Content-Disposition'] = f"attachment; filename={fname}"
-            cherrypy.response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            cherrypy.response.headers['Content-Type'] = self._XLSX_MIME
             cherrypy.response.headers['Pragma'] = "no-cache"
             return self.buildExcel(rows, headings, sheetNameIndex=0)
 
@@ -437,7 +443,13 @@ class SpiderFootWebUi:
         return self.error("Invalid export filetype.")
 
     @cherrypy.expose
-    def scaneventresultexport(self: 'SpiderFootWebUi', id: str, type: str, filetype: str = "csv", dialect: str = "excel") -> str:
+    def scaneventresultexport(
+        self: 'SpiderFootWebUi',
+        id: str,
+        type: str,
+        filetype: str = "csv",
+        dialect: str = "excel",
+    ) -> str:
         """Get scan event result data in CSV or Excel format
 
         Args:
@@ -463,7 +475,7 @@ class SpiderFootWebUi:
 
             fname = "SpiderFoot.xlsx"
             cherrypy.response.headers['Content-Disposition'] = f"attachment; filename={fname}"
-            cherrypy.response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            cherrypy.response.headers['Content-Type'] = self._XLSX_MIME
             cherrypy.response.headers['Pragma'] = "no-cache"
             return self.buildExcel(rows, ["Updated", "Type", "Module", "Source",
                                    "F/P", "Data"], sheetNameIndex=1)
@@ -488,7 +500,12 @@ class SpiderFootWebUi:
         return self.error("Invalid export filetype.")
 
     @cherrypy.expose
-    def scaneventresultexportmulti(self: 'SpiderFootWebUi', ids: str, filetype: str = "csv", dialect: str = "excel") -> str:
+    def scaneventresultexportmulti(
+        self: 'SpiderFootWebUi',
+        ids: str,
+        filetype: str = "csv",
+        dialect: str = "excel",
+    ) -> str:
         """Get scan event result data in CSV or Excel format for multiple scans
 
         Args:
@@ -530,7 +547,7 @@ class SpiderFootWebUi:
                 fname = scan_name + "-SpiderFoot.xlsx"
 
             cherrypy.response.headers['Content-Disposition'] = f"attachment; filename={fname}"
-            cherrypy.response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            cherrypy.response.headers['Content-Type'] = self._XLSX_MIME
             cherrypy.response.headers['Pragma'] = "no-cache"
             return self.buildExcel(rows, ["Scan Name", "Updated", "Type", "Module",
                                    "Source", "F/P", "Data"], sheetNameIndex=2)
@@ -560,7 +577,14 @@ class SpiderFootWebUi:
         return self.error("Invalid export filetype.")
 
     @cherrypy.expose
-    def scansearchresultexport(self: 'SpiderFootWebUi', id: str, eventType: str = None, value: str = None, filetype: str = "csv", dialect: str = "excel") -> str:
+    def scansearchresultexport(
+        self: 'SpiderFootWebUi',
+        id: str,
+        eventType: str = None,
+        value: str = None,
+        filetype: str = "csv",
+        dialect: str = "excel",
+    ) -> str:
         """Get search result data in CSV or Excel format
 
         Args:
@@ -586,7 +610,7 @@ class SpiderFootWebUi:
                 datafield = str(row[1]).replace("<SFURL>", "").replace("</SFURL>", "")
                 rows.append([row[0], str(row[10]), str(row[3]), str(row[2]), row[11], datafield])
             cherrypy.response.headers['Content-Disposition'] = "attachment; filename=SpiderFoot.xlsx"
-            cherrypy.response.headers['Content-Type'] = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            cherrypy.response.headers['Content-Type'] = self._XLSX_MIME
             cherrypy.response.headers['Pragma'] = "no-cache"
             return self.buildExcel(rows, ["Updated", "Type", "Module", "Source",
                                    "F/P", "Data"], sheetNameIndex=1)
@@ -837,7 +861,10 @@ class SpiderFootWebUi:
         # Start running a new scan
         scanId = SpiderFootHelpers.genScanInstanceId()
         try:
-            p = mp.Process(target=startSpiderFootScanner, args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg))
+            p = mp.Process(
+                target=startSpiderFootScanner,
+                args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg),
+            )
             p.daemon = True
             p.start()
         except Exception as e:
@@ -891,7 +918,10 @@ class SpiderFootWebUi:
             # Start running a new scan
             scanId = SpiderFootHelpers.genScanInstanceId()
             try:
-                p = mp.Process(target=startSpiderFootScanner, args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg))
+                p = mp.Process(
+                    target=startSpiderFootScanner,
+                    args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg),
+                )
                 p.daemon = True
                 p.start()
             except Exception as e:
@@ -1085,7 +1115,12 @@ class SpiderFootWebUi:
         return ""
 
     @cherrypy.expose
-    def savesettings(self: 'SpiderFootWebUi', allopts: str, token: str, configFile: 'cherrypy._cpreqbody.Part' = None) -> None:
+    def savesettings(
+        self: 'SpiderFootWebUi',
+        allopts: str,
+        token: str,
+        configFile: 'cherrypy._cpreqbody.Part' = None,
+    ) -> None:
         """Save settings, also used to completely reset them to default.
 
         Args:
@@ -1372,7 +1407,14 @@ class SpiderFootWebUi:
             return self.jsonify_error('500', str(e))
 
     @cherrypy.expose
-    def startscan(self: 'SpiderFootWebUi', scanname: str, scantarget: str, modulelist: str, typelist: str, usecase: str) -> str:
+    def startscan(
+        self: 'SpiderFootWebUi',
+        scanname: str,
+        scantarget: str,
+        modulelist: str,
+        typelist: str,
+        usecase: str,
+    ) -> str:
         """Initiate a scan.
 
         Args:
@@ -1485,7 +1527,10 @@ class SpiderFootWebUi:
         # Start running a new scan
         scanId = SpiderFootHelpers.genScanInstanceId()
         try:
-            p = mp.Process(target=startSpiderFootScanner, args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg))
+            p = mp.Process(
+                target=startSpiderFootScanner,
+                args=(self.loggingQueue, scanname, scanId, scantarget, targetType, modlist, cfg),
+            )
             p.daemon = True
             p.start()
         except Exception as e:
@@ -1535,7 +1580,9 @@ class SpiderFootWebUi:
                 return self.jsonify_error('400', f"Scan {scan_id} has already aborted.")
 
             if scan_status != "RUNNING" and scan_status != "STARTING":
-                return self.jsonify_error('400', f"The running scan is currently in the state '{scan_status}', please try again later or restart SpiderFoot.")
+                return self.jsonify_error('400',
+                    f"The running scan is currently in the state '{scan_status}', "
+                    "please try again later or restart SpiderFoot.")
 
         for scan_id in ids:
             dbh.scanInstanceSet(scan_id, status="ABORT-REQUESTED")
@@ -1744,7 +1791,13 @@ class SpiderFootWebUi:
 
     @cherrypy.expose
     @cherrypy.tools.json_out()
-    def scaneventresults(self: 'SpiderFootWebUi', id: str, eventType: str = None, filterfp: bool = False, correlationId: str = None) -> list:
+    def scaneventresults(
+        self: 'SpiderFootWebUi',
+        id: str,
+        eventType: str = None,
+        filterfp: bool = False,
+        correlationId: str = None,
+    ) -> list:
         """Return all event results for a scan as JSON.
 
         Args:

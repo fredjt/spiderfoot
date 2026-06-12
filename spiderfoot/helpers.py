@@ -172,7 +172,10 @@ class SpiderFootHelpers():
         return sfModules
 
     @staticmethod
-    def loadCorrelationRulesRaw(path: str, ignore_files: typing.Optional[typing.List[str]] = None) -> typing.Dict[str, str]:
+    def loadCorrelationRulesRaw(
+        path: str,
+        ignore_files: typing.Optional[typing.List[str]] = None,
+    ) -> typing.Dict[str, str]:
         """Load correlation rules from correlations directory.
 
         Args:
@@ -232,8 +235,11 @@ class SpiderFootHelpers():
             {r"^[0-9]+$": "BGP_AS_OWNER"},
             {r"^[0-9a-f:]+$": "IPV6_ADDRESS"},
             {r"^[0-9a-f:]+::/[0-9]+$": "NETBLOCKV6_OWNER"},
-            {r"^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)+([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$": "INTERNET_NAME"},
-            {r"^(bc(0([ac-hj-np-z02-9]{39}|[ac-hj-np-z02-9]{59})|1[ac-hj-np-z02-9]{8,87})|[13][a-km-zA-HJ-NP-Z1-9]{25,35})$": "BITCOIN_ADDRESS"},
+            {r"^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)+"
+             r"([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$": "INTERNET_NAME"},
+            {r"^(bc(0([ac-hj-np-z02-9]{39}"
+             r"|[ac-hj-np-z02-9]{59})|1[ac-hj-np-z02-9]{8,87})"
+             r"|[13][a-km-zA-HJ-NP-Z1-9]{25,35})$": "BITCOIN_ADDRESS"},
         ]
 
         # Parse the target and set the target type
@@ -425,7 +431,12 @@ class SpiderFootHelpers():
         return words
 
     @staticmethod
-    def buildGraphGexf(root: str, title: str, data: typing.List[str], flt: typing.Optional[typing.List[str]] = None) -> str:
+    def buildGraphGexf(
+        root: str,
+        title: str,
+        data: typing.List[str],
+        flt: typing.Optional[typing.List[str]] = None,
+    ) -> str:
         """Convert supplied raw data into GEXF (Graph Exchange XML Format) format (e.g. for Gephi).
 
         Args:
@@ -556,7 +567,10 @@ class SpiderFootHelpers():
         return json.dumps(ret)
 
     @staticmethod
-    def buildGraphData(data: typing.List[str], flt: typing.Optional[typing.List[str]] = None) -> typing.Set[typing.Tuple[str, str]]:
+    def buildGraphData(
+        data: typing.List[str],
+        flt: typing.Optional[typing.List[str]] = None,
+    ) -> typing.Set[typing.Tuple[str, str]]:
         """Return a format-agnostic collection of tuples to use as the
         basis for building graphs in various formats.
 
@@ -633,7 +647,9 @@ class SpiderFootHelpers():
         return mapping
 
     @staticmethod
-    def dataParentChildToTree(data: typing.Dict[str, typing.Optional[typing.List[str]]]) -> typing.Union[Tree, EmptyTree]:
+    def dataParentChildToTree(
+        data: typing.Dict[str, typing.Optional[typing.List[str]]],
+    ) -> typing.Union[Tree, EmptyTree]:
         """Converts a dictionary of k -> array to a nested
         tree that can be digested by d3 for visualizations.
 
@@ -653,7 +669,10 @@ class SpiderFootHelpers():
         if not data:
             raise ValueError("data is empty")
 
-        def get_children(needle: str, haystack: typing.Dict[str, typing.Optional[typing.List[str]]]) -> typing.Optional[typing.List[Tree]]:
+        def get_children(
+            needle: str,
+            haystack: typing.Dict[str, typing.Optional[typing.List[str]]],
+        ) -> typing.Optional[typing.List[Tree]]:
             ret: typing.List[Tree] = list()
 
             if needle not in list(haystack.keys()):
@@ -771,7 +790,11 @@ class SpiderFootHelpers():
         return str(uuid.uuid4()).split("-")[0].upper()
 
     @staticmethod
-    def extractLinksFromHtml(url: str, data: str, domains: typing.Optional[typing.List[str]]) -> typing.Dict[str, ExtractedLink]:
+    def extractLinksFromHtml(
+        url: str,
+        data: str,
+        domains: typing.Optional[typing.List[str]],
+    ) -> typing.Dict[str, ExtractedLink]:
         """Find all URLs within the supplied content.
 
         This function does not fetch any URLs.
@@ -1137,11 +1160,15 @@ class SpiderFootHelpers():
             return []
 
         # https://tools.ietf.org/html/rfc3986#section-3.3
-        return re.findall(r"(https?://[a-zA-Z0-9-\.:]+/[\-\._~!\$&'\(\)\*\+\,\;=:@/a-zA-Z0-9]*)", html.unescape(content))
+        return re.findall(
+            r"(https?://[a-zA-Z0-9-\.:]+/[\-\._~!\$&'\(\)\*\+\,\;=:@/a-zA-Z0-9]*)",
+            html.unescape(content),
+        )
 
     @staticmethod
     def sslDerToPem(der_cert: bytes) -> str:
-        """Given a certificate as a DER-encoded blob of bytes, returns a PEM-encoded string version of the same certificate.
+        """Given a certificate as a DER-encoded blob of bytes,
+        returns a PEM-encoded string version of the same certificate.
 
         Args:
             der_cert (bytes): certificate in DER format

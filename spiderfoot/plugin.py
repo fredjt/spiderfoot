@@ -358,7 +358,10 @@ class SpiderFootPlugin():
 
         prevEvent = sfEvent.sourceEvent
         while prevEvent is not None:
-            if prevEvent.sourceEvent is not None and prevEvent.sourceEvent.eventType == sfEvent.eventType and prevEvent.sourceEvent.data.lower() == eventData.lower():
+            src = prevEvent.sourceEvent
+            if (src is not None
+                    and src.eventType == sfEvent.eventType
+                    and src.data.lower() == eventData.lower()):
                 storeOnly = True
                 break
             prevEvent = prevEvent.sourceEvent
@@ -516,7 +519,10 @@ class SpiderFootPlugin():
                     self.sf.debug(f"{self.__name__}.threadWorker() got \"FINISHED\" from incomingEventQueue.")
                     self.poolExecute(self.finish)
                 else:
-                    self.sf.debug(f"{self.__name__}.threadWorker() got event, {sfEvent.eventType}, from incomingEventQueue.")
+                    self.sf.debug(
+                        f"{self.__name__}.threadWorker() got event, "
+                        f"{sfEvent.eventType}, from queue."
+                    )
                     self.poolExecute(self.handleEvent, sfEvent)
         except KeyboardInterrupt:
             self.sf.debug(f"Interrupted module {self.__name__}.")
@@ -551,7 +557,12 @@ class SpiderFootPlugin():
         if self.__name__.startswith('sfp__stor_'):
             callback(*args, **kwargs)
         else:
-            self.sharedThreadPool.submit(callback, *args, taskName=f"{self.__name__}_threadWorker", maxThreads=self.maxThreads, **kwargs)
+            self.sharedThreadPool.submit(
+                callback, *args,
+                taskName=f"{self.__name__}_threadWorker",
+                maxThreads=self.maxThreads,
+                **kwargs
+            )
 
     def threadPool(self, *args, **kwargs):
         return SpiderFootThreadPool(*args, **kwargs)

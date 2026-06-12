@@ -387,7 +387,9 @@ class SpiderFootDb:
                         event_descr = row[1]
                         event_raw = row[2]
                         event_type = row[3]
-                        qry = "INSERT INTO tbl_event_types (event, event_descr, event_raw, event_type) VALUES (?, ?, ?, ?)"
+                        qry = ("INSERT INTO tbl_event_types "
+                              "(event, event_descr, event_raw, event_type) "
+                              "VALUES (?, ?, ?, ?)")
 
                         try:
                             self.dbh.execute(qry, (
@@ -1778,7 +1780,12 @@ class SpiderFootDb:
         if not isinstance(eventHashes, list):
             raise TypeError(f"eventHashes is {type(eventHashes)}; expected list()")
 
-        uniqueId = str(hashlib.md5(str(time.time() + random.SystemRandom().randint(0, 99999999)).encode('utf-8')).hexdigest())  # noqa: DUO130
+        uniqueId = str(
+            hashlib.md5(
+                str(time.time() + random.SystemRandom().randint(0, 99999999))
+                .encode('utf-8')
+            ).hexdigest()
+        )  # noqa: DUO130
 
         qry = "INSERT INTO tbl_scan_correlation_results \
             (id, scan_instance_id, title, rule_name, rule_descr, rule_risk, rule_id, rule_logic) \
