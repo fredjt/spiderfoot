@@ -116,7 +116,7 @@ class sfp_tool_wappalyzer(SpiderFootPlugin):
                 stdout, stderr = p.communicate()
                 self.debug("Timed out waiting for Wappalyzer to finish")
                 return
-        except BaseException as e:
+        except Exception as e:
             self.error(f"Unable to run Wappalyzer: {e}")
             return
 

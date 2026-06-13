@@ -185,7 +185,7 @@ class sfp_tool_httpx(SpiderFootPlugin):
                 stdout, stderr = p.communicate()
                 self.debug(f"Timed out waiting for httpx to finish on {eventData}")
                 return
-        except BaseException as e:
+        except Exception as e:
             self.error(f"Unable to run httpx: {e}")
             return
 

@@ -173,7 +173,7 @@ class SpiderFoot:
                 res = session.get(val)
 
                 return res.content.decode('utf-8')
-            except BaseException as e:
+            except Exception as e:
                 self.error(f"Unable to open option URL, {val}: {e}")
                 return None
 
@@ -771,7 +771,7 @@ class SpiderFoot:
 
         try:
             return netaddr.IPNetwork(str(cidr)).size > 0
-        except BaseException:
+        except Exception:
             return False
 
     def isPublicIpAddress(self, ip: str) -> bool:
@@ -848,7 +848,7 @@ class SpiderFoot:
         addrs = list()
         try:
             addrs = self.normalizeDNS(socket.gethostbyname_ex(host))
-        except BaseException as e:
+        except Exception as e:
             self.debug(f"Unable to resolve host: {host} ({e})")
             return addrs
 
@@ -878,7 +878,7 @@ class SpiderFoot:
 
         try:
             addrs = self.normalizeDNS(socket.gethostbyaddr(ipaddr))
-        except BaseException as e:
+        except Exception as e:
             self.debug(f"Unable to reverse resolve IP address: {ipaddr} ({e})")
             return list()
 
@@ -909,7 +909,7 @@ class SpiderFoot:
             for addr in res:
                 if addr[4][0] not in addrs:
                     addrs.append(addr[4][0])
-        except BaseException as e:
+        except Exception as e:
             self.debug(f"Unable to resolve host: {hostname} ({e})")
             return addrs
 
@@ -1028,7 +1028,7 @@ class SpiderFoot:
                 ret['expiring'] = True
             if ret['expiry'] <= now:
                 ret['expired'] = True
-        except BaseException as e:
+        except Exception as e:
             self.error(f"Error processing date in certificate: {e}")
             ret['certerror'] = True
             return ret
@@ -1042,7 +1042,7 @@ class SpiderFoot:
                         "ascii", errors='replace'
                     )
                     ret['altnames'].append(name)
-        except BaseException as e:
+        except Exception as e:
             self.debug(f"Problem processing certificate: {e}")
 
         certhosts = list()
@@ -1054,7 +1054,7 @@ class SpiderFoot:
                 # CN often duplicates one of the SANs, don't add it then
                 if name not in ret['altnames']:
                     certhosts.append(name)
-        except BaseException as e:
+        except Exception as e:
             self.debug(f"Problem processing certificate: {e}")
 
         # Check for mismatch
@@ -1086,7 +1086,7 @@ class SpiderFoot:
 
                 if not found:
                     ret['mismatch'] = True
-            except BaseException as e:
+            except Exception as e:
                 self.error(f"Error processing certificate: {e}")
                 ret['certerror'] = True
 
@@ -1560,7 +1560,7 @@ class SpiderFoot:
 
                     return (eventType, f"{cveId}\n<SFURL>https://nvd.nist.gov/vuln/detail/{cveId}</SFURL>\n"
                             f"Score: {score}\nDescription: {descr}")
-            except BaseException as e:
+            except Exception as e:
                 self.debug(f"Unable to parse CVE response from {source.upper()}: {e}")
                 continue
 

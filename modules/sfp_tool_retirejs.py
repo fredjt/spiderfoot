@@ -165,7 +165,7 @@ class sfp_tool_retirejs(SpiderFootPlugin):
                                 )
                                 self.notifyListeners(evt)
             shutil.rmtree(tmpdirname)
-        except BaseException as e:
+        except Exception as e:
             self.error(f"Couldn't parse the JSON output of Retire.js: {e}")
             shutil.rmtree(tmpdirname)
             return
