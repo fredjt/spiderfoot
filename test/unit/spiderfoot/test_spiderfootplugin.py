@@ -39,7 +39,7 @@ class TestSpiderFootPlugin(unittest.TestCase):
 
     def test_setup(self):
         """
-        Test setup(self, sf, userOpts=dict())
+        Test setup(self, sf, userOpts=None)
         """
         sfp = SpiderFootPlugin()
 
