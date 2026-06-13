@@ -1189,11 +1189,7 @@ class SpiderFootCli(cmd.Cmd):
             cfg = c[0][0]
 
         if len(c[0]) > 2:
-            try:
-                val = c[0][2]
-            except Exception:
-                self.edprint("Invalid syntax.")
-                return
+            val = c[0][2]
 
         # Local CLI config
         if cfg and val:
@@ -1422,12 +1418,7 @@ if __name__ == "__main__":
     if args.l:
         s.ownopts['cli.history_file'] = args.l
     else:
-        try:
-            s.ownopts['cli.history_file'] = expanduser("~") + "/.spiderfoot_history"
-        except Exception as e:
-            s.dprint(f"Failed to set 'cli.history_file': {e}")
-            s.dprint("Using '.spiderfoot_history' in working directory")
-            s.ownopts['cli.history_file'] = ".spiderfoot_history"
+        s.ownopts['cli.history_file'] = expanduser("~") + "/.spiderfoot_history"
     if args.o:
         s.ownopts['cli.spool'] = True
         s.ownopts['cli.spool_file'] = args.o

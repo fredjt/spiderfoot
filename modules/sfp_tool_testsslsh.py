@@ -16,6 +16,7 @@ import sys
 import json
 import tempfile
 from netaddr import IPNetwork
+from netaddr.core import AddrFormatError
 from subprocess import PIPE, Popen, TimeoutExpired
 
 from spiderfoot import SpiderFootPlugin, SpiderFootEvent, SpiderFootHelpers
@@ -141,7 +142,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                     if IPNetwork(eventData) in IPNetwork(addr):
                         self.debug(f"Skipping {eventData} as already within a scanned range.")
                         return
-                except Exception:
+                except (AddrFormatError, ValueError):
                     # self.results will also contain hostnames
                     continue
 

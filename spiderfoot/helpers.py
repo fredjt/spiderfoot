@@ -849,10 +849,7 @@ class SpiderFootHelpers():
         except Exception:
             return returnLinks
 
-        try:
-            proto = url.split(":")[0]
-        except Exception:
-            proto = "http"
+        proto = url.split(":")[0]
 
         # Loop through all the URLs/links found
         for link in links:

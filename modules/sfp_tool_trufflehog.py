@@ -98,7 +98,7 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
                     or "bitbucket.org/" in evtLower):
                 try:
                     url = eventData.split(": ")[1].replace("<SFURL>", "").replace("</SFURL>", "")
-                except Exception:
+                except IndexError:
                     self.debug("Unable to extract repository URL, skipping.")
                     return
             else:
@@ -110,7 +110,7 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
                     or "bitbucket.org/" in evtLower):
                 try:
                     url = eventData.split("\n")[1].replace("URL: ", "")
-                except Exception:
+                except IndexError:
                     self.debug("Unable to extract repository URL, skipping.")
                     return
             else:
