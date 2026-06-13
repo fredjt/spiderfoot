@@ -46,7 +46,9 @@ class sfp_myspace(SpiderFootPlugin):
 
     results = None
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.__dataSource__ = "MySpace.com"
         self.results = self.tempStorage()

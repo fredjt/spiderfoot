@@ -164,7 +164,7 @@ class SpiderFootPlugin():
         self._listenerModules = list()
         self._stopScanning = False
 
-    def setup(self, sf, userOpts: dict = {}) -> None:
+    def setup(self, sf, userOpts: dict = None) -> None:
         """Will always be overriden by the implementer.
 
         Args:

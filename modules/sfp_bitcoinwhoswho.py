@@ -59,6 +59,8 @@ class sfp_bitcoinwhoswho(SpiderFootPlugin):
     errorState = False
 
     def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
 

@@ -79,7 +79,9 @@ class sfp_dronebl(SpiderFootPlugin):
         "127.0.0.255": "dronebl.org - Unknown"
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
 

@@ -63,7 +63,9 @@ class sfp_tool_altdns(SpiderFootPlugin):
         'dnsserver': "Custom DNS resolver IP address to use instead of system default."
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
         self.errorState = False

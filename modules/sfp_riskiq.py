@@ -73,7 +73,9 @@ class sfp_riskiq(SpiderFootPlugin):
     errorState = False
     cohostcount = 0
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
         self.cohostcount = 0
@@ -94,7 +96,9 @@ class sfp_riskiq(SpiderFootPlugin):
                 "DOMAIN_NAME", "AFFILIATE_DOMAIN_NAME", "INTERNET_NAME_UNRESOLVED",
                 "CO_HOSTED_SITE", "NETBLOCK_OWNER"]
 
-    def query(self, qry, qtype, opts=dict()):
+    def query(self, qry, qtype, opts=None):
+        if opts is None:
+            opts = dict()
         ret = None
         post = None
 

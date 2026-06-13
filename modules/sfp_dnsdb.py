@@ -67,7 +67,9 @@ class sfp_dnsdb(SpiderFootPlugin):
     errorState = False
     cohostcount = 0
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
         self.cohostcount = 0

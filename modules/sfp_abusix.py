@@ -94,7 +94,9 @@ class sfp_abusix(SpiderFootPlugin):
         "127.0.5.1": "attachhash",
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.errorState = False
         self.results = self.tempStorage()

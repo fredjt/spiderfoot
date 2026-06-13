@@ -73,7 +73,9 @@ class sfp_spider(SpiderFootPlugin):
     # Tracked cookies per site
     siteCookies = None
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.fetchedPages = self.tempStorage()
         self.urlEvents = self.tempStorage()

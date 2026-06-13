@@ -1185,7 +1185,7 @@ class SpiderFootDb:
 
         return True
 
-    def configSet(self, optMap: dict = {}) -> bool:
+    def configSet(self, optMap: dict = None) -> bool:
         """Store the default configuration in the database.
 
         Args:
@@ -1273,7 +1273,7 @@ class SpiderFootDb:
             except sqlite3.Error as e:
                 raise IOError("Unable to clear configuration from the database") from e
 
-    def scanConfigSet(self, scan_id, optMap=dict()) -> None:
+    def scanConfigSet(self, scan_id, optMap=None) -> None:
         """Store a configuration value for a scan.
 
         Args:

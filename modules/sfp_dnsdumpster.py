@@ -38,7 +38,9 @@ class sfp_dnsdumpster(SpiderFootPlugin):
     # Option descriptions
     optdescs = {}
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.debug("Setting up sfp_dnsdumpster")
         self.results = self.tempStorage()

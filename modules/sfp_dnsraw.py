@@ -43,7 +43,9 @@ class sfp_dnsraw(SpiderFootPlugin):
     events = None
     checked = None
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.events = self.tempStorage()
         self.checked = self.tempStorage()

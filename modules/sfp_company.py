@@ -34,7 +34,9 @@ class sfp_company(SpiderFootPlugin):
         'filterjscss': "Filter company names from CSS/JS content to avoid false positives for framework author names."
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
 
         for opt in list(userOpts.keys()):

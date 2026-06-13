@@ -59,6 +59,8 @@ class sfp_ipqualityscore(SpiderFootPlugin):
 
     def setup(self, sfc, userOpts=None):
         if userOpts is None:
+            userOpts = dict()
+        if userOpts is None:
             userOpts = {}
         self.sf = sfc
         self.results = self.tempStorage()

@@ -81,7 +81,9 @@ class sfp_similar(SpiderFootPlugin):
     # Internal results tracking
     results = None
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
         self.__dataSource__ = "DNS"

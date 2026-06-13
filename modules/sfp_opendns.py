@@ -59,7 +59,9 @@ class sfp_opendns(SpiderFootPlugin):
         "146.112.61.110": "OpenDNS - Malware",
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.results = self.tempStorage()
 

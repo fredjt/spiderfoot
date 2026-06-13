@@ -75,7 +75,9 @@ class sfp_spamhaus(SpiderFootPlugin):
         '127.0.0.11': "Spamhaus (Zen) - Potential Spammer",
     }
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.errorState = False
         self.results = self.tempStorage()

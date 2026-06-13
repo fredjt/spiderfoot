@@ -66,7 +66,9 @@ class sfp_azureblobstorage(SpiderFootPlugin):
     results = None
     s3results = None
 
-    def setup(self, sfc, userOpts=dict()):
+    def setup(self, sfc, userOpts=None):
+        if userOpts is None:
+            userOpts = dict()
         self.sf = sfc
         self.s3results = self.tempStorage()
         self.results = self.tempStorage()
