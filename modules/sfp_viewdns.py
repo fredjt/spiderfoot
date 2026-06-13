@@ -243,8 +243,10 @@ class sfp_viewdns(SpiderFootPlugin):
                 if self.cohostcount >= self.opts['maxcohost']:
                     continue
 
-                if (eventName in ["IP_ADDRESS", "IPV6_ADDRESS"]
-                    and self.opts['verify'] and not self.sf.validateIP(domain, eventData)):
+                is_ip_event = eventName in ["IP_ADDRESS", "IPV6_ADDRESS"]
+                if (is_ip_event
+                        and self.opts['verify']
+                        and not self.sf.validateIP(domain, eventData)):
                     self.debug(f"Host {domain} no longer resolves to IP address: {eventData}")
                     continue
 

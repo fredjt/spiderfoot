@@ -495,10 +495,10 @@ class SpiderFootCorrelator:
                 events.remove(event)
 
     def collect_events(
-            self, collection: dict, fetchChildren: bool,
-            fetchSources: bool, fetchEntities: bool,
-            collectIndex: int
-        ) -> list:
+        self, collection: dict, fetchChildren: bool,
+        fetchSources: bool, fetchEntities: bool,
+        collectIndex: int,
+    ) -> list:
         """Collect data for aggregation and analysis.
 
         Args:

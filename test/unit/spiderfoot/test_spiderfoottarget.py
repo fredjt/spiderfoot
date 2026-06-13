@@ -215,7 +215,9 @@ class TestSpiderFootTarget(unittest.TestCase):
         matches = target.matches('1.1.1.2')
         self.assertFalse(matches)
 
-    def test_matches_argument_value_unmatching_ipv4_address_in_same_subnet_when_targetType_is_netblock_should_return_True(self):
+    def test_matches_unmatching_ipv4_in_same_subnet_should_return_true(
+        self
+    ):
         target_value = '127.0.0.0/24'
         target_type = 'NETBLOCK_OWNER'
         target = SpiderFootTarget(target_value, target_type)

@@ -125,7 +125,7 @@ class TestSf(unittest.TestCase):
     def test_run_scan_should_print_scan_result_and_exit(self):
         target = "spiderfoot.net"
         cmd = [sys.executable, "sf.py", "-m", ",".join(self.default_modules),
-              "-s", target, "-o", "csv"]
+               "-s", target, "-o", "csv"]
         out, err, code = self.execute(cmd)
         self.assertIn(b"Scan completed with status FINISHED", err)
         self.assertEqual(0, code)

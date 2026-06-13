@@ -67,7 +67,7 @@ class TestModuleWebAnalytics(unittest.TestCase):
 
         self.assertEqual("OK", str(cm.exception))
 
-    def test_handleEvent_event_data_target_web_content_not_containing_web_analytics_string_should_not_create_event(self):
+    def test_handleEvent_web_content_no_analytics_should_not_create_event(self):
         sf = SpiderFoot(self.default_options)
 
         module = sfp_webanalytics()

@@ -246,7 +246,11 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                     if result['id'] in cves:
                         continue
                     cves.append(result['id'])
-                    evt = SpiderFootEvent("VULNERABILITY_GENERAL", f"{result['id']} ({result['finding']})", self.__name__, pevent)
+                    evt = SpiderFootEvent(
+                        "VULNERABILITY_GENERAL",
+                        f"{result['id']} ({result['finding']})",
+                        self.__name__, pevent
+                    )
                     self.notifyListeners(evt)
 
 # End of sfp_tool_testsslsh class

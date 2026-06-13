@@ -37,13 +37,13 @@ class sfp_pgp(SpiderFootPlugin):
     opts = {
         'retrieve_keys': True,
         'keyserver_search1': "https://keyserver.ubuntu.com/pks/lookup"
-              "?fingerprint=on&op=vindex&search=",
+                             "?fingerprint=on&op=vindex&search=",
         'keyserver_fetch1': "https://keyserver.ubuntu.com/pks/lookup"
-             "?op=get&search=",
+                            "?op=get&search=",
         'keyserver_search2': "http://the.earth.li:11371/pks/lookup"
-              "?fingerprint=on&op=vindex&search=",
+                             "?fingerprint=on&op=vindex&search=",
         'keyserver_fetch2': "http://the.earth.li:11371/pks/lookup"
-             "?op=get&search="
+                            "?op=get&search="
     }
 
     optdescs = {

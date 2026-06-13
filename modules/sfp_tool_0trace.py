@@ -124,7 +124,11 @@ class sfp_tool_0trace(SpiderFootPlugin):
             return
 
         if p.returncode != 0:
-            self.error(f"0trace returned non-zero exit code {p.returncode} for {eventData}\nstderr: {stderr}\nstdout: {stdout}")
+            self.error(
+                f"0trace returned non-zero exit code "
+                f"{p.returncode} for {eventData}\n"
+                f"stderr: {stderr}\nstdout: {stdout}"
+            )
             return
 
         if not stdout:

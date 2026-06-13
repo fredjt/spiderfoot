@@ -8,7 +8,8 @@ def default_options(request):
         '_debug': False,
         '__logging': True,  # Logging in general
         '__outputfilter': None,  # Event types to filter from modules' output
-        '_useragent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',  # User-Agent to use for HTTP requests
+        '_useragent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+        # User-Agent to use for HTTP requests
         '_dnsserver': '',  # Override the default resolver
         '_fetchtimeout': 5,  # number of seconds before giving up on a fetch
         '_internettlds': 'https://publicsuffix.org/list/effective_tld_names.dat',

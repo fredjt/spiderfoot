@@ -69,9 +69,9 @@ class TestSpiderFootScanner(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             SpiderFootScanner(
-                    "", scan_id, "spiderfoot.net", "IP_ADDRESS",
-                    module_list, self.default_options, start=False
-                )
+                "", scan_id, "spiderfoot.net", "IP_ADDRESS",
+                module_list, self.default_options, start=False
+            )
 
     def test_init_argument_scanId_of_invalid_type_should_raise_TypeError(self):
         """
@@ -98,10 +98,10 @@ class TestSpiderFootScanner(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             SpiderFootScanner(
-                    "example scan name", scan_id,
-                    "spiderfoot.net", "IP_ADDRESS",
-                    module_list, self.default_options, start=False
-                )
+                "example scan name", scan_id,
+                "spiderfoot.net", "IP_ADDRESS",
+                module_list, self.default_options, start=False
+            )
 
     def test_init_argument_targetValue_of_invalid_type_should_raise_TypeError(self):
         """
@@ -115,10 +115,10 @@ class TestSpiderFootScanner(unittest.TestCase):
             with self.subTest(invalid_type=invalid_type):
                 with self.assertRaises(TypeError):
                     SpiderFootScanner(
-                            "example scan name", scan_id,
-                            invalid_type, "IP_ADDRESS",
-                            module_list, self.default_options, start=False
-                        )
+                        "example scan name", scan_id,
+                        invalid_type, "IP_ADDRESS",
+                        module_list, self.default_options, start=False
+                    )
 
     def test_init_argument_targetValue_as_empty_string_should_raise_ValueError(self):
         """
@@ -199,10 +199,10 @@ class TestSpiderFootScanner(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             SpiderFootScanner(
-                    "example scan name", scan_id,
-                    "spiderfoot.net", "IP_ADDRESS",
-                    module_list, self.default_options, start=False
-                )
+                "example scan name", scan_id,
+                "spiderfoot.net", "IP_ADDRESS",
+                module_list, self.default_options, start=False
+            )
 
     def test_init_argument_globalOpts_of_invalid_type_should_raise_TypeError(self):
         """

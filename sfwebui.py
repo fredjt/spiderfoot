@@ -1580,9 +1580,11 @@ class SpiderFootWebUi:
                 return self.jsonify_error('400', f"Scan {scan_id} has already aborted.")
 
             if scan_status != "RUNNING" and scan_status != "STARTING":
-                return self.jsonify_error('400',
+                return self.jsonify_error(
+                    '400',
                     f"The running scan is currently in the state '{scan_status}', "
-                    "please try again later or restart SpiderFoot.")
+                    "please try again later or restart SpiderFoot."
+                )
 
         for scan_id in ids:
             dbh.scanInstanceSet(scan_id, status="ABORT-REQUESTED")

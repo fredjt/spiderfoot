@@ -30,7 +30,10 @@ class TestModuleIntegrationStevenblackHosts(unittest.TestCase):
             if str(event.eventType) != expected:
                 raise Exception(f"{event.eventType} != {expected}")
 
-            expected = 'Steven Black Hosts Blocklist [ads.google.com]\n<SFURL>https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts</SFURL>'
+            expected = (
+                'Steven Black Hosts Blocklist [ads.google.com]\n'
+                '<SFURL>https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts</SFURL>'
+            )
             if str(event.data) != expected:
                 raise Exception(f"{event.data} != {expected}")
 

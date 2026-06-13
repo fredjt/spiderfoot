@@ -67,7 +67,7 @@ class TestModuleNames(unittest.TestCase):
 
         self.assertEqual("OK", str(cm.exception))
 
-    def test_handleEvent_event_data_email_address_containing_human_names_containing_numbers_should_not_return_event(self):
+    def test_handleEvent_email_with_numbers_should_not_return_event(self):
         sf = SpiderFoot(self.default_options)
 
         module = sfp_names()

@@ -95,10 +95,12 @@ class sfp_wikileaks(SpiderFootPlugin):
             maxDate = ""
 
         qdata = eventData.replace(" ", "+")
-        wlurl = ("query=%22" + qdata +
-                "%22" + "&released_date_start=" + maxDate +
-                "&include_external_sources=" + external +
-                "&new_search=True&order_by=most_relevant#results")
+        wlurl = "".join([
+            "query=%22", qdata, "%22",
+            "&released_date_start=", maxDate,
+            "&include_external_sources=", external,
+            "&new_search=True&order_by=most_relevant#results"
+        ])
 
         res = self.sf.fetchUrl(
             "https://search.wikileaks.org/?" + wlurl

@@ -26,7 +26,7 @@ class TestModuleWebFramework(unittest.TestCase):
         module = sfp_webframework()
         self.assertIsInstance(module.producedEvents(), list)
 
-    def test_handleEvent_event_data_web_content_containing_webframework_string_should_create_url_web_framework_event(self):
+    def test_handleEvent_web_content_with_framework_should_create_event(self):
         sf = SpiderFoot(self.default_options)
 
         module = sfp_webframework()
@@ -101,7 +101,7 @@ class TestModuleWebFramework(unittest.TestCase):
 
         self.assertIsNone(result)
 
-    def test_handleEvent_event_data_web_content_from_external_url_containing_webframework_string_should_not_create_event(self):
+    def test_handleEvent_external_url_should_not_create_event(self):
         sf = SpiderFoot(self.default_options)
 
         module = sfp_webframework()

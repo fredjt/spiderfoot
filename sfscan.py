@@ -400,7 +400,7 @@ class SpiderFootScanner():
 
             # Special case.. check if an INTERNET_NAME is also a domain
             if (self.__targetType == 'INTERNET_NAME'
-              and self.__sf.isDomain(self.__targetValue, self.__config['_internettlds'])):
+               and self.__sf.isDomain(self.__targetValue, self.__config['_internettlds'])):
                 firstEvent = SpiderFootEvent('DOMAIN_NAME', self.__targetValue, "SpiderFoot UI", rootEvent)
                 psMod.notifyListeners(firstEvent)
 

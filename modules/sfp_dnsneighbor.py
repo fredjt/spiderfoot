@@ -36,7 +36,7 @@ class sfp_dnsneighbor(SpiderFootPlugin):
     optdescs = {
         'validatereverse': "Validate reverse-resolved hostnames still resolve to that IP before considering aliases.",
         'lookasidebits': "Netmask size (CIDR) to check when look-aside is enabled. "
-                        "Default is 4 bits (16 hosts)."
+                         "Default is 4 bits (16 hosts)."
     }
 
     events = None

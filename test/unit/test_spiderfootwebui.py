@@ -103,9 +103,9 @@ class TestSpiderFootWebUi(unittest.TestCase):
         self.assertIsInstance(clean_input, list)
         self.assertEqual(clean_input, [
             '&lt;p&gt;some HTML with "some quotes" '
-             '& some JavaScript\n'
-             '&lt;script&gt;alert(&#x27;JavaScript&#x27;)'
-             '&lt;/script&gt;&lt;/p&gt;',
+            '& some JavaScript\n'
+            '&lt;script&gt;alert(&#x27;JavaScript&#x27;)'
+            '&lt;/script&gt;&lt;/p&gt;',
             "Some more input. This function accepts a list"
         ])
 

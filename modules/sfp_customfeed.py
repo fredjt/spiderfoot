@@ -47,7 +47,7 @@ class sfp_customfeed(SpiderFootPlugin):
     # Option descriptions
     optdescs = {
         'url': "The URL where the feed can be found. "
-              "Format: single line per host, ASN, domain, IP or netblock.",
+               "Format: single line per host, ASN, domain, IP or netblock.",
         'checkaffiliates': "Apply checks to affiliates?",
         'checkcohosts': "Apply checks to sites found to be co-hosted on the target's IP?",
         'cacheperiod': "Maximum age of data in hours before re-downloading. 0 to always download."

@@ -269,7 +269,10 @@ class sfp_tool_ffuf(SpiderFootPlugin):
             path_lower = fuzz_path.lower().rstrip("/")
 
             # Check for forms
-            form_patterns = ['/form', '/login', '/signin', '/auth', '/signup', '/register', '/contact', '/feedback', '/comment']
+            form_patterns = [
+                '/form', '/login', '/signin', '/auth', '/signup',
+                '/register', '/contact', '/feedback', '/comment'
+            ]
             if any(path_lower.endswith(p) or path_lower == p.lstrip("/") for p in form_patterns):
                 form_evt = SpiderFootEvent(
                     "URL_FORM", url_data, self.__name__, event
@@ -277,7 +280,11 @@ class sfp_tool_ffuf(SpiderFootPlugin):
                 self.notifyListeners(form_evt)
 
             # Check for upload endpoints
-            upload_patterns = ['/upload', '/uploads', '/file', '/files', '/attach', '/attachments', '/media', '/images', '/avatar']
+            upload_patterns = [
+                '/upload', '/uploads', '/file', '/files',
+                '/attach', '/attachments', '/media',
+                '/images', '/avatar'
+            ]
             if any(path_lower.endswith(p) or path_lower == p.lstrip("/") for p in upload_patterns):
                 upload_evt = SpiderFootEvent(
                     "URL_UPLOAD", url_data, self.__name__, event
@@ -285,7 +292,10 @@ class sfp_tool_ffuf(SpiderFootPlugin):
                 self.notifyListeners(upload_evt)
 
             # Check for password/auth endpoints
-            password_patterns = ['/passwd', '/password', '/pwd', '/credentials', '/token', '/oauth', '/api/token', '/reset']
+            password_patterns = [
+                '/passwd', '/password', '/pwd', '/credentials',
+                '/token', '/oauth', '/api/token', '/reset'
+            ]
             if any(path_lower.endswith(p) or path_lower == p.lstrip("/") for p in password_patterns):
                 pwd_evt = SpiderFootEvent(
                     "URL_PASSWORD", url_data, self.__name__, event

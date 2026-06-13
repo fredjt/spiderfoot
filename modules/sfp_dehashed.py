@@ -207,8 +207,11 @@ class sfp_dehashed(SpiderFootPlugin):
                         self.notifyListeners(evt)
 
                         if password:
-                            evt = SpiderFootEvent('PASSWORD_COMPROMISED',
-                                               f"{email}:{password} [{leakSource}]", self.__name__, event)
+                            evt = SpiderFootEvent(
+                                'PASSWORD_COMPROMISED',
+                                f"{email}:{password} [{leakSource}]",
+                                self.__name__, event
+                            )
                             self.notifyListeners(evt)
 
                         if passwordHash:
