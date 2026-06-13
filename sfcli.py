@@ -1293,13 +1293,13 @@ class SpiderFootCli(cmd.Cmd):
                         confdata[optstr] = "1"
                     else:
                         confdata[optstr] = "0"
-                if isinstance(serverconfig[k], list):
+                elif isinstance(serverconfig[k], list):
                     # If set by the user, it must already be a
                     # string, not a list
                     confdata[optstr] = ','.join(serverconfig[k])
-                if isinstance(serverconfig[k], int):
+                elif isinstance(serverconfig[k], int):
                     confdata[optstr] = str(serverconfig[k])
-                if isinstance(serverconfig[k], str):
+                elif isinstance(serverconfig[k], str):
                     confdata[optstr] = serverconfig[k]
 
             self.ddprint(str(confdata))
