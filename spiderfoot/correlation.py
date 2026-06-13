@@ -173,7 +173,7 @@ class SpiderFootCorrelator:
                 criterias['eventType'] = list()
 
             if matchrule['method'] == 'regex':
-                if type(matchrule['value']) != list:
+                if not isinstance(matchrule['value'], list):
                     regexps = [matchrule['value']]
                 else:
                     regexps = matchrule['value']
@@ -184,7 +184,7 @@ class SpiderFootCorrelator:
                             criterias['eventType'].append(t[1])
 
             if matchrule['method'] == 'exact':
-                if type(matchrule['value']) != list:
+                if not isinstance(matchrule['value'], list):
                     matches = [matchrule['value']]
                 else:
                     matches = matchrule['value']
