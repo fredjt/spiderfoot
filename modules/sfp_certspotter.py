@@ -138,7 +138,7 @@ class sfp_certspotter(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
 
         return None
@@ -202,7 +202,7 @@ class sfp_certspotter(SpiderFootPlugin):
                     rawcert += result.get('cert').get('data')
                     rawcert += "\n-----END CERTIFICATE-----\n"
                     cert = self.sf.parseCert(rawcert, eventData, self.opts['certexpiringdays'])
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.info(f"Error parsing certificate: {e}")
                     continue
 

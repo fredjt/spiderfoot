@@ -72,7 +72,7 @@ class sfp_webserver(SpiderFootPlugin):
             jdata = json.loads(eventData)
             if jdata is None:
                 return
-        except Exception:
+        except json.JSONDecodeError:
             self.error("Received HTTP headers from another module in an unexpected format.")
             return
 

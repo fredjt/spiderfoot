@@ -148,7 +148,7 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for trufflehog to finish on {url}")
             return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run trufflehog: {e}")
             return
 
@@ -162,7 +162,7 @@ class sfp_tool_trufflehog(SpiderFootPlugin):
                 continue
             try:
                 rowjson = json.loads(row)
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.error(f"Could not parse trufflehog output as JSON: {row}\nException: {e}")
                 continue
 

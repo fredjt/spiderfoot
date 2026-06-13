@@ -132,7 +132,7 @@ class sfp_googlemaps(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])['results'][0]
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return
 

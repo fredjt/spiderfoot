@@ -211,7 +211,7 @@ class sfp_tool_ffuf(SpiderFootPlugin):
                 stdout, stderr = p.communicate()
                 self.debug(f"Timed out waiting for ffuf to finish on {originalEvent}")
                 return None
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run ffuf: {e}")
             return None
 

@@ -115,7 +115,7 @@ class sfp_threatfox(SpiderFootPlugin):
 
         try:
             json_result = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from ThreatFox: {e}")
             return None
 

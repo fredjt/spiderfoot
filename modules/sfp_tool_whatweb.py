@@ -115,7 +115,7 @@ class sfp_tool_whatweb(SpiderFootPlugin):
                 aggression = 4
             if aggression < 1:
                 aggression = 1
-        except Exception:
+        except Exception:  # noqa: B902
             aggression = 1
 
         # Run WhatWeb
@@ -137,7 +137,7 @@ class sfp_tool_whatweb(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for WhatWeb to finish against {eventData}")
             return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run WhatWeb: {e}")
             return
 
@@ -152,7 +152,7 @@ class sfp_tool_whatweb(SpiderFootPlugin):
 
         try:
             result_json = json.loads(stdout)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Couldn't parse the JSON output of WhatWeb: {e}")
             return
 

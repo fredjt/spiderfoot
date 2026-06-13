@@ -127,7 +127,7 @@ class sfp_dnscommonsrv(SpiderFootPlugin):
 
             try:
                 answers = res.query(name, 'SRV', timeout=10)
-            except Exception:
+            except Exception:  # noqa: B902
                 answers = []
 
             if not answers:

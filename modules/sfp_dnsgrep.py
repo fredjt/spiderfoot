@@ -103,7 +103,7 @@ class sfp_dnsgrep(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from DNSGrep: {e}")
 
         return None
@@ -137,7 +137,7 @@ class sfp_dnsgrep(SpiderFootPlugin):
             for r in fdns:
                 try:
                     ip, domain = r.split(',')
-                except Exception:
+                except Exception:  # noqa: B902
                     continue
 
                 domains.append(domain)
@@ -148,7 +148,7 @@ class sfp_dnsgrep(SpiderFootPlugin):
             for r in rdns:
                 try:
                     ip, domain = r.split(',')
-                except Exception:
+                except Exception:  # noqa: B902
                     continue
 
                 domains.append(domain)

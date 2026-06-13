@@ -97,7 +97,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None
@@ -111,7 +111,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None
@@ -130,7 +130,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from StackOverflow: {e}")
             self.errorState = True
             return None

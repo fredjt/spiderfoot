@@ -129,7 +129,7 @@ class sfp_bitcoinabuse(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from BitcoinAbuse: {e}")
 
         return None

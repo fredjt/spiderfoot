@@ -170,7 +170,7 @@ def main() -> None:
     try:
         mod_dir = os.path.dirname(os.path.abspath(__file__)) + '/modules/'
         sfModules = SpiderFootHelpers.loadModulesAsDict(mod_dir, ['sfp_template.py'])
-    except Exception as e:
+    except Exception as e:  # noqa: B902
         log.critical(f"Failed to load modules: {e}", exc_info=True)
         sys.exit(-1)
 
@@ -183,14 +183,14 @@ def main() -> None:
     try:
         correlations_dir = os.path.dirname(os.path.abspath(__file__)) + '/correlations/'
         correlationRulesRaw = SpiderFootHelpers.loadCorrelationRulesRaw(correlations_dir, ['template.yaml'])
-    except Exception as e:
+    except Exception as e:  # noqa: B902
         log.critical(f"Failed to load correlation rules: {e}", exc_info=True)
         sys.exit(-1)
 
     # Initialize database handle
     try:
         dbh = SpiderFootDb(sfConfig)
-    except Exception as e:
+    except Exception as e:  # noqa: B902
         log.critical(f"Failed to initialize database: {e}", exc_info=True)
         sys.exit(-1)
 
@@ -202,7 +202,7 @@ def main() -> None:
         try:
             correlator = SpiderFootCorrelator(dbh, correlationRulesRaw)
             sfCorrelationRules = correlator.get_ruleset()
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             log.critical(f"Failure initializing correlation rules: {e}", exc_info=True)
             sys.exit(-1)
 
@@ -219,7 +219,7 @@ def main() -> None:
             log.info(f"Running {len(correlationRulesRaw)} correlation rules against scan, {args.correlate}.")
             corr = SpiderFootCorrelator(dbh, correlationRulesRaw, args.correlate)
             corr.run_correlations()
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             log.critical(f"Unable to run correlation rules: {e}", exc_info=True)
             sys.exit(-1)
         sys.exit(0)
@@ -247,7 +247,7 @@ def main() -> None:
     if args.l:
         try:
             (host, port) = args.l.split(":")
-        except Exception:
+        except Exception:  # noqa: B902
             log.critical("Invalid ip:port format.")
             sys.exit(-1)
 
@@ -462,7 +462,7 @@ def start_scan(sfConfig: dict, sfModules: dict, args, loggingQueue) -> None:
         )
         p.daemon = True
         p.start()
-    except Exception as e:
+    except Exception as e:  # noqa: B902
         log.error(f"Scan [{scanId}] failed: {e}")
         sys.exit(-1)
 

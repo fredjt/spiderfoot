@@ -179,7 +179,7 @@ class sfp_s3bucket(SpiderFootPlugin):
                 if b in self.opts['endpoints']:
                     try:
                         b += "/" + eventData.split(b + "/")[1].split("/")[0]
-                    except Exception:
+                    except IndexError:
                         # Not a proper bucket path
                         return
                 evt = SpiderFootEvent("CLOUD_STORAGE_BUCKET", b, self.__name__, event)

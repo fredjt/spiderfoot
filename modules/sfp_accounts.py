@@ -93,7 +93,7 @@ class sfp_accounts(SpiderFootPlugin):
 
         try:
             self.sites = [site for site in json.loads(content)['sites'] if not site.get('valid', True) is False]
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Unable to parse social media accounts list: {e}")
             self.errorState = True
             return
@@ -172,7 +172,7 @@ class sfp_accounts(SpiderFootPlugin):
                     site = queue.get(timeout=0.1)
                     try:
                         self.checkSite(username, site)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.debug(f'Thread {threading.current_thread().name} exception: {e}')
             except QueueEmpty:
                 return

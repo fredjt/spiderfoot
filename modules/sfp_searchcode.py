@@ -104,7 +104,7 @@ class sfp_searchcode(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from searchcode: {e}")
             return None
 

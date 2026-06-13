@@ -190,7 +190,7 @@ class sfp_circllu(SpiderFootPlugin):
                             if r:
                                 e = SpiderFootEvent("SSL_CERTIFICATE_ISSUED", r[0][0], self.__name__, ipe)
                                 self.notifyListeners(e)
-                except Exception as e:
+                except (json.JSONDecodeError, TypeError) as e:
                     self.error("Invalid response returned from CIRCL.LU: " + str(e))
 
         if eventName in ['IP_ADDRESS', 'INTERNET_NAME', 'DOMAIN_NAME']:
@@ -205,7 +205,7 @@ class sfp_circllu(SpiderFootPlugin):
                     continue
                 try:
                     rec = json.loads(line)
-                except Exception as e:
+                except (json.JSONDecodeError, TypeError) as e:
                     self.error("Invalid response returned from CIRCL.LU: " + str(e))
                     continue
 

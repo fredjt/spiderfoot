@@ -65,7 +65,7 @@ class sfp_subdomain_takeover(SpiderFootPlugin):
 
         try:
             self.fingerprints = json.loads(content)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Unable to parse subdomain takeover fingerprints list: {e}")
             self.errorState = True
             return

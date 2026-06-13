@@ -103,13 +103,13 @@ class sfp_fsecure_riddler(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from F-Secure Riddler: {e}")
             return
 
         try:
             token = data.get('response').get('user').get('authentication_token')
-        except Exception:
+        except Exception:  # noqa: B902
             self.error('Login failed')
             self.errorState = True
             return
@@ -149,7 +149,7 @@ class sfp_fsecure_riddler(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from F-Secure Riddler: {e}")
             return None
 

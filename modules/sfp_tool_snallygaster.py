@@ -123,7 +123,7 @@ class sfp_tool_snallygaster(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for snallygaster to finish on {eventData}")
             return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run snallygaster: {e}")
             return
 
@@ -137,7 +137,7 @@ class sfp_tool_snallygaster(SpiderFootPlugin):
 
         try:
             result_json = json.loads(stdout)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Could not parse snallygaster output as JSON: {e}\nstderr: {stderr}\nstdout: {stdout}")
             return
 

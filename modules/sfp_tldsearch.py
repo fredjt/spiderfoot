@@ -90,7 +90,7 @@ class sfp_tldsearch(SpiderFootPlugin):
             else:
                 with self.lock:
                     self.tldResults[target] = True
-        except Exception:
+        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
             with self.lock:
                 self.tldResults[target] = False
 

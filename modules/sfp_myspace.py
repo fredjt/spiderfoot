@@ -104,7 +104,7 @@ class sfp_myspace(SpiderFootPlugin):
                     + r'[\&; :\"\#\*\)\"\'\;\,\<\.\?\!]+'
                 )
                 matches = re.findall(pattern, profile, re.IGNORECASE)
-            except Exception:
+            except re.error:
                 self.debug("Malformed e-mail address, skipping.")
                 return
 
@@ -126,7 +126,7 @@ class sfp_myspace(SpiderFootPlugin):
             try:
                 network = eventData.split(": ")[0]
                 url = eventData.split(": ")[1].replace("<SFURL>", "").replace("</SFURL>", "")
-            except Exception as e:
+            except IndexError as e:
                 self.debug(f"Unable to parse SOCIAL_MEDIA: {eventData} ({e})")
                 return
 

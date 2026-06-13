@@ -117,7 +117,7 @@ class sfp_ripe(SpiderFootPlugin):
 
         try:
             j = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -138,7 +138,7 @@ class sfp_ripe(SpiderFootPlugin):
         try:
             data = json.loads(res['content'])
             return data.get("data")
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
 
         return None
@@ -155,7 +155,7 @@ class sfp_ripe(SpiderFootPlugin):
                 data = whois["irr_records"][0]
             else:
                 data = whois["records"][0]
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -179,7 +179,7 @@ class sfp_ripe(SpiderFootPlugin):
 
         try:
             data = whois["records"]
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -216,7 +216,7 @@ class sfp_ripe(SpiderFootPlugin):
         try:
             j = json.loads(res['content'])
             data = j["data"]["prefixes"]
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -238,7 +238,7 @@ class sfp_ripe(SpiderFootPlugin):
         try:
             j = json.loads(res['content'])
             data = j["data"]["neighbours"]
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 

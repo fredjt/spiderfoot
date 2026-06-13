@@ -112,7 +112,7 @@ class sfp_filemeta(SpiderFootPlugin):
                         data = pdf.getDocumentInfo()
                         meta = str(data)
                         self.debug("Obtained meta data from " + eventData)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.error(f"Unable to parse meta data from: {eventData} ({e})")
                         return
 
@@ -126,7 +126,7 @@ class sfp_filemeta(SpiderFootPlugin):
                         c = doc.core_properties.comments
                         data = [_f for _f in [a, c] if _f]
                         meta = ", ".join(data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.error(f"Unable to process file: {eventData} ({e})")
                         return
 
@@ -140,7 +140,7 @@ class sfp_filemeta(SpiderFootPlugin):
                         c = doc.core_properties.comments
                         data = [_f for _f in [a, c] if _f]
                         meta = ", ".join(data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.error(f"Unable to process file: {eventData} ({e})")
                         return
 
@@ -151,7 +151,7 @@ class sfp_filemeta(SpiderFootPlugin):
                         if data is None or len(data) == 0:
                             continue
                         meta = str(data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.error(f"Unable to parse meta data from: {eventData} ({e})")
                         return
 
@@ -173,7 +173,7 @@ class sfp_filemeta(SpiderFootPlugin):
 
                         if "Image Software" in data:
                             val.append(str(data['Image Software']))
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.error("Failed to parse PDF, " + eventData + ": " + str(e))
                         return
 

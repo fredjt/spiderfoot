@@ -162,7 +162,7 @@ class SpiderFoot:
             try:
                 with open(fname, "r") as f:
                     return f.read()
-            except Exception as e:
+            except OSError as e:
                 self.error(f"Unable to open option file, {fname}: {e}")
                 return None
 
@@ -173,7 +173,7 @@ class SpiderFoot:
                 res = session.get(val)
 
                 return res.content.decode('utf-8')
-            except Exception as e:
+            except requests.exceptions.RequestException as e:
                 self.error(f"Unable to open option URL, {val}: {e}")
                 return None
 
@@ -771,7 +771,7 @@ class SpiderFoot:
 
         try:
             return netaddr.IPNetwork(str(cidr)).size > 0
-        except Exception:
+        except netaddr.AddrFormatError:
             return False
 
     def isPublicIpAddress(self, ip: str) -> bool:
@@ -848,7 +848,7 @@ class SpiderFoot:
         addrs = list()
         try:
             addrs = self.normalizeDNS(socket.gethostbyname_ex(host))
-        except Exception as e:
+        except socket.gaierror as e:
             self.debug(f"Unable to resolve host: {host} ({e})")
             return addrs
 
@@ -878,7 +878,7 @@ class SpiderFoot:
 
         try:
             addrs = self.normalizeDNS(socket.gethostbyaddr(ipaddr))
-        except Exception as e:
+        except socket.gaierror as e:
             self.debug(f"Unable to reverse resolve IP address: {ipaddr} ({e})")
             return list()
 
@@ -909,7 +909,7 @@ class SpiderFoot:
             for addr in res:
                 if addr[4][0] not in addrs:
                     addrs.append(addr[4][0])
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Unable to resolve host: {hostname} ({e})")
             return addrs
 
@@ -1028,7 +1028,7 @@ class SpiderFoot:
                 ret['expiring'] = True
             if ret['expiry'] <= now:
                 ret['expired'] = True
-        except Exception as e:
+        except ValueError as e:
             self.error(f"Error processing date in certificate: {e}")
             ret['certerror'] = True
             return ret
@@ -1042,7 +1042,7 @@ class SpiderFoot:
                         "ascii", errors='replace'
                     )
                     ret['altnames'].append(name)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Problem processing certificate: {e}")
 
         certhosts = list()
@@ -1054,7 +1054,7 @@ class SpiderFoot:
                 # CN often duplicates one of the SANs, don't add it then
                 if name not in ret['altnames']:
                     certhosts.append(name)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Problem processing certificate: {e}")
 
         # Check for mismatch
@@ -1086,7 +1086,7 @@ class SpiderFoot:
 
                 if not found:
                     ret['mismatch'] = True
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error processing certificate: {e}")
                 ret['certerror'] = True
 
@@ -1254,7 +1254,7 @@ class SpiderFoot:
 
         try:
             parsed_url = urllib.parse.urlparse(url)
-        except Exception:
+        except Exception:  # noqa: B902
             self.debug(f"Could not parse URL: {url}")
             return None
 
@@ -1303,7 +1303,7 @@ class SpiderFoot:
                     verify=verify,
                     timeout=timeout
                 )
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 if noLog:
                     self.debug(f"Unexpected exception ({e}) occurred fetching (HEAD only) URL: {url}", exc_info=True)
                 else:
@@ -1347,7 +1347,7 @@ class SpiderFoot:
                     if size > sizeLimit:
                         return result
 
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     if noLog:
                         self.debug(
                             f"Unexpected exception ({e}) occurred fetching "
@@ -1396,7 +1396,7 @@ class SpiderFoot:
         except requests.exceptions.RequestException as e:
             self.error(f"Failed to connect to {url}: {e}")
             return result
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             if noLog:
                 self.debug(f"Unexpected exception ({e}) occurred fetching URL: {url}", exc_info=True)
             else:
@@ -1421,7 +1421,7 @@ class SpiderFoot:
             if refresh_header:
                 try:
                     newurl = refresh_header.split(";url=")[1]
-                except Exception as e:
+                except IndexError as e:
                     self.debug(f"Refresh header '{refresh_header}' found, but not parsable: {e}")
                     return result
 
@@ -1453,7 +1453,7 @@ class SpiderFoot:
                 else:
                     result["content"] = res.content
 
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.error(f"Unexpected exception ({e}) occurred parsing response for URL: {url}", exc_info=True)
             result['content'] = None
             result['status'] = str(e)
@@ -1550,17 +1550,17 @@ class SpiderFoot:
                         rating = cveRating(score)
                         if rating:
                             eventType = f"VULNERABILITY_CVE_{rating}"
-                    except Exception:
+                    except Exception:  # noqa: B902
                         score = "Unknown"
 
                     try:
                         descr = data['result']['CVE_Items'][0]['cve']['description']['description_data'][0]['value']
-                    except Exception:
+                    except Exception:  # noqa: B902
                         descr = "Unknown"
 
                     return (eventType, f"{cveId}\n<SFURL>https://nvd.nist.gov/vuln/detail/{cveId}</SFURL>\n"
                             f"Score: {score}\nDescription: {descr}")
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.debug(f"Unable to parse CVE response from {source.upper()}: {e}")
                 continue
 

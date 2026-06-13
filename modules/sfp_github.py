@@ -104,7 +104,7 @@ class sfp_github(SpiderFootPlugin):
             try:
                 network = eventData.split(": ")[0]
                 url = eventData.split(": ")[1].replace("<SFURL>", "").replace("</SFURL>", "")
-            except Exception as e:
+            except IndexError as e:
                 self.debug(f"Unable to parse SOCIAL_MEDIA: {eventData} ({e})")
                 return
 
@@ -115,7 +115,7 @@ class sfp_github(SpiderFootPlugin):
             try:
                 urlParts = url.split("/")
                 username = urlParts[len(urlParts) - 1]
-            except Exception:
+            except Exception:  # noqa: B902
                 self.debug(f"Couldn't get a username out of {url}")
                 return
 
@@ -130,7 +130,7 @@ class sfp_github(SpiderFootPlugin):
 
             try:
                 json_data = json.loads(res['content'])
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.debug(f"Error processing JSON response: {e}")
                 return
 
@@ -188,7 +188,7 @@ class sfp_github(SpiderFootPlugin):
         if not failed:
             try:
                 ret = json.loads(res['content'])
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.debug(f"Error processing JSON response from GitHub: {e}")
                 ret = None
 
@@ -230,7 +230,7 @@ class sfp_github(SpiderFootPlugin):
                 if ret is None:
                     self.error(f"Unable to process empty response from Github for: {username}")
                     failed = True
-            except Exception:
+            except json.JSONDecodeError:
                 self.error(f"Unable to process invalid response from Github for: {username}")
                 failed = True
 
@@ -256,7 +256,7 @@ class sfp_github(SpiderFootPlugin):
 
                 try:
                     repret = json.loads(res['content'])
-                except Exception as e:
+                except (json.JSONDecodeError, TypeError) as e:
                     self.error(f"Invalid JSON returned from Github: {e}")
                     continue
 

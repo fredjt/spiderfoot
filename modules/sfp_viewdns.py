@@ -134,7 +134,7 @@ class sfp_viewdns(SpiderFootPlugin):
 
         try:
             info = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from ViewDNS.info: {e}")
             return
 

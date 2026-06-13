@@ -92,7 +92,7 @@ class sfp_openstreetmap(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
 
         return None
@@ -142,7 +142,7 @@ class sfp_openstreetmap(SpiderFootPlugin):
             try:
                 lat = location.get('lat')
                 lon = location.get('lon')
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.debug("Failed to get lat/lon: " + str(e))
                 continue
 

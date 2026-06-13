@@ -76,13 +76,13 @@ class sfp_hosting(SpiderFootPlugin):
                 continue
             try:
                 [start, end, title, url] = line.split(",")
-            except Exception:
+            except IndexError:
                 continue
 
             try:
                 if IPAddress(qaddr) > IPAddress(start) and IPAddress(qaddr) < IPAddress(end):
                     return [title, url]
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.debug("Encountered an issue processing an IP: " + str(e))
                 continue
 

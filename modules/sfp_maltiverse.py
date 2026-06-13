@@ -115,7 +115,7 @@ class sfp_maltiverse(SpiderFootPlugin):
             # Maltiverse returns \\n instead of \n in the response
             data = str(res['content']).replace("\\n", " ")
             return json.loads(data)
-        except Exception:
+        except json.JSONDecodeError:
             self.error("Incorrectly formatted data received as JSON response")
             return None
 
@@ -214,7 +214,7 @@ class sfp_maltiverse(SpiderFootPlugin):
 
                 try:
                     lastSeenDate = datetime.strptime(str(lastSeen), "%Y-%m-%d %H:%M:%S")
-                except Exception:
+                except ValueError:
                     self.error("Invalid date in JSON response, skipping")
                     continue
 

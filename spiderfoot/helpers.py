@@ -369,7 +369,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts.ispell', f"{d}.dict", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except Exception as e:
+            except IndexError as e:
                 raise IOError(f"Could not read wordlist file '{d}.dict'") from e
 
         return words
@@ -397,7 +397,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts.ispell', f"{d}.dict", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except Exception as e:
+            except IndexError as e:
                 raise IOError(f"Could not read wordlist file '{d}.dict'") from e
 
         return words
@@ -425,7 +425,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts', f"{d}.txt", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except Exception as e:
+            except IndexError as e:
                 raise IOError(f"Could not read wordlist file '{d}.txt'") from e
 
         return words
@@ -777,7 +777,7 @@ class SpiderFootHelpers():
 
         try:
             return phonenumbers.is_valid_number(phonenumbers.parse(phone))
-        except Exception:
+        except phonenumbers.NumberParseException:
             return False
 
     @staticmethod
@@ -846,7 +846,7 @@ class SpiderFootHelpers():
                 for lnk in BeautifulSoup(data, features="lxml", parse_only=SoupStrainer(t)).find_all(t):
                     if lnk.has_attr(tags[t]):
                         links.append(lnk[tags[t]])
-        except Exception:
+        except Exception:  # noqa: B902
             return returnLinks
 
         proto = url.split(":")[0]

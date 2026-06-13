@@ -90,7 +90,7 @@ class sfp_blockchain(SpiderFootPlugin):
         try:
             data = json.loads(res['content'])
             balance = float(data[eventData]['final_balance']) / 100000000
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return
 

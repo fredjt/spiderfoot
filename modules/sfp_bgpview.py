@@ -85,7 +85,7 @@ class sfp_bgpview(SpiderFootPlugin):
 
         try:
             json_data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from BGPView: {e}")
             return None
 
@@ -113,7 +113,7 @@ class sfp_bgpview(SpiderFootPlugin):
 
         try:
             json_data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from BGPView: {e}")
             return None
 
@@ -141,7 +141,7 @@ class sfp_bgpview(SpiderFootPlugin):
 
         try:
             json_data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from BGPView: {e}")
             return None
 

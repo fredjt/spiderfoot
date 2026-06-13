@@ -78,13 +78,13 @@ class sfp_phone(SpiderFootPlugin):
         if eventName == 'PHONE_NUMBER':
             try:
                 number = phonenumbers.parse(eventData)
-            except Exception as e:
+            except phonenumbers.NumberParseException as e:
                 self.debug(f"Error parsing phone number: {e}")
                 return
 
             try:
                 number_carrier = carrier.name_for_number(number, 'en')
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.debug(f"Error retrieving phone number carrier: {e}")
                 return
 

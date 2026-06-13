@@ -135,7 +135,7 @@ class sfp_customfeed(SpiderFootPlugin):
                             if IPAddress(ip) in IPNetwork(target):
                                 self.debug(f"{ip} found within netblock/subnet {target} in {check}")
                                 return url
-                        except Exception as e:
+                        except Exception as e:  # noqa: B902
                             self.debug(f"Error encountered parsing: {e}")
                             continue
 
@@ -162,7 +162,7 @@ class sfp_customfeed(SpiderFootPlugin):
                             if match:
                                 self.debug(target + "/" + targetDom + " found in " + check + " list.")
                                 return url
-                    except Exception as e:
+                    except IndexError as e:
                         self.debug("Error encountered parsing 2: " + str(e))
                         continue
 

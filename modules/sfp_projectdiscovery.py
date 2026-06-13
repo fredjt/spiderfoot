@@ -87,7 +87,7 @@ class sfp_projectdiscovery(SpiderFootPlugin):
 
         try:
             return json.loads(res["content"])
-        except json.JSONDecodeError as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(
                 f"Error processing JSON response from Chaos projectdiscovery: {e}"
             )

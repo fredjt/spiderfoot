@@ -138,7 +138,7 @@ class sfp_pulsedive(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from Pulsedive: {e}")
 
         return None
@@ -256,7 +256,7 @@ class sfp_pulsedive(SpiderFootPlugin):
                     if self.opts['age_limit_days'] > 0 and created_ts < age_limit_ts:
                         self.debug(f"Threat found but too old ({created_dt}), skipping.")
                         continue
-                except Exception:
+                except ValueError:
                     self.debug("Couldn't parse date from Pulsedive so assuming it's OK.")
                 e = SpiderFootEvent(evtType, descr, self.__name__, event)
                 self.notifyListeners(e)

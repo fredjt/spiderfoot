@@ -121,7 +121,7 @@ class sfp_tool_0trace(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for 0trace to finish on {eventData}")
             return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run 0trace: {e}")
             return
 

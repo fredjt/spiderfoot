@@ -132,7 +132,7 @@ class sfp_mnemonic(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from Mnemonic: {e}")
             return None
 

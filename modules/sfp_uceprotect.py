@@ -107,7 +107,7 @@ class sfp_uceprotect(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl-1.uceprotect.net'
             self.debug(f"Checking UCEPROTECT blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"UCEPROTECT did not resolve {qaddr} / {lookup}: {e}")
 
         return None
@@ -129,7 +129,7 @@ class sfp_uceprotect(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl-2.uceprotect.net'
             self.debug(f"Checking UCEPROTECT blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"UCEPROTECT did not resolve {qaddr} / {lookup}: {e}")
 
         return None

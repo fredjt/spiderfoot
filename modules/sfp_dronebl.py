@@ -134,7 +134,7 @@ class sfp_dronebl(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl.dronebl.org'
             self.debug(f"Checking DroneBL blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"DroneBL did not resolve {qaddr} / {lookup}: {e}")
 
         return None

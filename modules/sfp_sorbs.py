@@ -149,7 +149,7 @@ class sfp_sorbs(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl.sorbs.net'
             self.debug(f"Checking SORBS blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"SORBS did not resolve {qaddr} / {lookup}: {e}")
 
         return None

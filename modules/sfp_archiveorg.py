@@ -145,7 +145,7 @@ class sfp_archiveorg(SpiderFootPlugin):
         for daysback in self.opts['farback'].split(","):
             try:
                 newDate = datetime.datetime.now() - datetime.timedelta(days=int(daysback))
-            except Exception:
+            except ValueError:
                 self.error("Unable to parse option for number of days back to search.")
                 self.errorState = True
                 return
@@ -163,7 +163,7 @@ class sfp_archiveorg(SpiderFootPlugin):
 
             try:
                 ret = json.loads(res['content'])
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.debug(f"Error processing JSON response from Archive.org: {e}")
                 ret = None
 

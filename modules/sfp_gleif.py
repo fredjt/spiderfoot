@@ -95,7 +95,7 @@ class sfp_gleif(SpiderFootPlugin):
 
         try:
             results = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -139,7 +139,7 @@ class sfp_gleif(SpiderFootPlugin):
 
         try:
             results = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -173,7 +173,7 @@ class sfp_gleif(SpiderFootPlugin):
 
         try:
             results = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 

@@ -102,7 +102,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
                     self.debug("Skipping port scanning of " + eventData + ", too big.")
                     return
 
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.error("Strange netblock identified, unable to parse: " + eventData + " (" + str(e) + ")")
             return
 
@@ -158,7 +158,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
             if "No exact OS matches for host" in content or "OSScan results may be unreliable" in content:
                 self.debug(f"Couldn't reliably detect the OS for {eventData}")
                 return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run Nmap: {e}")
             return
 
@@ -175,7 +175,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
                 if opsys:
                     evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, event)
                     self.notifyListeners(evt)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error("Couldn't parse the output of Nmap: " + str(e))
                 return
 
@@ -196,7 +196,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
                         evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, ipevent)
                         self.notifyListeners(evt)
                         currentIp = None
-            except Exception as e:
+            except IndexError as e:
                 self.error(f"Couldn't parse the output of Nmap: {e}")
                 return
 

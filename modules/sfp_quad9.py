@@ -83,7 +83,7 @@ class sfp_quad9(SpiderFootPlugin):
         try:
             addrs = res.resolve(qry)
             self.debug(f"Addresses returned: {addrs}")
-        except Exception:
+        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qry}")
             return False
 

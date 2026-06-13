@@ -183,7 +183,7 @@ class sfp_robtex(SpiderFootPlugin):
 
             try:
                 data = json.loads(res['content'])
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.error(f"Error parsing JSON from Robtex API: {e}")
                 self.errorState = True
                 return

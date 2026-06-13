@@ -156,7 +156,7 @@ class sfp_honeypot(SpiderFootPlugin):
                 text = self.parseDNS(addr)
                 if text is not None:
                     break
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"ProjectHoneyPot did not resolve {qaddr} / {lookup}: {e}")
 
         if not text:

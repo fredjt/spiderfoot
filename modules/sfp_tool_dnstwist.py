@@ -159,7 +159,7 @@ class sfp_tool_dnstwist(SpiderFootPlugin):
                     evt = SpiderFootEvent("SIMILARDOMAIN", domain,
                                           self.__name__, event)
                     self.notifyListeners(evt)
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.error("Couldn't parse the JSON output of DNSTwist: " + str(e))
                 return
         except TimeoutExpired:
@@ -167,7 +167,7 @@ class sfp_tool_dnstwist(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for DNSTwist to finish on {eventData}")
             return
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error("Unable to run DNSTwist: " + str(e))
             return
 

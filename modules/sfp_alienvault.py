@@ -168,7 +168,7 @@ class sfp_alienvault(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from AlienVault OTX: {e}")
 
         return None
@@ -416,7 +416,7 @@ class sfp_alienvault(SpiderFootPlugin):
                                         f"Passive DNS {host} for {eventData} too old ({last_dt}), skipping."
                                     )
                                     continue
-                            except Exception:
+                            except ValueError:
                                 self.info("Could not parse AlienVault date; ignoring cohost_age_limit_days")
 
                         if self.opts["verify"] and not self.sf.validateIP(host, eventData):
@@ -482,7 +482,7 @@ class sfp_alienvault(SpiderFootPlugin):
                             if created_ts < age_limit_ts:
                                 self.debug(f"Reputation record found for {addr} is too old ({created_dt}), skipping.")
                                 continue
-                        except Exception:
+                        except ValueError:
                             self.info("Could not parse AlienVault date; ignoring reputation_age_limit_days")
 
                 # For netblocks, we need to create the IP address event so that

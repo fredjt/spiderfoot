@@ -134,7 +134,7 @@ class sfp_dnsdb(SpiderFootPlugin):
             records = []
             for content in splittedContent:
                 records.append(json.loads(content))
-        except json.JSONDecodeError as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from DNSDB: {e}")
             return None
 

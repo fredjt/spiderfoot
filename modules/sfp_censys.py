@@ -189,7 +189,7 @@ class sfp_censys(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from Censys.io: {e}")
             return None
 
@@ -284,7 +284,7 @@ class sfp_censys(SpiderFootPlugin):
                 if self.opts['age_limit_days'] > 0 and created_ts < age_limit_ts:
                     self.debug(f"Record found but too old ({created_dt}), skipping.")
                     continue
-            except Exception as e:
+            except ValueError as e:
                 self.error(f"Error encountered processing last_updated_at record for {addr}: {e}")
 
             try:
@@ -304,7 +304,7 @@ class sfp_censys(SpiderFootPlugin):
                     if geoinfo:
                         e = SpiderFootEvent("GEOINFO", geoinfo, self.__name__, pevent)
                         self.notifyListeners(e)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error encountered processing location record for {addr}: {e}")
 
             try:
@@ -366,7 +366,7 @@ class sfp_censys(SpiderFootPlugin):
                     for banner in set(tcp_banners):
                         evt = SpiderFootEvent("TCP_PORT_OPEN_BANNER", str(banner), self.__name__, pevent)
                         self.notifyListeners(evt)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error encountered processing services record for {addr}: {e}")
 
             try:
@@ -384,7 +384,7 @@ class sfp_censys(SpiderFootPlugin):
                         else:
                             e = SpiderFootEvent("NETBLOCK_MEMBER", str(bgp_prefix), self.__name__, pevent)
                         self.notifyListeners(e)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error encountered processing autonomous_system record for {addr}: {e}")
 
             try:
@@ -405,7 +405,7 @@ class sfp_censys(SpiderFootPlugin):
                     if os:
                         e = SpiderFootEvent("OPERATING_SYSTEM", os, self.__name__, pevent)
                         self.notifyListeners(e)
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.error(f"Error encountered processing operating_system record for {addr}: {e}")
 
 # End of sfp_censys class

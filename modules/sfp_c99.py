@@ -120,7 +120,7 @@ class sfp_c99(SpiderFootPlugin):
 
         try:
             info = json.loads(res["content"])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.errorState = True
             self.error(f"Error processing response from C99: {e}")
             return None

@@ -136,7 +136,7 @@ class sfp_torexits(SpiderFootPlugin):
 
         try:
             results = json.loads(data)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response: {e}")
             return None
 

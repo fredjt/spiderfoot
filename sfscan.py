@@ -304,7 +304,7 @@ class SpiderFootScanner():
                 try:
                     mod = getattr(module, modName)()
                     mod.__name__ = modName
-                except Exception:
+                except Exception:  # noqa: B902
                     self.__sf.error(f"Module {modName} initialization failed", exc_info=True)
                     continue
 
@@ -321,7 +321,7 @@ class SpiderFootScanner():
                     mod.setSharedThreadPool(self.__sharedThreadPool)
                     mod.setDbh(self.__dbh)
                     mod.setup(self.__sf, self.__modconfig[modName])
-                except Exception:
+                except Exception:  # noqa: B902
                     self.__sf.error(f"Module {modName} initialization failed", exc_info=True)
                     mod.errorState = True
                     continue
@@ -330,7 +330,7 @@ class SpiderFootScanner():
                 if self.__config['_socks1type'] != '':
                     try:
                         mod._updateSocket(socket)
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.__sf.error(f"Module {modName} socket setup failed: {e}")
                         continue
 
@@ -338,7 +338,7 @@ class SpiderFootScanner():
                 if self.__config['__outputfilter']:
                     try:
                         mod.setOutputFilter(self.__config['__outputfilter'])
-                    except Exception as e:
+                    except Exception as e:  # noqa: B902
                         self.__sf.error(f"Module {modName} output filter setup failed: {e}")
                         continue
 
@@ -347,14 +347,14 @@ class SpiderFootScanner():
                     newTarget = mod.enrichTarget(self.__target)
                     if newTarget is not None:
                         self.__target = newTarget
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.__sf.error(f"Module {modName} target enrichment failed: {e}")
                     continue
 
                 # Register the target with the module
                 try:
                     mod.setTarget(self.__target)
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.__sf.error(f"Module {modName} failed to set target '{self.__target}': {e}")
                     continue
 
@@ -362,7 +362,7 @@ class SpiderFootScanner():
                 try:
                     mod.outgoingEventQueue = self.eventQueue
                     mod.incomingEventQueue = queue.Queue()
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.__sf.error(f"Module {modName} event queue setup failed: {e}")
                     continue
 
@@ -422,7 +422,7 @@ class SpiderFootScanner():
             self.__sf.status(f"Scan [{self.__scanId}] aborted.")
             self.__setStatus("ABORTED", None, time.time() * 1000)
 
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.__sf.error(
                 f"Unhandled exception ({e.__class__.__name__}) encountered during scan. Please report this as a bug",
                 exc_info=True
@@ -546,7 +546,7 @@ class SpiderFootScanner():
             try:
                 if m.incomingEventQueue is not None:
                     modules_waiting[m.__name__] = m.incomingEventQueue.qsize()
-            except Exception:
+            except Exception:  # noqa: B902
                 with suppress(Exception):
                     m.errorState = True
         modules_waiting = sorted(modules_waiting.items(), key=lambda x: x[-1], reverse=True)
@@ -556,7 +556,7 @@ class SpiderFootScanner():
             try:
                 if m.running:
                     modules_running.append(m.__name__)
-            except Exception:
+            except Exception:  # noqa: B902
                 with suppress(Exception):
                     m.errorState = True
 
@@ -565,7 +565,7 @@ class SpiderFootScanner():
             try:
                 if m.errorState:
                     modules_errored.append(m.__name__)
-            except Exception:
+            except Exception:  # noqa: B902
                 with suppress(Exception):
                     m.errorState = True
 

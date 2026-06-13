@@ -154,7 +154,7 @@ class sfp_voipbl(SpiderFootPlugin):
             try:
                 for ip in IPNetwork(cidr):
                     ips.append(str(ip))
-            except Exception:
+            except Exception:  # noqa: B902
                 continue
 
         return ips

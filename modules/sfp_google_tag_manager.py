@@ -145,7 +145,7 @@ class sfp_google_tag_manager(SpiderFootPlugin):
         try:
             network = event.data.split(": ")[0]
             tag_id = event.data.split(": ")[1]
-        except Exception as e:
+        except IndexError as e:
             self.error(f"Unable to parse WEB_ANALYTICS_ID: {event.data} ({e})")
             return
 

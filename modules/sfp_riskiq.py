@@ -146,7 +146,7 @@ class sfp_riskiq(SpiderFootPlugin):
             if 'results' not in ret:
                 self.info("No RiskIQ info found for " + qry)
                 return None
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Invalid JSON returned by RiskIQ: {e}")
             return None
 

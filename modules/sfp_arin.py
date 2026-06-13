@@ -99,7 +99,7 @@ class sfp_arin(SpiderFootPlugin):
                     fname = lname
                     lname = t
                 url += "pocs;first=" + fname + ";last=" + lname
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug("Couldn't process name: " + value + " (" + str(e) + ")")
             return None
 
@@ -113,7 +113,7 @@ class sfp_arin(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 

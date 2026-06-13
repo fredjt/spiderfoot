@@ -121,7 +121,7 @@ class sfp_tool_pythonwhois(SpiderFootPlugin):
 
             import json as jsonmod
             w = jsonmod.loads(content)
-        except Exception as e:
+        except OSError as e:
             self.error(f"Error running python-whois for {eventData}: {e}")
             return
 
@@ -134,7 +134,7 @@ class sfp_tool_pythonwhois(SpiderFootPlugin):
             raw_data = str(w)
             raw_evt = SpiderFootEvent("RAW_RIR_DATA", raw_data, self.__name__, event)
             self.notifyListeners(raw_evt)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.error(f"Error processing raw whois data for {eventData}: {e}")
             return
 

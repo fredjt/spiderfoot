@@ -97,7 +97,7 @@ class sfp_dnsbrute(SpiderFootPlugin):
             if self.sf.resolveHost(name) or self.sf.resolveHost6(name):
                 with self.lock:
                     self.hostResults[name] = True
-        except Exception:
+        except Exception:  # noqa: B902
             with self.lock:
                 self.hostResults[name] = False
 

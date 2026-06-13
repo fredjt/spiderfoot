@@ -122,7 +122,7 @@ class sfp_surbl(SpiderFootPlugin):
 
         try:
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"SURBL did not resolve {qaddr} / {lookup}: {e}")
 
         return None

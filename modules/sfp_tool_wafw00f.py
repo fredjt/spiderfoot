@@ -116,7 +116,7 @@ class sfp_tool_wafw00f(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for wafw00f to finish on {eventData}")
             return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run wafw00f: {e}")
             return
 
@@ -130,7 +130,7 @@ class sfp_tool_wafw00f(SpiderFootPlugin):
 
         try:
             result_json = json.loads(stdout)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Could not parse wafw00f output as JSON: {e}\nstdout: {stdout}")
             return
 

@@ -123,7 +123,7 @@ class sfp_dnszonexfer(SpiderFootPlugin):
                             evt = SpiderFootEvent("INTERNET_NAME", strdata, self.__name__, parentEvent)
                             self.notifyListeners(evt)
 
-            except Exception as e:
+            except Exception as e:  # noqa: B902
                 self.info(f"Unable to perform DNS zone transfer for {eventData} ({name}): {e}")
 
 # End of sfp_dnszonexfer class

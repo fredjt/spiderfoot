@@ -392,7 +392,7 @@ class SpiderFootCli(cmd.Cmd):
             if r.status_code == requests.codes.ok:  # pylint: disable=no-member
                 return r.text
             r.raise_for_status()
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.edprint(f"Failed communicating with server: {e}")
             return None
 
@@ -413,7 +413,7 @@ class SpiderFootCli(cmd.Cmd):
 
         try:
             s = shlex.split(cmdline)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.edprint(f"Error parsing command: {e}")
             return ret
 
@@ -455,7 +455,7 @@ class SpiderFootCli(cmd.Cmd):
             else:
                 j = json.loads(data)
                 totalrec = len(j)
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.edprint(f"Unable to parse data from server: {e}")
             return
 
@@ -522,7 +522,7 @@ class SpiderFootCli(cmd.Cmd):
                     f = codecs.open(pipeargs, "w", encoding="utf-8")
                     f.write(out)
                     f.close()
-                except Exception as e:
+                except OSError as e:
                     self.edprint(f"Unable to write to file: {e}")
                     return
                 self.dprint(f"Successfully wrote to file '{pipeargs}'.")
@@ -851,7 +851,7 @@ class SpiderFootCli(cmd.Cmd):
                 with io.open(file, "w", encoding="utf-8", errors="ignore") as fp:
                     fp.write(data)
                 self.dprint(f"Wrote scan {c[0][0]} data to {file}")
-            except Exception as e:
+            except OSError as e:
                 self.edprint(f"Could not write scan {c[0][0]} data to file '{file}': {e}")
 
     # Show logs.
@@ -1029,7 +1029,7 @@ class SpiderFootCli(cmd.Cmd):
         c = self.myparseline(line)
         try:
             scan_id = c[0][0]
-        except Exception:
+        except IndexError:
             self.edprint("Invalid syntax.")
             return
 
@@ -1130,7 +1130,7 @@ class SpiderFootCli(cmd.Cmd):
         c = self.myparseline(line)
         try:
             scan_id = c[0][0]
-        except Exception:
+        except IndexError:
             self.edprint("Invalid syntax.")
             return
 
@@ -1383,7 +1383,7 @@ if __name__ == "__main__":
         try:
             with open(args.e, 'r') as f:
                 cin = f.read()
-        except Exception as e:
+        except OSError as e:
             print(f"Unable to open {args.e}: ({e})")
             sys.exit(-1)
     else:
@@ -1400,7 +1400,7 @@ if __name__ == "__main__":
         try:
             with open(args.P, 'r') as f:
                 s.ownopts['cli.password'] = f.readlines()[0].strip('\n')
-        except Exception as e:
+        except OSError as e:
             print(f"Unable to open {args.P}: ({e})")
             sys.exit(-1)
     if args.i:
@@ -1450,7 +1450,7 @@ if __name__ == "__main__":
             for line in f.readlines():
                 readline.add_history(line.strip())
             s.dprint("Loaded previous command history.")
-        except Exception:
+        except OSError:
             pass
 
     try:

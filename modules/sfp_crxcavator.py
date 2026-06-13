@@ -92,7 +92,7 @@ class sfp_crxcavator(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from CRXcavator: {e}")
             return None
 
@@ -116,7 +116,7 @@ class sfp_crxcavator(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response from CRXcavator: {e}")
             return None
 

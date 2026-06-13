@@ -113,7 +113,7 @@ class sfp_cinsscore(SpiderFootPlugin):
                     if IPAddress(ip) in IPNetwork(qry):
                         self.debug(f"{ip} found within netblock/subnet {qry} in cinsscore.com list.")
                         return url
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.debug(f"Error encountered parsing: {e}")
                     continue
 

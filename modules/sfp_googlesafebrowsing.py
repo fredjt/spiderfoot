@@ -161,7 +161,7 @@ class sfp_googlesafebrowsing(SpiderFootPlugin):
                 self.info("No Google Safe Browsing matches found for " + qry)
                 return None
 
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from SHODAN: {e}")
             return None
 

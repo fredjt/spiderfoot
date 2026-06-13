@@ -169,7 +169,7 @@ class sfp_abusix(SpiderFootPlugin):
 
         try:
             return self.sf.resolveHost(lookup)
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.debug(f"Abusix Mail Intelligence did not resolve {qaddr} / {lookup}: {e}")
 
         return None

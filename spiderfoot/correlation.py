@@ -86,7 +86,7 @@ class SpiderFootCorrelator:
             try:
                 self.rules.append(yaml.safe_load(ruleset[rule_id]))
                 self.rules[len(self.rules) - 1]['rawYaml'] = ruleset[rule_id]
-            except Exception as e:
+            except (yaml.YAMLError, TypeError, KeyError) as e:
                 raise SyntaxError(f"Unable to process a YAML correlation rule [{rule_id}]") from e
 
         # Strip any trailing newlines that may have creeped into meta name/description
@@ -645,7 +645,7 @@ class SpiderFootCorrelator:
                             if netaddr.IPAddress(event_data) in netaddr.IPNetwork(r):
                                 self.log.debug(f"found subnet match: {event_data} in {r}")
                                 return True
-                        except Exception:
+                        except netaddr.AddrFormatError:
                             pass
 
                 if rule['match_method'] == 'exact' and event_data in reference:
@@ -934,7 +934,7 @@ class SpiderFootCorrelator:
         for m in fields:
             try:
                 v = self.event_extract(data[0], m)[0]
-            except Exception:
+            except Exception:  # noqa: B902
                 self.log.error(f"Field requested was not available: {m}")
             title = title.replace("{" + m + "}", v.replace("\r", "").split("\n")[0])
         return title

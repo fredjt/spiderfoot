@@ -389,7 +389,7 @@ class SpiderFootPlugin():
 
                 try:
                     listener.handleEvent(sfEvent)
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.sf.error(f"Module ({listener.__module__}) encountered an error: {e}")
                     # set errorState
                     self.errorState = True
@@ -527,7 +527,7 @@ class SpiderFootPlugin():
         except KeyboardInterrupt:
             self.sf.debug(f"Interrupted module {self.__name__}.")
             self._stopScanning = True
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             import traceback
             self.sf.error(f"Exception ({e.__class__.__name__}) in module {self.__name__}."
                           + traceback.format_exc())

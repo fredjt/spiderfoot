@@ -150,7 +150,7 @@ class sfp_intelx(SpiderFootPlugin):
 
         try:
             ret = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from IntelligenceX: {e}")
             self.errorState = True
             return None
@@ -177,7 +177,7 @@ class sfp_intelx(SpiderFootPlugin):
 
                 try:
                     ret = json.loads(res['content'])
-                except Exception as e:
+                except (json.JSONDecodeError, TypeError) as e:
                     self.error("Error processing JSON response from IntelligenceX: " + str(e))
                     return None
 
@@ -253,7 +253,7 @@ class sfp_intelx(SpiderFootPlugin):
                             continue
                         evt = "LEAKSITE_URL"
                         val = "https://intelx.io/?did=" + rec['systemid']
-                except Exception as e:
+                except IndexError as e:
                     self.error(f"Error processing content from IntelX: {e}")
                     continue
 
@@ -288,7 +288,7 @@ class sfp_intelx(SpiderFootPlugin):
                     if not val or not evt:
                         self.debug("Unexpected record, skipping.")
                         continue
-                except Exception as e:
+                except IndexError as e:
                     self.error(f"Error processing content from IntelX: {e}")
                     continue
 

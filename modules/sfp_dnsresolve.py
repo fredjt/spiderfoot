@@ -400,7 +400,7 @@ class sfp_dnsresolve(SpiderFootPlugin):
                     matches = None
                     try:
                         matches = re.findall(pat, chunkhost)
-                    except Exception as e:
+                    except re.error as e:
                         self.error(f"Error applying regex to data ({e})")
 
                     if matches:

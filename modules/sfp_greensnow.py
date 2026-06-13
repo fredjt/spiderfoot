@@ -116,7 +116,7 @@ class sfp_greensnow(SpiderFootPlugin):
                     if IPAddress(ip) in IPNetwork(qry):
                         self.debug(f"{ip} found within netblock/subnet {qry} in greensnow.co list.")
                         return f"https://greensnow.co/view/{ip}"
-                except Exception as e:
+                except Exception as e:  # noqa: B902
                     self.debug(f"Error encountered parsing: {e}")
                     continue
 

@@ -143,7 +143,7 @@ class sfp_securitytrails(SpiderFootPlugin):
                 return accum
 
             return info.get('records', [])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error("Error processing JSON response from SecurityTrails: " + str(e))
             return None
 

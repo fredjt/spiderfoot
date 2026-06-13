@@ -137,7 +137,7 @@ class sfp_tool_httpx(SpiderFootPlugin):
                     )
                     self.errorState = True
                     return
-            except Exception:
+            except OSError:
                 # Exit non-zero is expected for unreachable hosts — that's fine.
                 # If we get an exception here (e.g. the binary is not executable),
                 # that's also fine; we'll catch it on the real run.
@@ -187,7 +187,7 @@ class sfp_tool_httpx(SpiderFootPlugin):
                 stdout, stderr = p.communicate()
                 self.debug(f"Timed out waiting for httpx to finish on {eventData}")
                 return
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run httpx: {e}")
             return
 

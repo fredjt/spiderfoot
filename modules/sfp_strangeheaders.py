@@ -132,7 +132,7 @@ class sfp_strangeheaders(SpiderFootPlugin):
 
         try:
             data = json.loads(eventData)
-        except Exception:
+        except json.JSONDecodeError:
             self.error("Received HTTP headers from another module in an unexpected format.")
             return
 

@@ -109,7 +109,7 @@ class sfp_ipstack(SpiderFootPlugin):
                 self.error("Invalid ipstack.com API key or usage limits exceeded.")
                 self.errorState = True
                 return
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return
 

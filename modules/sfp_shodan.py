@@ -113,7 +113,7 @@ class sfp_shodan(SpiderFootPlugin):
                 self.error(f"Error returned from SHODAN: {r['error']}")
                 return None
             return r
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from SHODAN: {e}")
             return None
 
@@ -147,7 +147,7 @@ class sfp_shodan(SpiderFootPlugin):
                 self.error(f"Error returned from SHODAN: {r['error']}")
                 return None
             return r
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from SHODAN: {e}")
             return None
 
@@ -184,7 +184,7 @@ class sfp_shodan(SpiderFootPlugin):
                 self.info(f"No SHODAN info found for {qry}")
                 return None
             return r
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from SHODAN: {e}")
             return None
 
@@ -224,7 +224,7 @@ class sfp_shodan(SpiderFootPlugin):
             try:
                 network = eventData.split(": ")[0]
                 analytics_id = eventData.split(": ")[1]
-            except Exception as e:
+            except IndexError as e:
                 self.error(f"Unable to parse WEB_ANALYTICS_ID: {eventData} ({e})")
                 return
 

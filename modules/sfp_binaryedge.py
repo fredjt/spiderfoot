@@ -168,7 +168,7 @@ class sfp_binaryedge(SpiderFootPlugin):
 
         try:
             info = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from BinaryEdge.io: {e}")
             return None
 
@@ -447,7 +447,7 @@ class sfp_binaryedge(SpiderFootPlugin):
                                 # We don't want the content after HTTP banners
                                 banner = banner.split('\\r\\n\\r\\n')[0]
                                 banner = banner.replace("\\r\\n", "\n")
-                        except Exception:
+                        except IndexError:
                             self.debug("No banner information found.")
                             continue
 

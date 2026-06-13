@@ -74,7 +74,7 @@ class sfp_psbdmp(SpiderFootPlugin):
 
         try:
             ret = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from psbdmp.cc: {e}")
             return None
 

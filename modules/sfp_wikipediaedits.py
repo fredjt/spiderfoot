@@ -107,7 +107,7 @@ class sfp_wikipediaedits(SpiderFootPlugin):
                     d = parser.unescape(m)
                     links.append(d)
             return set(links)
-        except Exception as e:
+        except re.error as e:
             self.error(f"Error processing response from Wikipedia: {e}")
             return None
 

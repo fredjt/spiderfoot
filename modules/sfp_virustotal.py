@@ -132,7 +132,7 @@ class sfp_virustotal(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from VirusTotal: {e}")
             self.errorState = True
 
@@ -165,7 +165,7 @@ class sfp_virustotal(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from VirusTotal: {e}")
             self.errorState = True
 

@@ -128,7 +128,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                     return
                 for addr in net.iter_hosts():
                     targets.append(str(addr))
-        except Exception as e:
+        except Exception as e:  # noqa: B902
             self.error(f"Strange netblock identified, unable to parse: {eventData} ({e})")
             return
 
@@ -180,7 +180,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                 stdout, stderr = p.communicate()
                 self.debug(f"Timed out waiting for testssl.sh to finish on {target}")
                 continue
-            except Exception as e:
+            except OSError as e:
                 self.error(f"Unable to run testssl.sh: {e}")
                 os.unlink(fname)
                 continue
@@ -202,7 +202,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                 with open(fname, "r") as f:
                     result_json = json.loads(f.read())
                 os.unlink(fname)
-            except Exception as e:
+            except (json.JSONDecodeError, TypeError) as e:
                 self.error(f"Could not parse testssl.sh output as JSON: {e}\nstderr: {stderr}\nstdout: {stdout}")
                 continue
 

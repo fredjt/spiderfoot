@@ -126,7 +126,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
         try:
             p = Popen(args, stdout=PIPE, stderr=PIPE)
             stdout, stderr = p.communicate(input=None)
-        except Exception as e:
+        except OSError as e:
             self.error(f"Unable to run CMSeeK: {e}")
             return
 
@@ -146,7 +146,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
         try:
             f = io.open(log_path, encoding='utf-8')
             j = json.loads(f.read())
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Could not parse CMSeeK output file {log_path} as JSON: {e}")
             return
 

@@ -83,7 +83,7 @@ class sfp_h1nobbdde(SpiderFootPlugin):
                 # Report it
                 if qry in m[1]:
                     ret.append(m[1] + "\n<SFURL>" + m[0] + "</SFURL>")
-        except Exception as e:
+        except re.error as e:
             self.error(f"Error processing response from h1.nobbd.de: {e}")
             return None
 

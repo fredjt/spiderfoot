@@ -139,7 +139,7 @@ class sfp_wigle(SpiderFootPlugin):
                     ret.append(r['ssid'] + " (Net ID: " + r['netid'] + ")")
 
             return ret
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from WiGLE: {e}")
             return None
 
@@ -150,7 +150,7 @@ class sfp_wigle(SpiderFootPlugin):
         try:
             if base64.b64encode(base64.b64decode(api_key)).decode('utf-8') != api_key:
                 return False
-        except Exception:
+        except Exception:  # noqa: B902
             return False
 
         return True

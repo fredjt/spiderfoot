@@ -103,7 +103,7 @@ class sfp_builtwith(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])['Relationships']
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from builtwith.com: {e}")
 
         return None
@@ -121,7 +121,7 @@ class sfp_builtwith(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])['Results'][0]
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from builtwith.com: {e}")
 
         return None

@@ -122,7 +122,7 @@ class sfp_whoxy(SpiderFootPlugin):
                 return accum
 
             return info.get('search_result', [])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error("Error processing JSON response from Whoxy: " + str(e))
             return None
 

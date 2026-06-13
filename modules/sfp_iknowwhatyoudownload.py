@@ -106,7 +106,7 @@ class sfp_iknowwhatyoudownload(SpiderFootPlugin):
 
         try:
             data = json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from iknowwhatyoudownload.com: {e}")
             return None
 

@@ -135,7 +135,7 @@ class sfp_onyphe(SpiderFootPlugin):
             if "results" not in info or info["results"] == []:
                 self.info(f"No Onyphe {endpoint} data found for {ip}")
                 return None
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.debug(f"{e.__class__} {res['code']} {res['content']}")
             self.error("Error processing JSON response from Onyphe.")
             return None

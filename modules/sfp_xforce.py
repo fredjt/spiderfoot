@@ -197,7 +197,7 @@ class sfp_xforce(SpiderFootPlugin):
 
         try:
             return json.loads(res['content'])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from X-Force Exchange: {e}")
 
         return None

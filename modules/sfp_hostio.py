@@ -83,7 +83,7 @@ class sfp_hostio(SpiderFootPlugin):
     def handle_error_response(self, qry, res):
         try:
             error_info = json.loads(res["content"])
-        except Exception:
+        except json.JSONDecodeError:
             error_info = None
         if error_info:
             error_message = error_info.get("error")
@@ -112,7 +112,7 @@ class sfp_hostio(SpiderFootPlugin):
 
         try:
             return json.loads(res["content"])
-        except Exception as e:
+        except (json.JSONDecodeError, TypeError) as e:
             self.error(f"Error processing JSON response from Host.io: {e}")
 
         return None
