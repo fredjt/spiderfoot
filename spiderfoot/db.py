@@ -12,12 +12,11 @@
 
 from pathlib import Path
 import fcntl
-import hashlib
-import random
 import re
 import sqlite3
 import threading
 import time
+import uuid
 
 
 class SpiderFootDb:
@@ -1782,12 +1781,7 @@ class SpiderFootDb:
         if not isinstance(eventHashes, list):
             raise TypeError(f"eventHashes is {type(eventHashes)}; expected list()")
 
-        uniqueId = str(
-            hashlib.md5(
-                str(time.time() + random.SystemRandom().randint(0, 99999999))
-                .encode('utf-8')
-            ).hexdigest()
-        )  # noqa: DUO130
+        uniqueId = uuid.uuid4().hex
 
         qry = "INSERT INTO tbl_scan_correlation_results \
             (id, scan_instance_id, title, rule_name, rule_descr, rule_risk, rule_id, rule_logic) \
