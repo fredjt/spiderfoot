@@ -190,6 +190,7 @@ class sfp_tool_nmap(SpiderFootPlugin):
                 try:
                     if "scan report for" in line:
                         currentIp = line.split("(")[1].replace(")", "")
+                        opsys = None
                     if "OS details:" in line:
                         junk, opsys = line.split(": ")
                 except (IndexError, ValueError):
