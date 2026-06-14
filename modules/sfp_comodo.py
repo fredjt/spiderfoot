@@ -82,7 +82,9 @@ class sfp_comodo(SpiderFootPlugin):
         try:
             addrs = res.resolve(qaddr)
             self.debug(f"Addresses returned: {addrs}")
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
             return False
 

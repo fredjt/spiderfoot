@@ -167,7 +167,7 @@ class sfp_tool_dnstwist(SpiderFootPlugin):
             stdout, stderr = p.communicate()
             self.debug(f"Timed out waiting for DNSTwist to finish on {eventData}")
             return
-        except (json.JSONDecodeError, TypeError) as e:
+        except Exception as e:  # noqa: B902
             self.error("Unable to run DNSTwist: " + str(e))
             return
 

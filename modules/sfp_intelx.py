@@ -253,7 +253,7 @@ class sfp_intelx(SpiderFootPlugin):
                             continue
                         evt = "LEAKSITE_URL"
                         val = "https://intelx.io/?did=" + rec['systemid']
-                except IndexError as e:
+                except (IndexError, KeyError) as e:
                     self.error(f"Error processing content from IntelX: {e}")
                     continue
 
@@ -288,7 +288,7 @@ class sfp_intelx(SpiderFootPlugin):
                     if not val or not evt:
                         self.debug("Unexpected record, skipping.")
                         continue
-                except IndexError as e:
+                except (IndexError, KeyError) as e:
                     self.error(f"Error processing content from IntelX: {e}")
                     continue
 

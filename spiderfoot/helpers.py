@@ -369,7 +369,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts.ispell', f"{d}.dict", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except IndexError as e:
+            except IOError as e:
                 raise IOError(f"Could not read wordlist file '{d}.dict'") from e
 
         return words
@@ -397,7 +397,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts.ispell', f"{d}.dict", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except IndexError as e:
+            except IOError as e:
                 raise IOError(f"Could not read wordlist file '{d}.dict'") from e
 
         return words
@@ -425,7 +425,7 @@ class SpiderFootHelpers():
                 with resources.open_text('spiderfoot.dicts', f"{d}.txt", errors='ignore') as dict_file:
                     for w in dict_file.readlines():
                         words.add(w.strip().lower().split('/')[0])
-            except IndexError as e:
+            except IOError as e:
                 raise IOError(f"Could not read wordlist file '{d}.txt'") from e
 
         return words

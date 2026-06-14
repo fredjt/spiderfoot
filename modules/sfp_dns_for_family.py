@@ -77,7 +77,9 @@ class sfp_dns_for_family(SpiderFootPlugin):
 
         try:
             return res.resolve(qaddr)
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
 
         return None

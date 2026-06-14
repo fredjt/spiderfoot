@@ -202,7 +202,7 @@ class sfp_tool_testsslsh(SpiderFootPlugin):
                 with open(fname, "r") as f:
                     result_json = json.loads(f.read())
                 os.unlink(fname)
-            except (json.JSONDecodeError, TypeError) as e:
+            except (json.JSONDecodeError, TypeError, OSError) as e:
                 self.error(f"Could not parse testssl.sh output as JSON: {e}\nstderr: {stderr}\nstdout: {stdout}")
                 continue
 

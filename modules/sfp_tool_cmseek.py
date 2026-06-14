@@ -146,7 +146,7 @@ class sfp_tool_cmseek(SpiderFootPlugin):
         try:
             f = io.open(log_path, encoding='utf-8')
             j = json.loads(f.read())
-        except (json.JSONDecodeError, TypeError) as e:
+        except (json.JSONDecodeError, TypeError, OSError) as e:
             self.error(f"Could not parse CMSeeK output file {log_path} as JSON: {e}")
             return
 

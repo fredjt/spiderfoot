@@ -1400,7 +1400,7 @@ if __name__ == "__main__":
         try:
             with open(args.P, 'r') as f:
                 s.ownopts['cli.password'] = f.readlines()[0].strip('\n')
-        except OSError as e:
+        except (OSError, IndexError) as e:
             print(f"Unable to open {args.P}: ({e})")
             sys.exit(-1)
     if args.i:

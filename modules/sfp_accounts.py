@@ -93,7 +93,7 @@ class sfp_accounts(SpiderFootPlugin):
 
         try:
             self.sites = [site for site in json.loads(content)['sites'] if not site.get('valid', True) is False]
-        except (json.JSONDecodeError, TypeError) as e:
+        except (json.JSONDecodeError, TypeError, KeyError) as e:
             self.error(f"Unable to parse social media accounts list: {e}")
             self.errorState = True
             return

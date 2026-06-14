@@ -1264,7 +1264,7 @@ class SpiderFootWebUi:
 
         try:
             ids = json.loads(resultids)
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, TypeError):
             return json.dumps(["ERROR", "No IDs supplied."]).encode('utf-8')
 
         # Cannot set FPs if a scan is not completed

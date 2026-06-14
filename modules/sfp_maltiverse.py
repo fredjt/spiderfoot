@@ -115,7 +115,7 @@ class sfp_maltiverse(SpiderFootPlugin):
             # Maltiverse returns \\n instead of \n in the response
             data = str(res['content']).replace("\\n", " ")
             return json.loads(data)
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, KeyError, TypeError):
             self.error("Incorrectly formatted data received as JSON response")
             return None
 

@@ -848,7 +848,7 @@ class SpiderFoot:
         addrs = list()
         try:
             addrs = self.normalizeDNS(socket.gethostbyname_ex(host))
-        except socket.gaierror as e:
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"Unable to resolve host: {host} ({e})")
             return addrs
 
@@ -878,7 +878,7 @@ class SpiderFoot:
 
         try:
             addrs = self.normalizeDNS(socket.gethostbyaddr(ipaddr))
-        except socket.gaierror as e:
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"Unable to reverse resolve IP address: {ipaddr} ({e})")
             return list()
 

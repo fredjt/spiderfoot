@@ -162,7 +162,7 @@ class sfp_customfeed(SpiderFootPlugin):
                             if match:
                                 self.debug(target + "/" + targetDom + " found in " + check + " list.")
                                 return url
-                    except IndexError as e:
+                    except (IndexError, KeyError, re.error) as e:
                         self.debug("Error encountered parsing 2: " + str(e))
                         continue
 

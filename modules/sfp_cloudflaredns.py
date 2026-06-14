@@ -79,7 +79,9 @@ class sfp_cloudflaredns(SpiderFootPlugin):
 
         try:
             return res.resolve(qaddr)
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
 
         return None
@@ -90,7 +92,9 @@ class sfp_cloudflaredns(SpiderFootPlugin):
 
         try:
             return res.resolve(qaddr)
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
 
         return None

@@ -230,7 +230,7 @@ class sfp_github(SpiderFootPlugin):
                 if ret is None:
                     self.error(f"Unable to process empty response from Github for: {username}")
                     failed = True
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, TypeError):
                 self.error(f"Unable to process invalid response from Github for: {username}")
                 failed = True
 

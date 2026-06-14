@@ -10,6 +10,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import json
+
 from subprocess import PIPE, Popen, TimeoutExpired
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -121,7 +123,7 @@ class sfp_tool_pythonwhois(SpiderFootPlugin):
 
             import json as jsonmod
             w = jsonmod.loads(content)
-        except OSError as e:
+        except (OSError, json.JSONDecodeError, TypeError) as e:
             self.error(f"Error running python-whois for {eventData}: {e}")
             return
 

@@ -76,7 +76,7 @@ class sfp_hosting(SpiderFootPlugin):
                 continue
             try:
                 [start, end, title, url] = line.split(",")
-            except IndexError:
+            except (IndexError, ValueError):
                 continue
 
             try:

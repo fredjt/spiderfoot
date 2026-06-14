@@ -89,7 +89,9 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
         try:
             addrs = res.resolve(qaddr)
             self.debug(f"Addresses returned: {addrs}")
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
             return False
 
@@ -104,7 +106,9 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
         try:
             addrs = res.resolve(qaddr)
             self.debug(f"Addresses returned: {addrs}")
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
             return False
 
@@ -119,7 +123,9 @@ class sfp_cleanbrowsing(SpiderFootPlugin):
         try:
             addrs = res.resolve(qaddr)
             self.debug(f"Addresses returned: {addrs}")
-        except (dns.exception.Timeout, dns.resolver.NoAnswer, dns.resolver.NXDOMAIN, dns.name.EmptyLabel):
+        except (dns.resolver.NoNameservers, dns.exception.Timeout,
+                dns.resolver.NoAnswer, dns.resolver.NXDOMAIN,
+                dns.name.EmptyLabel):
             self.debug(f"Unable to resolve {qaddr}")
             return False
 

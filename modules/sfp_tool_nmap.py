@@ -167,37 +167,48 @@ class sfp_tool_nmap(SpiderFootPlugin):
             return
 
         if eventName == "IP_ADDRESS":
-            try:
-                opsys = None
-                for line in content.split('\n'):
+            opsys = None
+            for line in content.split('\n'):
+                try:
                     if "OS details:" in line:
                         junk, opsys = line.split(": ")
-                if opsys:
+                except (IndexError, ValueError):
+                    opsys = None
+                    continue
+
+            if opsys:
+                try:
                     evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, event)
                     self.notifyListeners(evt)
-            except Exception as e:  # noqa: B902
-                self.error("Couldn't parse the output of Nmap: " + str(e))
-                return
+                except Exception as e:  # noqa: B902
+                    self.error("Couldn't parse the output of Nmap: " + str(e))
 
         if eventName == "NETBLOCK_OWNER":
-            try:
-                currentIp = None
-                for line in content.split('\n'):
-                    opsys = None
+            currentIp = None
+            opsys = None
+            for line in content.split('\n'):
+                try:
                     if "scan report for" in line:
                         currentIp = line.split("(")[1].replace(")", "")
                     if "OS details:" in line:
                         junk, opsys = line.split(": ")
+                except (IndexError, ValueError):
+                    currentIp = None
+                    opsys = None
+                    continue
 
-                    if opsys and currentIp:
+                if opsys and currentIp:
+                    try:
                         ipevent = SpiderFootEvent("IP_ADDRESS", currentIp, self.__name__, event)
                         self.notifyListeners(ipevent)
 
                         evt = SpiderFootEvent("OPERATING_SYSTEM", opsys, self.__name__, ipevent)
                         self.notifyListeners(evt)
                         currentIp = None
-            except IndexError as e:
-                self.error(f"Couldn't parse the output of Nmap: {e}")
-                return
+                        opsys = None
+                    except Exception as e:  # noqa: B902
+                        self.error(f"Couldn't parse the output of Nmap: {e}")
+                        currentIp = None
+                        opsys = None
 
 # End of sfp_tool_nmap class
