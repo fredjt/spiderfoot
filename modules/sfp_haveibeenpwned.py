@@ -186,7 +186,7 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
             for n in data:
                 try:
                     site = n["Name"]
-                except Exception as e:  # noqa: B902
+                except (KeyError, TypeError) as e:
                     self.debug(f"Unable to parse result from HaveIBeenPwned?: {e}")
                     continue
 
@@ -222,7 +222,7 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
                     site = f"{sites[n.get('Source')]}{n.get('Id')}"
                     links.add(site)
 
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError) as e:
                 self.debug(f"Unable to parse result from HaveIBeenPwned?: {e}")
                 continue
 
@@ -249,7 +249,7 @@ class sfp_haveibeenpwned(SpiderFootPlugin):
                 evt2 = SpiderFootEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt1)
                 self.notifyListeners(evt2)
 
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError) as e:
                 self.debug(f"Unable to parse result from HaveIBeenPwned?: {e}")
                 continue
 

@@ -11,6 +11,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPNetwork
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -156,7 +158,7 @@ class sfp_honeypot(SpiderFootPlugin):
                 text = self.parseDNS(addr)
                 if text is not None:
                     break
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"ProjectHoneyPot did not resolve {qaddr} / {lookup}: {e}")
 
         if not text:

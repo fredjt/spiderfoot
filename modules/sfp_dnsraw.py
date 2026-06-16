@@ -12,6 +12,7 @@
 # -------------------------------------------------------------------------------
 
 import re
+import socket
 
 import dns.query
 import dns.rdatatype
@@ -111,8 +112,8 @@ class sfp_dnsraw(SpiderFootPlugin):
 
                 if not len(res.answer):
                     continue
-            except Exception as e:  # noqa: B902
-                self.error(f"Failed to obtain DNS response for {eventData} ({e})")
+            except (socket.gaierror, socket.herror, socket.timeout):
+                self.error(f"Failed to obtain DNS response for {eventData}")
                 continue
 
             # Iterate through DNS answers

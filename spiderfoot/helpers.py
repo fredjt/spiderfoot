@@ -846,7 +846,7 @@ class SpiderFootHelpers():
                 for lnk in BeautifulSoup(data, features="lxml", parse_only=SoupStrainer(t)).find_all(t):
                     if lnk.has_attr(tags[t]):
                         links.append(lnk[tags[t]])
-        except Exception:  # noqa: B902
+        except (TypeError, ValueError, KeyError):
             return returnLinks
 
         proto = url.split(":")[0]

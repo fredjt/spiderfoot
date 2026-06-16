@@ -12,6 +12,7 @@
 # -------------------------------------------------------------------------------
 
 import random
+import socket
 import threading
 import time
 
@@ -111,7 +112,7 @@ class sfp_portscan_tcp(SpiderFootPlugin):
             sock = self.sf.safeSocket(ip, port, self.opts['timeout'])
             with self.lock:
                 self.portResults[peer] = True
-        except Exception:  # noqa: B902
+        except (socket.timeout, OSError):
             with self.lock:
                 self.portResults[peer] = False
             return
@@ -120,7 +121,7 @@ class sfp_portscan_tcp(SpiderFootPlugin):
         try:
             with self.lock:
                 self.portResults[peer] = sock.recv(4096)
-        except Exception:  # noqa: B902
+        except (socket.timeout, OSError):
             sock.close()
             return
         else:
@@ -196,7 +197,7 @@ class sfp_portscan_tcp(SpiderFootPlugin):
 
             try:
                 net = IPNetwork(eventData)
-            except Exception as e:  # noqa: B902
+            except (netaddr.AddrFormatError, ValueError) as e:
                 self.error(f"Strange netblock identified, unable to parse: {eventData} ({e})")
                 return
 

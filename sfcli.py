@@ -392,7 +392,7 @@ class SpiderFootCli(cmd.Cmd):
             if r.status_code == requests.codes.ok:  # pylint: disable=no-member
                 return r.text
             r.raise_for_status()
-        except Exception as e:  # noqa: B902
+        except requests.exceptions.RequestException as e:
             self.edprint(f"Failed communicating with server: {e}")
             return None
 
@@ -413,7 +413,7 @@ class SpiderFootCli(cmd.Cmd):
 
         try:
             s = shlex.split(cmdline)
-        except Exception as e:  # noqa: B902
+        except ValueError as e:
             self.edprint(f"Error parsing command: {e}")
             return ret
 

@@ -12,6 +12,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPNetwork
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -129,7 +131,7 @@ class sfp_spamhaus(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.zen.spamhaus.org'
             self.debug(f"Checking Spamhaus Zen blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:  # noqa: B902
+        except (OSError, socket.gaierror, socket.herror) as e:
             self.debug(f"Spamhaus Zen did not resolve {qaddr} / {lookup}: {e}")
 
         return None

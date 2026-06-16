@@ -12,6 +12,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPNetwork
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -107,7 +109,7 @@ class sfp_uceprotect(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl-1.uceprotect.net'
             self.debug(f"Checking UCEPROTECT blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"UCEPROTECT did not resolve {qaddr} / {lookup}: {e}")
 
         return None
@@ -129,7 +131,7 @@ class sfp_uceprotect(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl-2.uceprotect.net'
             self.debug(f"Checking UCEPROTECT blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"UCEPROTECT did not resolve {qaddr} / {lookup}: {e}")
 
         return None

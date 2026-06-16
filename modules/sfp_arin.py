@@ -99,7 +99,7 @@ class sfp_arin(SpiderFootPlugin):
                     fname = lname
                     lname = t
                 url += "pocs;first=" + fname + ";last=" + lname
-        except Exception as e:  # noqa: B902
+        except ValueError as e:
             self.debug("Couldn't process name: " + value + " (" + str(e) + ")")
             return None
 

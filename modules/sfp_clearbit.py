@@ -196,7 +196,7 @@ class sfp_clearbit(SpiderFootPlugin):
                             event
                         )
                         self.notifyListeners(evt)
-        except Exception:  # noqa: B902
+        except (KeyError, TypeError):
             self.debug("Unable to extract person name from JSON.")
             pass
 
@@ -222,7 +222,7 @@ class sfp_clearbit(SpiderFootPlugin):
                 if location:
                     evt = SpiderFootEvent("PHYSICAL_ADDRESS", location, self.__name__, event)
                     self.notifyListeners(evt)
-        except Exception:  # noqa: B902
+        except (KeyError, TypeError):
             self.debug("Unable to extract location from JSON.")
             pass
 
@@ -281,7 +281,7 @@ class sfp_clearbit(SpiderFootPlugin):
                     if location:
                         evt = SpiderFootEvent("PHYSICAL_ADDRESS", location, self.__name__, event)
                         self.notifyListeners(evt)
-        except Exception:  # noqa: B902
+        except (KeyError, TypeError):
             self.debug("Unable to extract company info from JSON.")
             pass
 

@@ -934,7 +934,7 @@ class SpiderFootCorrelator:
         for m in fields:
             try:
                 v = self.event_extract(data[0], m)[0]
-            except Exception:  # noqa: B902
+            except (IndexError, KeyError, TypeError):
                 self.log.error(f"Field requested was not available: {m}")
             title = title.replace("{" + m + "}", v.replace("\r", "").split("\n")[0])
         return title

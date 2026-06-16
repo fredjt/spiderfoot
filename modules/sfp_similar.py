@@ -11,6 +11,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
 
 nearchars = {
@@ -160,7 +162,7 @@ class sfp_similar(SpiderFootPlugin):
                         evt = SpiderFootEvent("SIMILARDOMAIN", f"{d}{tld}", self.__name__, event)
                         self.notifyListeners(evt)
                         break
-            except Exception:  # noqa: B902
+            except (OSError, socket.gaierror, socket.herror):
                 continue
 
 # End of sfp_similar class

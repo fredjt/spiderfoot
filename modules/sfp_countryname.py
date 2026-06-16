@@ -78,7 +78,7 @@ class sfp_countryname(SpiderFootPlugin):
 
         try:
             countryCode = region_code_for_country_code(phoneNumber.country_code)
-        except Exception:  # noqa: B902
+        except (TypeError, ValueError):
             self.debug(f"Lookup of region code failed for phone number: {srcPhoneNumber}")
             return None
 

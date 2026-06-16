@@ -84,7 +84,7 @@ class sfp_phone(SpiderFootPlugin):
 
             try:
                 number_carrier = carrier.name_for_number(number, 'en')
-            except Exception as e:  # noqa: B902
+            except (phonenumbers.NumberParseException, TypeError) as e:
                 self.debug(f"Error retrieving phone number carrier: {e}")
                 return
 

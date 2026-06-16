@@ -208,7 +208,7 @@ class sfp_crt(SpiderFootPlugin):
 
             try:
                 cert = self.sf.parseCert(str(res['content']))
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError) as e:
                 self.info(f"Error parsing certificate: {e}")
                 continue
 

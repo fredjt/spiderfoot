@@ -10,6 +10,7 @@
 # -------------------------------------------------------------------------------
 
 import base64
+import binascii
 import re
 import urllib.parse
 
@@ -89,7 +90,7 @@ class sfp_base64(SpiderFootPlugin):
 
             try:
                 string += f" ({base64.b64decode(match).decode('utf-8')})"
-            except Exception as e:  # noqa: B902
+            except (binascii.Error, UnicodeDecodeError) as e:
                 self.debug(f"Unable to base64-decode string: {e}")
                 continue
 

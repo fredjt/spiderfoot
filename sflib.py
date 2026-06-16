@@ -909,7 +909,7 @@ class SpiderFoot:
             for addr in res:
                 if addr[4][0] not in addrs:
                     addrs.append(addr[4][0])
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"Unable to resolve host: {hostname} ({e})")
             return addrs
 
@@ -1254,7 +1254,7 @@ class SpiderFoot:
 
         try:
             parsed_url = urllib.parse.urlparse(url)
-        except Exception:  # noqa: B902
+        except ValueError:
             self.debug(f"Could not parse URL: {url}")
             return None
 
@@ -1303,7 +1303,7 @@ class SpiderFoot:
                     verify=verify,
                     timeout=timeout
                 )
-            except Exception as e:  # noqa: B902
+            except requests.exceptions.RequestException as e:
                 if noLog:
                     self.debug(f"Unexpected exception ({e}) occurred fetching (HEAD only) URL: {url}", exc_info=True)
                 else:
@@ -1347,7 +1347,7 @@ class SpiderFoot:
                     if size > sizeLimit:
                         return result
 
-                except Exception as e:  # noqa: B902
+                except requests.exceptions.RequestException as e:
                     if noLog:
                         self.debug(
                             f"Unexpected exception ({e}) occurred fetching "
@@ -1550,17 +1550,17 @@ class SpiderFoot:
                         rating = cveRating(score)
                         if rating:
                             eventType = f"VULNERABILITY_CVE_{rating}"
-                    except Exception:  # noqa: B902
+                    except (KeyError, TypeError):
                         score = "Unknown"
 
                     try:
                         descr = data['result']['CVE_Items'][0]['cve']['description']['description_data'][0]['value']
-                    except Exception:  # noqa: B902
+                    except (KeyError, TypeError):
                         descr = "Unknown"
 
                     return (eventType, f"{cveId}\n<SFURL>https://nvd.nist.gov/vuln/detail/{cveId}</SFURL>\n"
                             f"Score: {score}\nDescription: {descr}")
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError):
                 self.debug(f"Unable to parse CVE response from {source.upper()}: {e}")
                 continue
 

@@ -362,7 +362,7 @@ class SpiderFootScanner():
                 try:
                     mod.outgoingEventQueue = self.eventQueue
                     mod.incomingEventQueue = queue.Queue()
-                except Exception as e:  # noqa: B902
+                except TypeError as e:
                     self.__sf.error(f"Module {modName} event queue setup failed: {e}")
                     continue
 
@@ -546,7 +546,7 @@ class SpiderFootScanner():
             try:
                 if m.incomingEventQueue is not None:
                     modules_waiting[m.__name__] = m.incomingEventQueue.qsize()
-            except Exception:  # noqa: B902
+            except AttributeError:
                 with suppress(Exception):
                     m.errorState = True
         modules_waiting = sorted(modules_waiting.items(), key=lambda x: x[-1], reverse=True)
@@ -556,7 +556,7 @@ class SpiderFootScanner():
             try:
                 if m.running:
                     modules_running.append(m.__name__)
-            except Exception:  # noqa: B902
+            except AttributeError:
                 with suppress(Exception):
                     m.errorState = True
 
@@ -565,7 +565,7 @@ class SpiderFootScanner():
             try:
                 if m.errorState:
                     modules_errored.append(m.__name__)
-            except Exception:  # noqa: B902
+            except AttributeError:
                 with suppress(Exception):
                     m.errorState = True
 

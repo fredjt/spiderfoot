@@ -155,7 +155,7 @@ class sfp_ripe(SpiderFootPlugin):
                 data = whois["irr_records"][0]
             else:
                 data = whois["records"][0]
-        except Exception as e:  # noqa: B902
+        except (KeyError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 
@@ -179,7 +179,7 @@ class sfp_ripe(SpiderFootPlugin):
 
         try:
             data = whois["records"]
-        except Exception as e:  # noqa: B902
+        except (KeyError, TypeError) as e:
             self.debug(f"Error processing JSON response: {e}")
             return None
 

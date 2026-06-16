@@ -115,7 +115,7 @@ class sfp_tool_whatweb(SpiderFootPlugin):
                 aggression = 4
             if aggression < 1:
                 aggression = 1
-        except Exception:  # noqa: B902
+        except (ValueError, TypeError):
             aggression = 1
 
         # Run WhatWeb

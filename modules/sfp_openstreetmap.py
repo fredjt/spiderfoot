@@ -142,7 +142,7 @@ class sfp_openstreetmap(SpiderFootPlugin):
             try:
                 lat = location.get('lat')
                 lon = location.get('lon')
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError) as e:
                 self.debug("Failed to get lat/lon: " + str(e))
                 continue
 

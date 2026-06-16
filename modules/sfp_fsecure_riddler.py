@@ -109,7 +109,7 @@ class sfp_fsecure_riddler(SpiderFootPlugin):
 
         try:
             token = data.get('response').get('user').get('authentication_token')
-        except Exception:  # noqa: B902
+        except (KeyError, TypeError):
             self.error('Login failed')
             self.errorState = True
             return

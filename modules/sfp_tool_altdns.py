@@ -232,7 +232,7 @@ class sfp_tool_altdns(SpiderFootPlugin):
             p.communicate()
             self.debug(f"Timed out waiting for altdns to finish on {eventData}")
             return
-        except Exception as e:  # noqa: B902
+        except (OSError, FileNotFoundError, ValueError) as e:
             self.error(f"Unable to run altdns: {e}")
             return
         finally:

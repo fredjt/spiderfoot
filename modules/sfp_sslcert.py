@@ -10,6 +10,9 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+import ssl
+
 from urllib.parse import urlparse
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin, SpiderFootHelpers
@@ -93,7 +96,7 @@ class sfp_sslcert(SpiderFootPlugin):
                 if u.port:
                     port = u.port
                 fqdn = self.sf.urlFQDN(eventData.lower())
-            except Exception:  # noqa: B902
+            except (ValueError,):
                 self.debug("Couldn't parse URL: " + eventData)
                 return
         else:
@@ -113,7 +116,7 @@ class sfp_sslcert(SpiderFootPlugin):
             dercert = sock.getpeercert(True)
             pemcert = SpiderFootHelpers.sslDerToPem(dercert)
             cert = self.sf.parseCert(str(pemcert), fqdn, self.opts['certexpiringdays'])
-        except Exception as x:  # noqa: B902
+        except (socket.timeout, OSError, ssl.SSLError) as x:
             self.info("Unable to SSL-connect to " + fqdn + " (" + str(x) + ")")
             return
 

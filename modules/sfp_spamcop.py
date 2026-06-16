@@ -12,6 +12,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPNetwork
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -111,7 +113,7 @@ class sfp_spamcop(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.bl.spamcop.net'
             self.debug(f"Checking SpamCop blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"SpamCop did not resolve {qaddr} / {lookup}: {e}")
 
         return None

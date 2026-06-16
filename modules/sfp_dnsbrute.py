@@ -13,6 +13,7 @@
 
 import importlib
 import random
+import socket
 import threading
 import time
 
@@ -97,7 +98,7 @@ class sfp_dnsbrute(SpiderFootPlugin):
             if self.sf.resolveHost(name) or self.sf.resolveHost6(name):
                 with self.lock:
                     self.hostResults[name] = True
-        except Exception:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout):
             with self.lock:
                 self.hostResults[name] = False
 

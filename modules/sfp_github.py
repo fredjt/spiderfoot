@@ -115,7 +115,7 @@ class sfp_github(SpiderFootPlugin):
             try:
                 urlParts = url.split("/")
                 username = urlParts[len(urlParts) - 1]
-            except Exception:  # noqa: B902
+            except (ValueError, IndexError):
                 self.debug(f"Couldn't get a username out of {url}")
                 return
 

@@ -13,6 +13,7 @@
 import json
 import re
 import time
+import urllib.error
 
 from spiderfoot import SpiderFootEvent, SpiderFootHelpers, SpiderFootPlugin
 
@@ -97,7 +98,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except Exception as e:  # noqa: B902
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as e:
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None
@@ -111,7 +112,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except Exception as e:  # noqa: B902
+            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as e:
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None

@@ -150,7 +150,7 @@ class sfp_tool_nuclei(SpiderFootPlugin):
                 for addr in IPNetwork(eventData).iter_hosts():
                     target += str(addr) + "\n"
                     timeout += 240
-        except Exception as e:  # noqa: B902
+        except (AddrFormatError, ValueError) as e:
             self.error(f"Strange netblock identified, unable to parse: {eventData} ({e})")
             return
 

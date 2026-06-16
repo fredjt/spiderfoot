@@ -173,7 +173,7 @@ class sfp_trashpanda(SpiderFootPlugin):
 
                 evt = SpiderFootEvent("LEAKSITE_CONTENT", res['content'], self.__name__, evt)
                 self.notifyListeners(evt)
-            except Exception as e:  # noqa: B902
+            except (KeyError, TypeError) as e:
                 self.debug(f"Error while fetching leaksite content : {str(e)}")
 
 # End of sfp_trashpanda class

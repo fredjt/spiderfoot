@@ -135,7 +135,7 @@ class sfp_tool_onesixtyone(SpiderFootPlugin):
                     return
                 for addr in net.iter_hosts():
                     targets.append(str(addr))
-        except Exception as e:  # noqa: B902
+        except (AddrFormatError, ValueError) as e:
             self.error(f"Strange netblock identified, unable to parse: {eventData} ({e})")
             return
 

@@ -11,6 +11,8 @@
 # Licence:     MIT
 # -----------------------------------------------------------------------------
 
+import socket
+
 import dns.resolver
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -127,7 +129,7 @@ class sfp_dnscommonsrv(SpiderFootPlugin):
 
             try:
                 answers = res.query(name, 'SRV', timeout=10)
-            except Exception:  # noqa: B902
+            except (socket.gaierror, socket.herror, socket.timeout):
                 answers = []
 
             if not answers:

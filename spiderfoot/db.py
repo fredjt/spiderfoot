@@ -362,7 +362,7 @@ class SpiderFootDb:
                     init = True
                     try:
                         self.create()
-                    except Exception as e:  # noqa: B902
+                    except sqlite3.Error as e:
                         raise IOError("Tried to set up the SpiderFoot database schema, but failed") from e
 
                 # For users with pre 4.0 databases, add the correlation

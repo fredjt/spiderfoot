@@ -103,14 +103,14 @@ class sfp_whois(SpiderFootPlugin):
                 # TODO: this should use the configured proxy
                 r = ipwhois.IPWhois(ip)
                 data = str(r.lookup_rdap(depth=1))
-            except Exception as e:  # noqa: B902
+            except (ipwhois.exceptions.BaseIpwhoisException, OSError) as e:
                 self.error(f"Unable to perform WHOIS query on {ip}: {e}")
         else:
             self.debug(f"Sending WHOIS query for domain: {eventData}")
             try:
                 whoisdata = whois.whois(eventData)
                 data = str(whoisdata.text)
-            except Exception as e:  # noqa: B902
+            except (OSError, TimeoutError) as e:
                 self.error(f"Unable to perform WHOIS query on {eventData}: {e}")
 
         if not data:

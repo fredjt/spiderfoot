@@ -11,7 +11,10 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPAddress, IPNetwork
+from netaddr.core import AddrFormatError
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
 
@@ -154,7 +157,7 @@ class sfp_voipbl(SpiderFootPlugin):
             try:
                 for ip in IPNetwork(cidr):
                     ips.append(str(ip))
-            except Exception:  # noqa: B902
+            except (AddrFormatError, TypeError):
                 continue
 
         return ips

@@ -247,7 +247,7 @@ def main() -> None:
     if args.l:
         try:
             (host, port) = args.l.split(":")
-        except Exception:  # noqa: B902
+        except ValueError:
             log.critical("Invalid ip:port format.")
             sys.exit(-1)
 
@@ -462,7 +462,7 @@ def start_scan(sfConfig: dict, sfModules: dict, args, loggingQueue) -> None:
         )
         p.daemon = True
         p.start()
-    except Exception as e:  # noqa: B902
+    except (OSError, ValueError) as e:
         log.error(f"Scan [{scanId}] failed: {e}")
         sys.exit(-1)
 

@@ -189,7 +189,7 @@ class sfp_phishstats(SpiderFootPlugin):
             # TODO: iterate through hosts and extract co-hosts
             try:
                 maliciousIP = data[0].get('ip')
-            except Exception:  # noqa: B902
+            except (IndexError, TypeError):
                 # If ArrayIndex is out of bounds then data doesn't exist
                 continue
 

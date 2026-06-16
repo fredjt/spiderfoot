@@ -11,6 +11,7 @@
 # -------------------------------------------------------------------------------
 
 import re
+import socket
 
 import dns.query
 import dns.zone
@@ -123,7 +124,7 @@ class sfp_dnszonexfer(SpiderFootPlugin):
                             evt = SpiderFootEvent("INTERNET_NAME", strdata, self.__name__, parentEvent)
                             self.notifyListeners(evt)
 
-            except Exception as e:  # noqa: B902
-                self.info(f"Unable to perform DNS zone transfer for {eventData} ({name}): {e}")
+            except (socket.gaierror, socket.herror, socket.timeout):
+                self.info(f"Unable to perform DNS zone transfer for {eventData}")
 
 # End of sfp_dnszonexfer class

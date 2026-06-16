@@ -15,6 +15,7 @@ import json
 import logging
 import multiprocessing as mp
 import random
+import sqlite3
 import string
 import time
 from copy import deepcopy
@@ -268,7 +269,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.search(criteria)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in data:
@@ -349,7 +350,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanLogs(id, None, None, True)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return self.error("Scan ID not found.")
 
         if not data:
@@ -389,12 +390,12 @@ class SpiderFootWebUi:
         try:
             scaninfo = dbh.scanInstanceGet(id)
             scan_name = scaninfo[0]
-        except Exception:  # noqa: B902
+        except (sqlite3.Error, TypeError, IndexError):
             return json.dumps(["ERROR", "Could not retrieve info for scan."]).encode('utf-8')
 
         try:
             correlations = dbh.scanCorrelationList(id)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return json.dumps(["ERROR", "Could not retrieve correlations for scan."]).encode('utf-8')
 
         headings = ["Rule Name", "Correlation", "Risk", "Description"]
@@ -867,7 +868,7 @@ class SpiderFootWebUi:
             )
             p.daemon = True
             p.start()
-        except Exception as e:  # noqa: B902
+        except OSError as e:
             self.log.error(f"[-] Scan [{scanId}] failed: {e}")
             return self.error(f"[-] Scan [{scanId}] failed: {e}")
 
@@ -924,7 +925,7 @@ class SpiderFootWebUi:
                 )
                 p.daemon = True
                 p.start()
-            except Exception as e:  # noqa: B902
+            except OSError as e:
                 self.log.error(f"[-] Scan [{scanId}] failed: {e}")
                 return self.error(f"[-] Scan [{scanId}] failed: {e}")
 
@@ -1157,7 +1158,7 @@ class SpiderFootWebUi:
                     tmp[opt_array[0]] = '='.join(opt_array[1:])
 
                 allopts = json.dumps(tmp).encode('utf-8')
-            except Exception as e:  # noqa: B902
+            except TypeError as e:
                 return self.error(f"Failed to parse input file. Was it generated from SpiderFoot? ({e})")
 
         # Reset config to default
@@ -1238,7 +1239,7 @@ class SpiderFootWebUi:
             dbh = SpiderFootDb(self.config)
             dbh.configClear()  # Clear it in the DB
             self.config = deepcopy(self.defaultConfig)  # Clear in memory
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return False
 
         return True
@@ -1403,7 +1404,7 @@ class SpiderFootWebUi:
             data = ret.fetchall()
             columnNames = [c[0] for c in dbh.dbh.description]
             return [dict(zip(columnNames, row)) for row in data]
-        except Exception as e:  # noqa: B902
+        except sqlite3.Error as e:
             return self.jsonify_error('500', str(e))
 
     @cherrypy.expose
@@ -1533,7 +1534,7 @@ class SpiderFootWebUi:
             )
             p.daemon = True
             p.start()
-        except Exception as e:  # noqa: B902
+        except OSError as e:
             self.log.error(f"[-] Scan [{scanId}] failed: {e}")
             return self.error(f"[-] Scan [{scanId}] failed: {e}")
 
@@ -1599,7 +1600,7 @@ class SpiderFootWebUi:
             if dbh.vacuumDB():
                 return json.dumps(["SUCCESS", ""]).encode('utf-8')
             return json.dumps(["ERROR", "Vacuuming the database failed"]).encode('utf-8')
-        except Exception as e:  # noqa: B902
+        except sqlite3.Error as e:
             return json.dumps(["ERROR", f"Vacuuming the database failed: {e}"]).encode('utf-8')
 
     #
@@ -1625,7 +1626,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanLogs(id, limit, rowId, reverse)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in data:
@@ -1651,7 +1652,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanErrors(id, limit)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in data:
@@ -1750,12 +1751,12 @@ class SpiderFootWebUi:
 
         try:
             scandata = dbh.scanResultSummary(id, by)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         try:
             statusdata = dbh.scanInstanceGet(id)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in scandata:
@@ -1783,7 +1784,7 @@ class SpiderFootWebUi:
 
         try:
             corrdata = dbh.scanCorrelationList(id)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in corrdata:
@@ -1820,7 +1821,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanResultEvent(id, eventType, filterfp, correlationId=correlationId)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in data:
@@ -1859,7 +1860,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanResultEventUnique(id, eventType, filterfp)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return retdata
 
         for row in data:
@@ -1883,7 +1884,7 @@ class SpiderFootWebUi:
         """
         try:
             return self.searchBase(id, eventType, value)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return []
 
     @cherrypy.expose
@@ -1904,7 +1905,7 @@ class SpiderFootWebUi:
 
         try:
             return dbh.scanResultHistory(id)
-        except Exception:  # noqa: B902
+        except sqlite3.Error:
             return []
 
     @cherrypy.expose
@@ -1928,7 +1929,7 @@ class SpiderFootWebUi:
         try:
             leafSet = dbh.scanResultEvent(id, eventType)
             [datamap, pc] = dbh.scanElementSourcesAll(id, leafSet)
-        except Exception:  # noqa: B902
+        except (sqlite3.Error, ValueError):
             return retdata
 
         # Delete the ROOT key as it adds no value from a viz perspective

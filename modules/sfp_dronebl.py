@@ -12,6 +12,8 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
+import socket
+
 from netaddr import IPNetwork
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
@@ -134,7 +136,7 @@ class sfp_dronebl(SpiderFootPlugin):
             lookup = self.reverseAddr(qaddr) + '.dnsbl.dronebl.org'
             self.debug(f"Checking DroneBL blacklist: {lookup}")
             return self.sf.resolveHost(lookup)
-        except Exception as e:  # noqa: B902
+        except (socket.gaierror, socket.herror, socket.timeout) as e:
             self.debug(f"DroneBL did not resolve {qaddr} / {lookup}: {e}")
 
         return None
