@@ -854,7 +854,7 @@ class SpiderFootWebUi:
             # It must then be a name, as a re-run scan should always have a clean
             # target. Put quotes around the target value and try to determine the
             # target type again.
-            targetType = SpiderFootHelpers.targetTypeFromString(f'"{scantarget}"')
+            targetType = SpiderFootHelpers.targetTypeFromString(f'{scantarget!r}')
 
         if targetType not in ["HUMAN_NAME", "BITCOIN_ADDRESS"]:
             scantarget = scantarget.lower()
@@ -1583,7 +1583,7 @@ class SpiderFootWebUi:
             if scan_status != "RUNNING" and scan_status != "STARTING":
                 return self.jsonify_error(
                     '400',
-                    f"The running scan is currently in the state '{scan_status}', "
+                    f"The running scan is currently in the state {scan_status!r}, "
                     "please try again later or restart SpiderFoot."
                 )
 
