@@ -1560,7 +1560,7 @@ class SpiderFoot:
 
                     return (eventType, f"{cveId}\n<SFURL>https://nvd.nist.gov/vuln/detail/{cveId}</SFURL>\n"
                             f"Score: {score}\nDescription: {descr}")
-            except (KeyError, TypeError):
+            except (KeyError, TypeError) as e:
                 self.debug(f"Unable to parse CVE response from {source.upper()}: {e}")
                 continue
 

@@ -15,6 +15,7 @@ import sys
 import os.path
 import tempfile
 from netaddr import IPNetwork
+from netaddr.core import AddrFormatError
 from subprocess import PIPE, Popen, TimeoutExpired
 
 from spiderfoot import SpiderFootPlugin, SpiderFootEvent, SpiderFootHelpers

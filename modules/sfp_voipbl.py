@@ -11,8 +11,6 @@
 # Licence:     MIT
 # -------------------------------------------------------------------------------
 
-import socket
-
 from netaddr import IPAddress, IPNetwork
 from netaddr.core import AddrFormatError
 

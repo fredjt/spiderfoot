@@ -98,7 +98,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as e:
+            except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None
@@ -112,7 +112,7 @@ class sfp_stackoverflow(SpiderFootPlugin):
                     useragent="SpiderFoot"
                 )
                 time.sleep(1)
-            except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, OSError) as e:
+            except (urllib.error.URLError, urllib.error.HTTPError, OSError) as e:
                 self.error(f"Error querying StackExchange API: {e}")
                 self.errorState = True
                 return None

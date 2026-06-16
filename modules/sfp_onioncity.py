@@ -178,7 +178,7 @@ class sfp_onioncity(SpiderFootPlugin):
                 try:
                     startIndex = res['content'].index(eventData) - 120
                     endIndex = startIndex + len(eventData) + 240
-                except (ValueError,):
+                except ValueError:
                     self.debug("String not found in content.")
                     continue
 

@@ -17,6 +17,7 @@ import threading
 import time
 
 from netaddr import IPNetwork
+from netaddr.core import AddrFormatError
 
 from spiderfoot import SpiderFootEvent, SpiderFootPlugin
 
@@ -197,7 +198,7 @@ class sfp_portscan_tcp(SpiderFootPlugin):
 
             try:
                 net = IPNetwork(eventData)
-            except (netaddr.AddrFormatError, ValueError) as e:
+            except (AddrFormatError, ValueError) as e:
                 self.error(f"Strange netblock identified, unable to parse: {eventData} ({e})")
                 return
 

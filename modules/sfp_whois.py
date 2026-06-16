@@ -110,7 +110,7 @@ class sfp_whois(SpiderFootPlugin):
             try:
                 whoisdata = whois.whois(eventData)
                 data = str(whoisdata.text)
-            except (OSError, TimeoutError) as e:
+            except OSError as e:
                 self.error(f"Unable to perform WHOIS query on {eventData}: {e}")
 
         if not data:
