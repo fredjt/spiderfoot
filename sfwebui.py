@@ -269,7 +269,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.search(criteria)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in data:
@@ -350,7 +350,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanLogs(id, None, None, True)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return self.error("Scan ID not found.")
 
         if not data:
@@ -395,7 +395,7 @@ class SpiderFootWebUi:
 
         try:
             correlations = dbh.scanCorrelationList(id)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return json.dumps(["ERROR", "Could not retrieve correlations for scan."]).encode('utf-8')
 
         headings = ["Rule Name", "Correlation", "Risk", "Description"]
@@ -1239,7 +1239,7 @@ class SpiderFootWebUi:
             dbh = SpiderFootDb(self.config)
             dbh.configClear()  # Clear it in the DB
             self.config = deepcopy(self.defaultConfig)  # Clear in memory
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return False
 
         return True
@@ -1404,7 +1404,7 @@ class SpiderFootWebUi:
             data = ret.fetchall()
             columnNames = [c[0] for c in dbh.dbh.description]
             return [dict(zip(columnNames, row)) for row in data]
-        except sqlite3.Error as e:
+        except (sqlite3.Error, TypeError, OSError) as e:
             return self.jsonify_error('500', str(e))
 
     @cherrypy.expose
@@ -1600,7 +1600,7 @@ class SpiderFootWebUi:
             if dbh.vacuumDB():
                 return json.dumps(["SUCCESS", ""]).encode('utf-8')
             return json.dumps(["ERROR", "Vacuuming the database failed"]).encode('utf-8')
-        except sqlite3.Error as e:
+        except (sqlite3.Error, TypeError, OSError) as e:
             return json.dumps(["ERROR", f"Vacuuming the database failed: {e}"]).encode('utf-8')
 
     #
@@ -1626,7 +1626,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanLogs(id, limit, rowId, reverse)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in data:
@@ -1652,7 +1652,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanErrors(id, limit)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in data:
@@ -1751,12 +1751,12 @@ class SpiderFootWebUi:
 
         try:
             scandata = dbh.scanResultSummary(id, by)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         try:
             statusdata = dbh.scanInstanceGet(id)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in scandata:
@@ -1784,7 +1784,7 @@ class SpiderFootWebUi:
 
         try:
             corrdata = dbh.scanCorrelationList(id)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError):
             return retdata
 
         for row in corrdata:
@@ -1821,7 +1821,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanResultEvent(id, eventType, filterfp, correlationId=correlationId)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in data:
@@ -1860,7 +1860,7 @@ class SpiderFootWebUi:
 
         try:
             data = dbh.scanResultEventUnique(id, eventType, filterfp)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         for row in data:
@@ -1884,7 +1884,7 @@ class SpiderFootWebUi:
         """
         try:
             return self.searchBase(id, eventType, value)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return []
 
     @cherrypy.expose
@@ -1905,7 +1905,7 @@ class SpiderFootWebUi:
 
         try:
             return dbh.scanResultHistory(id)
-        except sqlite3.Error:
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return []
 
     @cherrypy.expose
@@ -1929,7 +1929,7 @@ class SpiderFootWebUi:
         try:
             leafSet = dbh.scanResultEvent(id, eventType)
             [datamap, pc] = dbh.scanElementSourcesAll(id, leafSet)
-        except (sqlite3.Error, ValueError):
+        except (sqlite3.Error, TypeError, OSError, ValueError):
             return retdata
 
         # Delete the ROOT key as it adds no value from a viz perspective
