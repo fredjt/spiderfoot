@@ -68,9 +68,8 @@ class SpiderFootPluginLogger(logging.Logger):
                 if sinfo[-1] == '\n':
                     sinfo = sinfo[:-1]
                 sio.close()
-            rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
-            break
-        return rv  # noqa R504
+            return (co.co_filename, f.f_lineno, co.co_name, sinfo)
+        return rv
 
 # end of logging overrides
 

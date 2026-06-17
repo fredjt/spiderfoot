@@ -78,13 +78,15 @@ class sfp_zetalytics(SpiderFootPlugin):
 
         if self.opts["verify"] and not self.sf.resolveHost(hostname) and not self.sf.resolveHost6(hostname):
             self.debug(f"Host {hostname} could not be resolved")
-            self.emit("INTERNET_NAME_UNRESOLVED", hostname, pevent)
+            if not self.emit("INTERNET_NAME_UNRESOLVED", hostname, pevent):
+                return None
             return True
 
-        self.emit("INTERNET_NAME", hostname, pevent)
+        if not self.emit("INTERNET_NAME", hostname, pevent):
+            return None
         if self.sf.isDomain(hostname, self.opts["_internettlds"]):
-            self.emit("DOMAIN_NAME", hostname, pevent)
-
+            if not self.emit("DOMAIN_NAME", hostname, pevent):
+                return None
         return True
 
     def request(self, path, params):
@@ -129,12 +131,14 @@ class sfp_zetalytics(SpiderFootPlugin):
         events_generated = False
         for r in results:
             qname = r.get("qname")
-            if not isinstance(qname, str):
-                continue
-            if self.verify_emit_internet_name(qname, pevent):
-                events_generated = True
+            if isinstance(qname, str):
+                result = self.verify_emit_internet_name(qname, pevent)
+                if result is None:
+                    return False
+                if result:
+                    events_generated = True
 
-        return events_generated # noqa R504
+        return events_generated
 
     def generate_hostname_events(self, data, pevent):
         if not isinstance(data, dict):
@@ -147,15 +151,18 @@ class sfp_zetalytics(SpiderFootPlugin):
         hostnames = set()
         for r in results:
             qname = r.get("qname")
-            if isinstance("qname", str):
+            if isinstance(qname, str):
                 hostnames.add(qname)
 
         events_generated = False
         for hostname in hostnames:
-            if self.verify_emit_internet_name(hostname, pevent):
+            result = self.verify_emit_internet_name(hostname, pevent)
+            if result is None:
+                return False
+            if result:
                 events_generated = True
 
-        return events_generated # noqa R504
+        return events_generated
 
     def generate_email_events(self, data, pevent):
         if not isinstance(data, dict):
@@ -169,10 +176,12 @@ class sfp_zetalytics(SpiderFootPlugin):
         for r in results:
             domain = r.get("d")
             if isinstance(domain, str):
-                self.emit("AFFILIATE_DOMAIN_NAME", domain, pevent)
-                events_generated = True
+                if self.emit("AFFILIATE_DOMAIN_NAME", domain, pevent):
+                    events_generated = True
+                else:
+                    return False
 
-        return events_generated # noqa R504
+        return events_generated
 
     def generate_email_domain_events(self, data, pevent):
         if not isinstance(data, dict):
@@ -186,10 +195,12 @@ class sfp_zetalytics(SpiderFootPlugin):
         for r in results:
             domain = r.get("d")
             if isinstance(domain, str):
-                self.emit("AFFILIATE_DOMAIN_NAME", domain, pevent)
-                events_generated = True
+                if self.emit("AFFILIATE_DOMAIN_NAME", domain, pevent):
+                    events_generated = True
+                else:
+                    return False
 
-        return events_generated # noqa R504
+        return events_generated
 
     def handleEvent(self, event):
         eventName = event.eventType
