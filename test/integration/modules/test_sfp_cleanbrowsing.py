@@ -1,5 +1,6 @@
 import pytest
 import unittest
+from unittest.mock import patch
 
 from modules.sfp_cleanbrowsing import sfp_cleanbrowsing
 from sflib import SpiderFoot
@@ -46,7 +47,12 @@ class TestModuleIntegrationcleanbrowsing(unittest.TestCase):
 
         evt = SpiderFootEvent(event_type, event_data, event_module, source_event)
 
-        with self.assertRaises(Exception) as cm:
+        with patch.object(module, 'queryFamilyDNS', return_value=False), \
+             patch.object(module, 'queryAdultDNS', return_value=False), \
+             patch.object(module, 'querySecurityDNS', return_value=True), \
+             patch.object(sf, 'resolveHost', return_value=True), \
+             patch.object(sf, 'resolveHost6', return_value=True), \
+             self.assertRaises(Exception) as cm:
             module.handleEvent(evt)
 
         self.assertEqual("OK", str(cm.exception))
@@ -79,6 +85,12 @@ class TestModuleIntegrationcleanbrowsing(unittest.TestCase):
         source_event = evt
 
         evt = SpiderFootEvent(event_type, event_data, event_module, source_event)
-        result = module.handleEvent(evt)
+
+        with patch.object(module, 'queryFamilyDNS', return_value=True), \
+             patch.object(module, 'queryAdultDNS', return_value=True), \
+             patch.object(module, 'querySecurityDNS', return_value=True), \
+             patch.object(sf, 'resolveHost', return_value=True), \
+             patch.object(sf, 'resolveHost6', return_value=True):
+            result = module.handleEvent(evt)
 
         self.assertIsNone(result)
