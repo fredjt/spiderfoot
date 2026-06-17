@@ -96,18 +96,17 @@ class sfp_dehashed(SpiderFootPlugin):
 
     # Query Dehashed
     def query(self, event, per_page, start):
-        q = self.opts['per_page']
         if event.eventType == "EMAILADDR":
             queryString = (
                 "https://api.dehashed.com/search?query=email:"
                 + '"' + event.data + '"'
-                + f"&page={start}&size={q}"
+                + f"&page={start}&size={self.opts['per_page']}"
             )
         if event.eventType == "DOMAIN_NAME":
             queryString = (
                 "https://api.dehashed.com/search?query=email:"
                 + '"' + "@" + event.data + '"'
-                + f"&page={start}&size={q}"
+                + f"&page={start}&size={self.opts['per_page']}"
             )
 
         auth_string = (self.opts['api_key_username'].encode('utf-8')

@@ -1583,7 +1583,7 @@ class SpiderFootWebUi:
             if scan_status != "RUNNING" and scan_status != "STARTING":
                 return self.jsonify_error(
                     '400',
-                    f"The running scan is currently in the state {repr(scan_status)}, "
+                    f"The running scan is currently in the state {scan_status!r}, "
                     "please try again later or restart SpiderFoot."
                 )
 
