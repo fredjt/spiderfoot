@@ -61,9 +61,9 @@ class sfp_dnsdumpster(SpiderFootPlugin):
             useragent=self.opts.get("_useragent", "Spiderfoot")
         )
         if res1["code"] not in ["200"]:
-            self.error(f"Bad response code \"{res1['code']}\" from DNSDumpster")
+            self.error(f"Bad response code {res1['code']!r} from DNSDumpster")
         else:
-            self.debug(f"Valid response code \"{res1['code']}\" from DNSDumpster")
+            self.debug(f"Valid response code {res1['code']!r} from DNSDumpster")
         html = BeautifulSoup(str(res1["content"]), features="lxml")
         csrftoken = None
         csrfmiddlewaretoken = None
@@ -104,7 +104,7 @@ class sfp_dnsdumpster(SpiderFootPlugin):
             useragent=self.opts.get("_useragent", "Spiderfoot")
         )
         if res2["code"] not in ["200"]:
-            self.error(f"Bad response code \"{res2['code']}\" from DNSDumpster")
+            self.error(f"Bad response code {res2['code']!r} from DNSDumpster")
             return ret
 
         html = BeautifulSoup(str(res2["content"]), features="lxml")

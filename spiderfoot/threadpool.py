@@ -51,7 +51,7 @@ class SpiderFootThreadPool:
         self._lock = threading.Lock()
 
     def start(self) -> None:
-        self.log.debug(f'Starting thread pool "{self.name}" with {self.threads:,} threads')
+        self.log.debug(f'Starting thread pool {self.name!r} with {self.threads:,} threads')
         for i in range(self.threads):
             t = ThreadPoolWorker(pool=self, name=f"{self.name}_worker_{i + 1}")
             t.start()
@@ -79,7 +79,7 @@ class SpiderFootThreadPool:
             results (dict): (unordered) results in the format: {"taskName": [returnvalue1, returnvalue2, ...]}
         """
         results = dict()
-        self.log.debug(f'Shutting down thread pool "{self.name}" with wait={wait}')
+        self.log.debug(f'Shutting down thread pool {self.name!r} with wait={wait}')
         if wait:
             while not self.finished and not self.stop:
                 with self._lock:
@@ -130,8 +130,8 @@ class SpiderFootThreadPool:
             sleep(.01)
             continue
         self.log.debug(
-            f"Submitting \"{callback.__name__}\" from "
-            f"module \"{taskName}\" to pool \"{self.name}\""
+            f"Submitting {callback.__name__!r} from "
+            f"module {taskName!r} to pool {self.name!r}"
         )
         self.inputQueue(taskName).put((callback, args, kwargs))
 

@@ -469,7 +469,7 @@ class SpiderFootCli(cmd.Cmd):
                 out = self.pretty(j, titlemap=titles)
 
             if not out:
-                self.edprint(f"Unknown output format '{self.ownopts['cli.output']}'.")
+                self.edprint(f"Unknown output format {self.ownopts['cli.output']!r}.")
                 return
 
         c = self.myparseline(cmd)
@@ -525,7 +525,7 @@ class SpiderFootCli(cmd.Cmd):
                 except OSError as e:
                     self.edprint(f"Unable to write to file: {e}")
                     return
-                self.dprint(f"Successfully wrote to file '{pipeargs}'.")
+                self.dprint(f"Successfully wrote to file {pipeargs!r}.")
                 return
 
             out = newout
@@ -852,7 +852,7 @@ class SpiderFootCli(cmd.Cmd):
                     fp.write(data)
                 self.dprint(f"Wrote scan {c[0][0]} data to {file}")
             except OSError as e:
-                self.edprint(f"Could not write scan {c[0][0]} data to file '{file}': {e}")
+                self.edprint(f"Could not write scan {c[0][0]} data to file {file!r}: {e}")
 
     # Show logs.
     def do_logs(self, line):

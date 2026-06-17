@@ -246,7 +246,7 @@ class SpiderFootEvent():
             raise TypeError(f"data is {type(data)}; expected str()")
 
         if not data:
-            raise ValueError(f"data is empty: '{str(data)}'")
+            raise ValueError(f"data is empty: {data!r}")
 
         self._data = data
 

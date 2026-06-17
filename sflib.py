@@ -1422,10 +1422,10 @@ class SpiderFoot:
                 try:
                     newurl = refresh_header.split(";url=")[1]
                 except IndexError as e:
-                    self.debug(f"Refresh header '{refresh_header}' found, but not parsable: {e}")
+                    self.debug(f"Refresh header {refresh_header!r} found, but not parsable: {e}")
                     return result
 
-                self.debug(f"Refresh header '{refresh_header}' found, re-directing to {self.removeUrlCreds(newurl)}")
+                self.debug(f"Refresh header {refresh_header!r} found, re-directing to {self.removeUrlCreds(newurl)}")
 
                 return self.fetchUrl(
                     newurl,

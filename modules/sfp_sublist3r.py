@@ -73,7 +73,7 @@ class sfp_sublist3r(SpiderFootPlugin):
             self.error("Error querying Sublist3r API")
 
         if res["code"] not in ["200"]:
-            self.error(f"Bad response code \"{res['code']}\" from Sublist3r API")
+            self.error(f"Bad response code {res['code']!r} from Sublist3r API")
 
         return list(set(ret))
 

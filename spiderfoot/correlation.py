@@ -1055,7 +1055,7 @@ class SpiderFootCorrelator:
                                  "both_collections", "match_all_to_first_collection"]
                 for method in rule['analysis']:
                     if method['method'] not in valid_methods:
-                        self.log.error(f"Unknown analysis method '{method['method']}' defined for {rule['id']}.")
+                        self.log.error(f"Unknown analysis method {method['method']!r} defined for {rule['id']}.")
                         ok = False
 
         for field in fields:
@@ -1078,7 +1078,7 @@ class SpiderFootCorrelator:
                         ok = False
 
                 else:
-                    self.log.error(f"Rule field '{field}' is not a list() or dict()")
+                    self.log.error(f"Rule field {field!r} is not a list() or dict()")
                     ok = False
 
                 # Check if any of the options aren't valid

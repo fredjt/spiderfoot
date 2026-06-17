@@ -305,9 +305,9 @@ def start_scan(sfConfig: dict, sfModules: dict, args, loggingQueue) -> None:
     # Usernames and names - quoted on the commandline - won't have quotes,
     # so add them.
     if " " in target:
-        target = f"\"{target}\""
+        target = f'{target!r}'
     if "." not in target and not target.startswith("+") and '"' not in target:
-        target = f"\"{target}\""
+        target = f'{target!r}'
     targetType = SpiderFootHelpers.targetTypeFromString(target)
 
     if not targetType:

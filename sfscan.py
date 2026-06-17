@@ -278,7 +278,7 @@ class SpiderFootScanner():
 
         try:
             self.__setStatus("STARTING", time.time() * 1000, None)
-            self.__sf.status(f"Scan [{self.__scanId}] for '{self.__target.targetValue}' initiated.")
+            self.__sf.status(f"Scan [{self.__scanId}] for {self.__target.targetValue!r} initiated.")
 
             self.eventQueue = queue.Queue()
 
@@ -355,7 +355,7 @@ class SpiderFootScanner():
                 try:
                     mod.setTarget(self.__target)
                 except Exception as e:  # noqa: B902
-                    self.__sf.error(f"Module {modName} failed to set target '{self.__target}': {e}")
+                    self.__sf.error(f"Module {modName} failed to set target {self.__target!r}: {e}")
                     continue
 
                 # Set up the outgoing event queue

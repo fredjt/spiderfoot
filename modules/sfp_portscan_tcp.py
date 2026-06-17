@@ -93,7 +93,7 @@ class sfp_portscan_tcp(SpiderFootPlugin):
             try:
                 self.portlist.append(int(port))
             except ValueError:
-                self.debug(f"Skipping invalid port '{port}' specified in port list")
+                self.debug(f"Skipping invalid port {port!r} specified in port list")
 
         if self.opts['randomize']:
             random.SystemRandom().shuffle(self.portlist)
