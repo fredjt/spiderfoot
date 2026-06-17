@@ -76,7 +76,7 @@ class sfp_gravatar(SpiderFootPlugin):
     # https://secure.gravatar.com/site/implement/
     # https://secure.gravatar.com/site/implement/profiles/
     def query(self, qry):
-        email_hash = hashlib.md5(qry.encode('utf-8', errors='replace').lower()).hexdigest()  # noqa: DUO130
+        email_hash = hashlib.md5(qry.lower().encode('utf-8', errors='replace')).hexdigest()  # noqa: DUO130 — Gravatar
         output = 'json'
 
         res = self.sf.fetchUrl("https://secure.gravatar.com/" + email_hash + '.' + output,
@@ -179,7 +179,10 @@ class sfp_gravatar(SpiderFootPlugin):
                 v = im.get('value')
                 if v is None:
                     continue
-                t = im.get('type').capitalize() + " (Instant Messenger)\n" + v
+                im_type = im.get('type')
+                if im_type is None:
+                    continue
+                t = im_type.capitalize() + " (Instant Messenger)\n" + v
                 evt = SpiderFootEvent("ACCOUNT_EXTERNAL_OWNED", t, self.__name__, event)
                 self.notifyListeners(evt)
                 if v not in self.reportedUsers:
