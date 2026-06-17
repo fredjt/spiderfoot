@@ -21,7 +21,7 @@ import phonenumbers
 
 if sys.version_info >= (3, 8):  # PEP 589 support (TypedDict)
     class _GraphNode(typing.TypedDict):
-        id: str  # noqa: A003
+        id: str  # noqa: A003 — required by SigmaJS graph visualizer node format
         label: str
         x: int
         y: int
@@ -29,7 +29,7 @@ if sys.version_info >= (3, 8):  # PEP 589 support (TypedDict)
         color: str
 
     class _GraphEdge(typing.TypedDict):
-        id: str  # noqa: A003
+        id: str  # noqa: A003 — required by SigmaJS graph visualizer edge format
         source: str
         target: str
 

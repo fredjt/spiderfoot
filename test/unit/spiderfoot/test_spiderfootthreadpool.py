@@ -28,10 +28,10 @@ class TestSpiderFootThreadPool(unittest.TestCase):
             ("b", ("arg1",), ("kwarg1", "kwarg1")),
             ("c", ("arg1",), ("kwarg1", "kwarg1"))
         ]
-        # Example 1: using map()
+        # Example 1: using foreach()
         with SpiderFootThreadPool(threads) as pool:
             map_results = sorted(
-                list(pool.map(
+                list(pool.foreach(
                     callback,
                     iterable,
                     *args,
@@ -66,7 +66,7 @@ class TestSpiderFootThreadPool(unittest.TestCase):
         for i in iterable2:
             pool.submit(callback, *((i,) + args), taskName="submitTest", saveResult=True, **kwargs)
         map_results = sorted(
-            list(pool.map(
+            list(pool.foreach(
                 callback,
                 iterable,
                 *args,

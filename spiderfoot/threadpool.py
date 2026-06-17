@@ -9,10 +9,10 @@ class SpiderFootThreadPool:
     """
     Each thread in the pool is spawned only once, and reused for best performance.
 
-    Example 1: using map()
+    Example 1: using foreach()
         with SpiderFootThreadPool(self.opts["_maxthreads"]) as pool:
             # callback("a", "arg1"), callback("b", "arg1"), ...
-            for result in pool.map(
+            for result in pool.foreach(
                     callback,
                     ["a", "b", "c", "d"],
                     "arg1",
@@ -169,8 +169,8 @@ class SpiderFootThreadPool:
             self.outputQueues[taskName] = queue.Queue(self.qsize)
             return self.outputQueues[taskName]
 
-    def map(self, callback, iterable, *args, **kwargs) -> None:  # noqa: A003
-        """map.
+    def foreach(self, callback, iterable, *args, **kwargs) -> None:
+        """Map callback over iterable across worker threads.
 
         Args:
             callback: the function to thread
