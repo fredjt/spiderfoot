@@ -180,7 +180,7 @@ class sfp_gravatar(SpiderFootPlugin):
                 if v is None:
                     continue
                 im_type = im.get('type')
-                if im_type is None:
+                if not isinstance(im_type, str):
                     continue
                 t = im_type.capitalize() + " (Instant Messenger)\n" + v
                 evt = SpiderFootEvent("ACCOUNT_EXTERNAL_OWNED", t, self.__name__, event)

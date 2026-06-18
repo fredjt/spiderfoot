@@ -12,6 +12,7 @@
 # -------------------------------------------------------------------------------
 
 import json
+from typing import Optional
 import os
 import sys
 from subprocess import PIPE, Popen, TimeoutExpired
@@ -155,7 +156,7 @@ class sfp_tool_ffuf(SpiderFootPlugin):
                 self._processResult(content, event, eventData)
                 break  # got results, don't try the other scheme
 
-    def _runFfuf(self, exe, url, originalEvent, scheme):
+    def _runFfuf(self, exe, url, originalEvent, scheme) -> Optional[str]:
         """Run ffuf against a URL and return JSON output, or None.
 
         Args:
@@ -221,7 +222,7 @@ class sfp_tool_ffuf(SpiderFootPlugin):
 
         return content
 
-    def _processResult(self, content, event, originalEvent):
+    def _processResult(self, content, event, originalEvent) -> None:
         """Process ffuf JSON output and emit SpiderFoot events.
 
         Args:

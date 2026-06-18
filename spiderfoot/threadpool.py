@@ -32,6 +32,9 @@ class SpiderFootThreadPool:
                 yield result
     """
 
+    # Maximum iterations to wait for workers (each iteration ~100ms)
+    _WAIT_TIMEOUT = 300  # ~30 seconds
+
     def __init__(self, threads: int = 100, qsize: int = 10, name: str = '') -> None:
         """Initialize the SpiderFootThreadPool class.
 
@@ -50,7 +53,6 @@ class SpiderFootThreadPool:
         self.outputQueues = dict()
         self._stop = False
         self._lock = threading.Lock()
-        self._lastResults: dict[str, list[typing.Any]] = dict()
 
     def start(self) -> None:
         self.log.debug(f'Starting thread pool {self.name!r} with {self.threads:,} threads')
@@ -70,6 +72,35 @@ class SpiderFootThreadPool:
             with suppress(Exception):
                 t.stop = val
         self._stop = val
+
+    def _join_input_thread(self) -> None:
+        """Join the feedQueue input thread without signaling workers to stop."""
+        if self.inputThread is not None:
+            self.inputThread.join(timeout=5)
+
+    def _stop_workers(self) -> None:
+        """Signal all workers to stop.
+
+        Sets _stop to True (bypassing the setter to avoid propagating to
+        workers via the setter loop), then sets t.stop = True on each worker.
+        """
+        self._stop = True
+        for t in self.pool:
+            with suppress(Exception):
+                if t is not None:
+                    t.stop = True
+
+    def _wait_for(self, check: typing.Callable[[], bool]) -> None:
+        """Poll until check() returns True or timeout expires.
+
+        Args:
+            check: A callable that returns True when the desired condition
+                   has been met.
+        """
+        for _ in range(self._WAIT_TIMEOUT):
+            if check():
+                break
+            sleep(.1)
 
     def shutdown(self, wait: bool = True) -> dict:
         """Shut down the pool.
@@ -93,18 +124,17 @@ class SpiderFootThreadPool:
                     except KeyError:
                         results[taskName] = moduleResults
                 sleep(.1)
-        # Stop the input thread (bypass setter to avoid affecting workers)
-        self._stop = True
-        if self.inputThread is not None:
-            self.inputThread.join(timeout=5)
-        self.stop = True
+        # Stop the input thread (without signaling workers)
+        self._join_input_thread()
         # Wait for all workers to finish their current tasks (up to ~30s)
-        _idle_count = 0
+        idle_count = 0
         while any(t.busy for t in self.pool if t is not None):
             sleep(.1)
-            _idle_count += 1
-            if _idle_count >= 300:
+            idle_count += 1
+            if idle_count >= self._WAIT_TIMEOUT:
                 break
+        # Now signal workers to stop
+        self._stop_workers()
         # make sure input queues are empty
         with self._lock:
             inputQueues = list(self.inputQueues.values())
@@ -198,15 +228,28 @@ class SpiderFootThreadPool:
 
         # Reset pool state if it was previously shut down
         if self._stop:
+            # Wait for old workers to fully exit before clearing queues.
+            # The finally block set stop=True, so workers will finish their
+            # current task and exit their run loop. We must wait for them
+            # to die, not just become idle, to avoid old workers writing
+            # to queues that the reset block is about to clear.
+            if any(t is not None and t.is_alive() for t in self.pool):
+                self._wait_for(lambda: all(t is None or not t.is_alive() for t in self.pool))
             self.pool = [None] * self.threads
             self._stop = False
             self.inputQueues.clear()
             self.outputQueues.clear()
+        else:
+            # Restart any dead workers (crashed threads remain in the pool list)
+            for i, t in enumerate(self.pool):
+                if t is not None and not t.is_alive():
+                    self.pool[i] = ThreadPoolWorker(pool=self, name=f"{self.name}_worker_{i + 1}")
+                    self.pool[i].start()
 
         self.inputThread = threading.Thread(target=self.feedQueue, args=(callback, iterable, args, kwargs))
         self.inputThread.start()
 
-        # Only start workers if they haven't been created yet
+        # Start workers if none have been created yet
         if self.pool[0] is None:
             self.start()
 
@@ -215,12 +258,8 @@ class SpiderFootThreadPool:
             yield from self.results(taskName, wait=True)
         finally:
             # Ensure cleanup: stop feedQueue and workers, then wait for them to finish
-            self._stop = True
-            for t in self.pool:
-                with suppress(Exception):
-                    if t is not None:
-                        t.stop = True
-            self.inputThread.join(timeout=5)
+            self._join_input_thread()
+            self._stop_workers()
 
     def results(self, taskName: str = "default", wait: bool = False) -> typing.Iterator[typing.Any]:
         while 1:
@@ -242,7 +281,7 @@ class SpiderFootThreadPool:
             self.submit(callback, i, *args, **kwargs)
 
     @property
-    def finished(self):
+    def finished(self) -> bool:
         if self.stop:
             return True
         finishedThreads = [not t.busy for t in self.pool if t is not None]
@@ -258,7 +297,7 @@ class SpiderFootThreadPool:
         return self
 
     def __exit__(self, exception_type, exception_value, traceback) -> None:
-        self._lastResults = self.shutdown()
+        self.shutdown()
 
 
 class ThreadPoolWorker(threading.Thread):
