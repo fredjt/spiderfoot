@@ -288,7 +288,7 @@ class sfp_xforce(SpiderFootPlugin):
                     self.notifyListeners(e)
 
                     for result in rec_history:
-                        created = result.get("created", None)
+                        created = result.get("created")
                         # 2014-11-06T10:45:00.000Z
                         if not created:
                             continue
@@ -341,7 +341,7 @@ class sfp_xforce(SpiderFootPlugin):
                                   str(lastseen)]
                         entry = infield_sep.join(fields)
 
-                        last = rec.get("last", None)
+                        last = rec.get("last")
 
                         if not last:
                             continue
@@ -389,7 +389,7 @@ class sfp_xforce(SpiderFootPlugin):
                     return
 
                 if rec['recordType'] == "A":
-                    last = rec.get("last", None)
+                    last = rec.get("last")
 
                     if not last:
                         continue
